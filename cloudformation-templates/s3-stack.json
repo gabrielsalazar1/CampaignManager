@@ -1,0 +1,36 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "S3 buckets for Front End and data exchange respectively",
+  "Parameters": {
+		"InstanceId": {
+			"Description": "EC2 Instance Id",
+			"Type": "String"
+		}
+	},
+  "Resources": {
+  	"cmfrontbucket": {
+	    "Type": "AWS::S3::Bucket",
+	    "Properties": {
+	    		"BucketName": "campaign-manager-front",
+	        "WebsiteConfiguration": {
+	          "IndexDocument": "index.html",
+	          "ErrorDocument": "code/public/index.html"
+	        },
+	        "AccessControl": "PublicRead",
+	        "VersioningConfiguration": {
+	          "Status": "Suspended"
+	        }
+	    }
+		},
+		"cmdatabucket": {
+	    "Type": "AWS::S3::Bucket",
+	    "Properties": {
+	    	"BucketName": "campaign-manager-data",
+	      "AccessControl": "Private",
+	      "VersioningConfiguration": {
+	        "Status": "Suspended"
+	      }
+	    }
+		}
+	}
+}
