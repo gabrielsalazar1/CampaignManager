@@ -11,7 +11,7 @@
 			"Type": "AWS::EC2::VPC::Id"
 		},
 		"Subnet": {
-			"Description": "subnet to launch services in",
+			"Description": "Subnet to launch services in",
 			"Type": "AWS::EC2::Subnet::Id"
 		},
 		"URL": {
@@ -56,7 +56,7 @@
 				"Tags": [
 					{
 						"Key": "Name",
-						"Value": "learn-cloudformation-5-dependencies"
+						"Value": "EC2LNX_BIGDATA_CM_PRD"
 					}
 				],
 				"UserData": {"Fn::Base64": {"Fn::Join": ["", [

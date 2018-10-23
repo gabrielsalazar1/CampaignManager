@@ -8,29 +8,109 @@
 		}
 	},
   "Resources": {
-  	"cmfrontbucket": {
+  	"bigdatacmfrontprd": {
 	    "Type": "AWS::S3::Bucket",
 	    "Properties": {
-	    		"BucketName": "campaign-manager-front",
+	    		"BucketName": "bigdata_cm_front_prd",
 	        "WebsiteConfiguration": {
 	          "IndexDocument": "index.html",
-	          "ErrorDocument": "code/public/index.html"
+	          "ErrorDocument": "index.html"
 	        },
 	        "AccessControl": "PublicRead",
 	        "VersioningConfiguration": {
 	          "Status": "Suspended"
-	        }
+	        },
+	        "Tags" : [
+			      {
+			        "Key" : "Direccion",
+			        "Value" : "BIGDATA"
+			      },
+			      {
+			        "Key" : "Entorno",
+			        "Value" : "PRD"
+			      },
+			      {
+			        "Key" : "Grupo",
+			        "Value" : "BIGDATA"
+			      }
+			    ]
 	    }
 		},
-		"cmdatabucket": {
+		"bigdatacmfrontqas": {
 	    "Type": "AWS::S3::Bucket",
 	    "Properties": {
-	    	"BucketName": "campaign-manager-data",
+	    		"BucketName": "bigdata_cm_front_qas",
+	        "WebsiteConfiguration": {
+	          "IndexDocument": "index.html",
+	          "ErrorDocument": "index.html"
+	        },
+	        "AccessControl": "PublicRead",
+	        "VersioningConfiguration": {
+	          "Status": "Suspended"
+	        },
+	        "Tags" : [
+			      {
+			        "Key" : "Direccion",
+			        "Value" : "BIGDATA"
+			      },
+			      {
+			        "Key" : "Entorno",
+			        "Value" : "QAS"
+			      },
+			      {
+			        "Key" : "Grupo",
+			        "Value" : "BIGDATA"
+			      }
+			    ]
+	    }
+		},
+		"bigdatacmdataprd": {
+	    "Type": "AWS::S3::Bucket",
+	    "Properties": {
+	    	"BucketName": "bigdata_cm_data_prd",
 	      "AccessControl": "Private",
 	      "VersioningConfiguration": {
 	        "Status": "Suspended"
-	      }
+	      },
+	      "Tags" : [
+			      {
+			        "Key" : "Direccion",
+			        "Value" : "BIGDATA"
+			      },
+			      {
+			        "Key" : "Entorno",
+			        "Value" : "PRD"
+			      },
+			      {
+			        "Key" : "Grupo",
+			        "Value" : "BIGDATA"
+			      }
+			    ]
 	    }
-		}
+		},
+		"bigdatacmdataqas": {
+	    "Type": "AWS::S3::Bucket",
+	    "Properties": {
+	    	"BucketName": "bigdata_cm_data_qas",
+	      "AccessControl": "Private",
+	      "VersioningConfiguration": {
+	        "Status": "Suspended"
+	      },
+	      "Tags" : [
+			      {
+			        "Key" : "Direccion",
+			        "Value" : "BIGDATA"
+			      },
+			      {
+			        "Key" : "Entorno",
+			        "Value" : "QAS"
+			      },
+			      {
+			        "Key" : "Grupo",
+			        "Value" : "BIGDATA"
+			      }
+			    ]
+	    }
+	  }
 	}
 }

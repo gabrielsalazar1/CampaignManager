@@ -1,17 +1,17 @@
 {
 	"AWSTemplateFormatVersion": "2010-09-09",
-	"Description": "Campaign manager with nested stacks",
+	"Description": "Campaign manager template with nested stacks",
 	"Parameters": {
 		"KeyName": {
 			"Description": "Key Pair name",
 			"Type": "AWS::EC2::KeyPair::KeyName"
 		},
 		"VPC": {
-			"Description": "VPC to launch virtual services in",
+			"Description": "VPC to launch services in",
 			"Type": "AWS::EC2::VPC::Id"
 		},
 		"Subnet": {
-			"Description": "subnet to launch virtual services in",
+			"Description": "Subnet to launch services in",
 			"Type": "AWS::EC2::Subnet::Id"
 		},
 		"URL": {
@@ -52,7 +52,7 @@
 		},
 		"PublicIPAddress": {
 			"Value": {"Fn::GetAtt" : ["EC2Stack", "Outputs.PublicIPAddress"]},
-			"Description": "public IP address of virtual server"
+			"Description": "Public IP address of virtual server"
 		}
 	}
 }
