@@ -1,17 +1,11 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "S3 buckets for Front End and data exchange respectively",
-  "Parameters": {
-		"InstanceId": {
-			"Description": "EC2 Instance Id",
-			"Type": "String"
-		}
-	},
   "Resources": {
   	"bigdatacmfrontprd": {
 	    "Type": "AWS::S3::Bucket",
 	    "Properties": {
-	    		"BucketName": "bigdata_cm_front_prd",
+	    		"BucketName": "bigdata-cm-front-prd",
 	        "WebsiteConfiguration": {
 	          "IndexDocument": "index.html",
 	          "ErrorDocument": "index.html"
@@ -39,7 +33,7 @@
 		"bigdatacmfrontqas": {
 	    "Type": "AWS::S3::Bucket",
 	    "Properties": {
-	    		"BucketName": "bigdata_cm_front_qas",
+	    		"BucketName": "bigdata-cm-front-qas",
 	        "WebsiteConfiguration": {
 	          "IndexDocument": "index.html",
 	          "ErrorDocument": "index.html"
@@ -67,7 +61,7 @@
 		"bigdatacmdataprd": {
 	    "Type": "AWS::S3::Bucket",
 	    "Properties": {
-	    	"BucketName": "bigdata_cm_data_prd",
+	    	"BucketName": "bigdata-cm-data-prd",
 	      "AccessControl": "Private",
 	      "VersioningConfiguration": {
 	        "Status": "Suspended"
@@ -91,7 +85,7 @@
 		"bigdatacmdataqas": {
 	    "Type": "AWS::S3::Bucket",
 	    "Properties": {
-	    	"BucketName": "bigdata_cm_data_qas",
+	    	"BucketName": "bigdata-cm-data-qas",
 	      "AccessControl": "Private",
 	      "VersioningConfiguration": {
 	        "Status": "Suspended"
