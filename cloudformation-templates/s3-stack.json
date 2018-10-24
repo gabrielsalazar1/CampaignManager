@@ -5,7 +5,7 @@
   	"bigdatacmfrontprd": {
 	    "Type": "AWS::S3::Bucket",
 	    "Properties": {
-	    		"BucketName": "bigdata-cm-front-prd",
+	    		"BucketName": "belc-bigdata-cm-front-prd",
 	        "WebsiteConfiguration": {
 	          "IndexDocument": "index.html",
 	          "ErrorDocument": "index.html"
@@ -33,7 +33,7 @@
 		"bigdatacmfrontqas": {
 	    "Type": "AWS::S3::Bucket",
 	    "Properties": {
-	    		"BucketName": "bigdata-cm-front-qas",
+	    		"BucketName": "belc-bigdata-cm-front-qas",
 	        "WebsiteConfiguration": {
 	          "IndexDocument": "index.html",
 	          "ErrorDocument": "index.html"
@@ -61,7 +61,7 @@
 		"bigdatacmdataprd": {
 	    "Type": "AWS::S3::Bucket",
 	    "Properties": {
-	    	"BucketName": "bigdata-cm-data-prd",
+	    	"BucketName": "belc-bigdata-cm-data-prd",
 	      "AccessControl": "Private",
 	      "VersioningConfiguration": {
 	        "Status": "Suspended"
@@ -85,7 +85,7 @@
 		"bigdatacmdataqas": {
 	    "Type": "AWS::S3::Bucket",
 	    "Properties": {
-	    	"BucketName": "bigdata-cm-data-qas",
+	    	"BucketName": "belc-bigdata-cm-data-qas",
 	      "AccessControl": "Private",
 	      "VersioningConfiguration": {
 	        "Status": "Suspended"
