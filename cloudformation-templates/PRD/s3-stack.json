@@ -30,34 +30,6 @@
 			    ]
 	    }
 		},
-		"bigdatacmfrontqas": {
-	    "Type": "AWS::S3::Bucket",
-	    "Properties": {
-	    		"BucketName": "belc-bigdata-cm-front-qas",
-	        "WebsiteConfiguration": {
-	          "IndexDocument": "index.html",
-	          "ErrorDocument": "index.html"
-	        },
-	        "AccessControl": "PublicRead",
-	        "VersioningConfiguration": {
-	          "Status": "Suspended"
-	        },
-	        "Tags" : [
-			      {
-			        "Key" : "Direccion",
-			        "Value" : "BIGDATA"
-			      },
-			      {
-			        "Key" : "Entorno",
-			        "Value" : "QAS"
-			      },
-			      {
-			        "Key" : "Grupo",
-			        "Value" : "BIGDATA"
-			      }
-			    ]
-	    }
-		},
 		"bigdatacmdataprd": {
 	    "Type": "AWS::S3::Bucket",
 	    "Properties": {
@@ -81,30 +53,6 @@
 			      }
 			    ]
 	    }
-		},
-		"bigdatacmdataqas": {
-	    "Type": "AWS::S3::Bucket",
-	    "Properties": {
-	    	"BucketName": "belc-bigdata-cm-data-qas",
-	      "AccessControl": "Private",
-	      "VersioningConfiguration": {
-	        "Status": "Suspended"
-	      },
-	      "Tags" : [
-			      {
-			        "Key" : "Direccion",
-			        "Value" : "BIGDATA"
-			      },
-			      {
-			        "Key" : "Entorno",
-			        "Value" : "QAS"
-			      },
-			      {
-			        "Key" : "Grupo",
-			        "Value" : "BIGDATA"
-			      }
-			    ]
-	    }
-	  }
+		}
 	}
 }
