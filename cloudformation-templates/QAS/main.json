@@ -21,7 +21,7 @@
 		}
 	},
 	"Resources": {
-		"EC2Stack": {
+		"EMRStack": {
 			"Type" : "AWS::CloudFormation::Stack",
 			"Properties" : {
 				"Parameters" : {
@@ -30,7 +30,7 @@
 					"Subnet": {"Ref": "Subnet"},
 					"URL": {"Ref": "URL"}
 				},
-				"TemplateURL" : "https://s3.amazonaws.com/campaign-manager-cloudformation-templates/emr-stack.json",
+				"TemplateURL" : "https://s3.amazonaws.com/campaign-manager-cloudformation-templates/emr.json",
 				"TimeoutInMinutes" : "5"
 			}
 		},
@@ -40,18 +40,18 @@
 				"TemplateURL" : "https://s3.amazonaws.com/campaign-manager-cloudformation-templates/s3-stack.json",
 				"TimeoutInMinutes" : "2",
 				"Parameters": {
-					"InstanceId": {"Fn::GetAtt" : ["EC2Stack", "Outputs.InstanceId"]}
+					"InstanceId": {"Fn::GetAtt" : ["EMRStack", "Outputs.InstanceId"]}
 				}
 			}
 		}
 	},
 	"Outputs": {
 		"InstanceId": {
-			"Value": {"Fn::GetAtt" : ["EC2Stack", "Outputs.InstanceId"]},
+			"Value": {"Fn::GetAtt" : ["EMRStack", "Outputs.InstanceId"]},
 			"Description": "ID of virtual server"
 		},
 		"PublicIPAddress": {
-			"Value": {"Fn::GetAtt" : ["EC2Stack", "Outputs.PublicIPAddress"]},
+			"Value": {"Fn::GetAtt" : ["EMRStack", "Outputs.PublicIPAddress"]},
 			"Description": "Public IP address of virtual server"
 		}
 	}

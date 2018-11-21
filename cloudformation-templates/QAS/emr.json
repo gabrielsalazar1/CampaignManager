@@ -1,0 +1,188 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Campaign Manager's EMR Cluster",
+  "Parameters": {
+    "EMRClusterName": {
+      "Description": "Name of the cluster",
+      "Type": "String",
+      "Default": "emrcluster"
+    },
+    "KeyName": {
+      "Description": "Must be an existing Keyname",
+      "Default": "EMR Admin",
+      "Type": "AWS::EC2::KeyPair::KeyName"
+    },
+    "MasterInstanceType": {
+      "Description": "Instance type to be used for the master instance.",
+      "Type": "String",
+      "Default": "m3.xlarge"
+    },
+    "CoreInstanceType": {
+      "Description": "Instance type to be used for core instances.",
+      "Type": "String",
+      "Default": "m3.xlarge"
+    },
+    "NumberOfCoreInstances": {
+      "Description": "Must be a valid number",
+      "Type": "Number",
+      "Default": 2
+    },
+    "Subnet": {
+      "Description": "Subnet to launch services in",
+      "Type": "AWS::EC2::Subnet::Id"
+    },
+    "VPC": {
+      "Description": "VPC to launch services in",
+      "Type": "AWS::EC2::VPC::Id"
+    },
+    "LogUri": {
+      "Description": "Must be a valid S3 URL",
+      "Default": "s3://kanpai-bucket-data/emr/",
+      "Type": "String"
+    },
+    "S3DataUri": {
+      "Description": "Must be a valid S3 bucket URL ",
+      "Default": "s3://kanpai-bucket-data/emr/",
+      "Type": "String"
+    },
+    "ReleaseLabel": {
+      "Description": "Must be a valid EMR release  version",
+      "Default": "emr-5.17.0",
+      "Type": "String"
+    }
+  },
+  "Mappings": {},
+  "Resources": {
+    "SecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "allow-ssh",
+        "VpcId": {"Ref": "VPC"},
+        "SecurityGroupIngress": [{
+          "CidrIp": "0.0.0.0/0",
+          "FromPort": 22,
+          "IpProtocol": "tcp",
+          "ToPort": 22
+        }]
+      }
+    },
+    "EMRCluster": {
+      "DependsOn": [
+        "EMRClusterServiceRole",
+        "EMRClusterinstanceProfileRole",
+        "EMRClusterinstanceProfile"
+      ],
+      "Type": "AWS::EMR::Cluster",
+      "Properties": {
+        "Applications": [{
+              "Name": "Spark",
+              "Version": "2.3.1"
+           },
+           {
+              "Name": "Hive",
+              "Version": "2.3.3"
+           },
+           {
+              "Name": "Tez",
+              "Version": "0.8.4"
+           },
+           {
+              "Name": "ZooKeeper",
+              "Version": "3.4.12"
+           },
+           {
+              "Name": "Livy",
+              "Version": "0.5.0"
+           }
+        ],
+        "Configurations": [],
+        "Instances": {
+          "Ec2KeyName": { "Ref": "KeyName" },
+          "Ec2SubnetId": { "Ref": "Subnet" },
+          "MasterInstanceGroup": {
+            "InstanceCount": 1,
+            "InstanceType": { "Ref": "MasterInstanceType" },
+            "Market": "ON_DEMAND",
+            "Name": "Master"
+          },
+          "CoreInstanceGroup": {
+            "InstanceCount": { "Ref": "NumberOfCoreInstances" },
+            "InstanceType": { "Ref": "CoreInstanceType" },
+            "Market": "ON_DEMAND",
+            "Name": "Core"
+          },
+          "TerminationProtected": false
+        },
+        "VisibleToAllUsers": true,
+        "JobFlowRole": { "Ref": "EMRClusterinstanceProfile" },
+        "ReleaseLabel": { "Ref": "ReleaseLabel" },
+        "LogUri": { "Ref": "LogUri" },
+        "Name": { "Ref": "EMRClusterName" },
+        "AutoScalingRole": "EMR_AutoScaling_DefaultRole",
+        "ServiceRole": { "Ref": "EMRClusterServiceRole" }
+      }
+    },
+    "EMRClusterServiceRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "elasticmapreduce.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceRole"
+        ],
+        "Path": "/"
+      }
+    },
+    "EMRClusterinstanceProfileRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "ec2.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role"
+        ],
+        "Path": "/"
+      }
+    },
+    "EMRClusterinstanceProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Path": "/",
+        "Roles": [
+          {
+            "Ref": "EMRClusterinstanceProfileRole"
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {}
+}
