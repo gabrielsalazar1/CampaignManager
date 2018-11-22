@@ -76,23 +76,18 @@
       "Properties": {
         "Applications": [{
               "Name": "Spark",
-              "Version": "2.3.1"
            },
            {
               "Name": "Hive",
-              "Version": "2.3.3"
            },
            {
               "Name": "Tez",
-              "Version": "0.8.4"
            },
            {
               "Name": "ZooKeeper",
-              "Version": "3.4.12"
            },
            {
               "Name": "Livy",
-              "Version": "0.5.0"
            }
         ],
         "Configurations": [],
