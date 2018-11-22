@@ -19,11 +19,11 @@
     "EMRClusterName": {
       "Description": "Name of the cluster",
       "Type": "String",
-      "Default": "emrcluster"
+      "Default": "EMRLNX_BIGDATA_CM_QAS"
     },
     "KeyName": {
       "Description": "Must be an existing Keyname",
-      "Default": "EMR Admin",
+      "Default": "bigdatakp",
       "Type": "AWS::EC2::KeyPair::KeyName"
     },
     "MasterInstanceType": {
@@ -43,11 +43,13 @@
     },
     "Subnet": {
       "Description": "Subnet to launch services in",
-      "Type": "AWS::EC2::Subnet::Id"
+      "Type": "AWS::EC2::Subnet::Id",
+      "Default": "subnet-a69ac8cc"
     },
     "VPC": {
       "Description": "VPC to launch services in",
-      "Type": "AWS::EC2::VPC::Id"
+      "Type": "AWS::EC2::VPC::Id",
+      "Default": "vpc-ee8d3285"
     },
     "LogUri": {
       "Description": "Must be a valid S3 URL",
@@ -78,7 +80,7 @@
         "GroupDescription": "allow-ssh",
         "VpcId": {"Ref": "VPC"},
         "SecurityGroupIngress": [{
-          "CidrIp": "0.0.0.0/0",
+          "CidrIp": "172.19.64.0/20",
           "FromPort": 22,
           "IpProtocol": "tcp",
           "ToPort": 22
@@ -142,6 +144,10 @@
         "ServiceRole": { "Ref": "EMRClusterServiceRole" },
         "Tags" : [
           {
+            "Key" : "CTLAdmin",
+            "Value" : "NO"
+          },
+          {
             "Key" : "Direccion",
             "Value" : "BIGDATA"
           },
@@ -156,6 +162,14 @@
           {
             "Key" : "Name",
             "Value" : "EMRLNX_BIGDATA_CM_QAS"
+          },
+          {
+            "Key" : "ServerRol",
+            "Value" : "Servicio"
+          },
+          {
+            "Key" : "Tipo",
+            "Value" : "Proyecto"
           }
         ]
       }
