@@ -30,14 +30,14 @@
 					"Subnet": {"Ref": "Subnet"},
 					"URL": {"Ref": "URL"}
 				},
-				"TemplateURL" : "https://s3.amazonaws.com/campaign-manager-cloudformation-templates/emr-stack.json",
+				"TemplateURL" : "https://s3.amazonaws.com/campaign-manager-cloudformation-templates/emr.json",
 				"TimeoutInMinutes" : "5"
 			}
 		},
 		"S3Stack": {
 			"Type" : "AWS::CloudFormation::Stack",
 			"Properties" : {
-				"TemplateURL" : "https://s3.amazonaws.com/campaign-manager-cloudformation-templates/s3-stack.json",
+				"TemplateURL" : "https://s3.amazonaws.com/campaign-manager-cloudformation-templates/s3.json",
 				"TimeoutInMinutes" : "2",
 				"Parameters": {
 					"InstanceId": {"Fn::GetAtt" : ["EMRStack", "Outputs.InstanceId"]}

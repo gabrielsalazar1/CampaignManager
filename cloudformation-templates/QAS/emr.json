@@ -56,11 +56,6 @@
       "Default": "s3://kanpai-bucket-data/emr/",
       "Type": "String"
     },
-    "S3DataUri": {
-      "Description": "Must be a valid S3 bucket URL ",
-      "Default": "s3://kanpai-bucket-data/emr/",
-      "Type": "String"
-    },
     "ReleaseLabel": {
       "Description": "Must be a valid EMR release  version",
       "Default": "emr-5.17.0",
