@@ -19,7 +19,7 @@
     "EMRClusterName": {
       "Description": "Name of the cluster",
       "Type": "String",
-      "Default": "EMRLNX_BIGDATA_CM_QAS"
+      "Default": "emr-bigdata-cm-qas"
     },
     "KeyName": {
       "Description": "Must be an existing Keyname",
@@ -52,8 +52,8 @@
       "Default": "vpc-ee8d3285"
     },
     "LogUri": {
-      "Description": "Must be a valid S3 URL",
-      "Default": "s3://kanpai-bucket-data/emr/",
+      "Description": "Bucket URI for EMR logs",
+      "Default": "s3://belc-bigdata-cm-data-qas/EMR/logs/",
       "Type": "String"
     },
     "ReleaseLabel": {
@@ -69,7 +69,7 @@
   },
   "Mappings": {},
   "Resources": {
-    "SecurityGroup": {
+    "EMRSecurityGroupWifi": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
         "GroupDescription": "allow-ssh",
@@ -82,6 +82,21 @@
         }]
       }
     },
+
+    "EMRSecurityGroupLan": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "allow-ssh",
+        "VpcId": {"Ref": "VPC"},
+        "SecurityGroupIngress": [{
+          "CidrIp": "172.19.2.0/23",
+          "FromPort": 22,
+          "IpProtocol": "tcp",
+          "ToPort": 22
+        }]
+      }
+    },
+
     "EMRCluster": {
       "DependsOn": [
         "EMRClusterServiceRole",
@@ -116,6 +131,8 @@
             "Market": "ON_DEMAND",
             "Name": "Master"
           },
+          "EmrManagedMasterSecurityGroup" : { "Ref": "EMRSecurityGroupWifi" },
+          "AdditionalMasterSecurityGroups" : [{ "Ref": "EMRSecurityGroupLan" }],
           "CoreInstanceGroup": {
             "InstanceCount": { "Ref": "NumberOfCoreInstances" },
             "InstanceType": { "Ref": "CoreInstanceType" },
@@ -128,6 +145,8 @@
               },
             "Name": "Core"
           },
+          "EmrManagedSlaveSecurityGroup" : { "Ref": "EMRSecurityGroupWifi" },
+          "AdditionalSlaveSecurityGroups" : [{ "Ref": "EMRSecurityGroupLan" }],
           "TerminationProtected": false
         },
         "VisibleToAllUsers": true,
@@ -156,7 +175,7 @@
           },
           {
             "Key" : "Name",
-            "Value" : "EMRLNX_BIGDATA_CM_QAS"
+            "Value" : "emr-bigdata-cm-qas"
           },
           {
             "Key" : "ServerRol",
