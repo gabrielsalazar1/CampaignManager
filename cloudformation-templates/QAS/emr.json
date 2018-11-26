@@ -69,34 +69,18 @@
   },
   "Mappings": {},
   "Resources": {
-    "EMRSecurityGroupWifi": {
+    "SecurityGroup": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
+        "GroupName" : SG_BIGDATA_CM_WCF_QAS,
         "GroupDescription": "allow-ssh",
         "VpcId": {"Ref": "VPC"},
-        "SecurityGroupIngress": [{
-          "CidrIp": "172.19.64.0/20",
-          "FromPort": 22,
-          "IpProtocol": "tcp",
-          "ToPort": 22
-        }]
+        "SecurityGroupIngress" : [ 
+          { "IpProtocol" : "tcp", "FromPort" : 22, "ToPort" : 22, "CidrIp" : "172.19.64.0/20" },
+          { "IpProtocol" : "tcp", "FromPort" : 22, "ToPort" : 22, "CidrIp" : "172.19.2.0/23" }
+        ]
       }
     },
-
-    "EMRSecurityGroupLan": {
-      "Type": "AWS::EC2::SecurityGroup",
-      "Properties": {
-        "GroupDescription": "allow-ssh",
-        "VpcId": {"Ref": "VPC"},
-        "SecurityGroupIngress": [{
-          "CidrIp": "172.19.2.0/23",
-          "FromPort": 22,
-          "IpProtocol": "tcp",
-          "ToPort": 22
-        }]
-      }
-    },
-
     "EMRCluster": {
       "DependsOn": [
         "EMRClusterServiceRole",
@@ -106,19 +90,19 @@
       "Type": "AWS::EMR::Cluster",
       "Properties": {
         "Applications": [{
-              "Name": "Spark",
+              "Name": "Spark"
            },
            {
-              "Name": "Hive",
+              "Name": "Hive"
            },
            {
-              "Name": "Tez",
+              "Name": "Tez"
            },
            {
-              "Name": "ZooKeeper",
+              "Name": "ZooKeeper"
            },
            {
-              "Name": "Livy",
+              "Name": "Livy"
            }
         ],
         "Configurations": [],
@@ -131,8 +115,7 @@
             "Market": "ON_DEMAND",
             "Name": "Master"
           },
-          "EmrManagedMasterSecurityGroup" : { "Ref": "EMRSecurityGroupWifi" },
-          "AdditionalMasterSecurityGroups" : [{ "Ref": "EMRSecurityGroupLan" }],
+          "EmrManagedMasterSecurityGroup" : { "Ref": "SecurityGroup" },
           "CoreInstanceGroup": {
             "InstanceCount": { "Ref": "NumberOfCoreInstances" },
             "InstanceType": { "Ref": "CoreInstanceType" },
@@ -145,8 +128,7 @@
               },
             "Name": "Core"
           },
-          "EmrManagedSlaveSecurityGroup" : { "Ref": "EMRSecurityGroupWifi" },
-          "AdditionalSlaveSecurityGroups" : [{ "Ref": "EMRSecurityGroupLan" }],
+          "EmrManagedSlaveSecurityGroup" : { "Ref": "SecurityGroup" },
           "TerminationProtected": false
         },
         "VisibleToAllUsers": true,
@@ -175,7 +157,7 @@
           },
           {
             "Key" : "Name",
-            "Value" : "emr-bigdata-cm-qas"
+            "Value" : "EMRLNX_BIGDATA_CM_QAS"
           },
           {
             "Key" : "ServerRol",
