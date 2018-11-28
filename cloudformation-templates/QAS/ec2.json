@@ -38,12 +38,10 @@
 				"GroupName": "SG_BIGDATA_CM_WCF_QAS",
 				"GroupDescription": "allow-ssh",
 				"VpcId": {"Ref": "VPC"},
-				"SecurityGroupIngress": [{
-					"CidrIp": "0.0.0.0/0",
-					"FromPort": 22,
-					"IpProtocol": "tcp",
-					"ToPort": 22
-				}]
+				"SecurityGroupIngress" : [ 
+          { "IpProtocol" : "tcp", "FromPort" : 22, "ToPort" : 22, "CidrIp" : "172.19.64.0/20" },
+          { "IpProtocol" : "tcp", "FromPort" : 22, "ToPort" : 22, "CidrIp" : "172.19.2.0/23" }
+        ]
 			}
 		},
 		"EC2Instance": {
