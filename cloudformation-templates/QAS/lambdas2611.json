@@ -1,41 +1,20 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "AWS CloudFormation CloudWatch Log Janitor Demo Stack",
+  "Description": "AWS CloudFormation LambdaFunction1 Stack",
   "Parameters" : {
-    "ExistingSecurityGroups" : {
-      "Type" : "List<AWS::EC2::SecurityGroup::Id>"
+    "Subnet": {
+      "Description": "Subnet to launch services in",
+      "Type": "AWS::EC2::Subnet::Id",
+      "Default": "subnet-a69ac8cc"
     },
-    "ExistingVPC" : {
-      "Type" : "AWS::EC2::VPC::Id",
-      "Description" : "The VPC ID that includes the security groups in the ExistingSecurityGroups parameter."
-    },
-    "InstanceType" : {
-      "Type" : "String",
-      "Default" : "t2.micro",
-      "AllowedValues" : ["t2.micro", "m1.small"]
+    "VPC": {
+      "Description": "VPC to launch services in",
+      "Type": "AWS::EC2::VPC::Id",
+      "Default": "vpc-ee8d3285"
     }
   },
-  "Mappings": {
-    "AWSInstanceType2Arch" : {
-      "t2.micro"    : { "Arch" : "HVM64"  },
-      "m1.small"    : { "Arch" : "HVM64"   }
-    },
-    "AWSRegionArch2AMI" : {
-      "us-east-1"        : {"HVM64" : "ami-0ff8a91507f77f867", "HVMG2" : "ami-0a584ac55a7631c0c"},
-      "us-west-2"        : {"HVM64" : "ami-a0cfeed8", "HVMG2" : "ami-0e09505bc235aa82d"},
-      "us-west-1"        : {"HVM64" : "ami-0bdb828fd58c52235", "HVMG2" : "ami-066ee5fd4a9ef77f1"},
-      "eu-west-1"        : {"HVM64" : "ami-047bb4163c506cd98", "HVMG2" : "ami-0a7c483d527806435"},
-      "eu-central-1"     : {"HVM64" : "ami-0233214e13e500f77", "HVMG2" : "ami-06223d46a6d0661c7"},
-      "ap-northeast-1"   : {"HVM64" : "ami-06cd52961ce9f0d85", "HVMG2" : "ami-053cdd503598e4a9d"},
-      "ap-southeast-1"   : {"HVM64" : "ami-08569b978cc4dfa10", "HVMG2" : "ami-0be9df32ae9f92309"},
-      "ap-southeast-2"   : {"HVM64" : "ami-09b42976632b27e9b", "HVMG2" : "ami-0a9ce9fecc3d1daf8"},
-      "sa-east-1"        : {"HVM64" : "ami-07b14488da8ea02a0", "HVMG2" : "NOT_SUPPORTED"},
-      "cn-north-1"       : {"HVM64" : "ami-0a4eaf6c4454eda75", "HVMG2" : "NOT_SUPPORTED"}
-    }   
-  },
   "Resources" : {
-    ///////
-    "EbsBackupExecutionRole": {
+    "LambdaExecutionRole": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -50,18 +29,25 @@
             }
           ]
         },
-        "Path": "/"
+        "Path": "/",
+        "Policies": [{
+          "PolicyName": "root",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [{ "Effect": "Allow", "Action": ["logs:*"], "Resource": "arn:aws:logs:*:*:*" }]
+          }
+        }]
       }
     },
-    "EbsBackupExecutionPolicy": {
+    "LambdaExecutionPolicy": {
       "DependsOn": [
-          "EbsBackupExecutionRole"
+          "LambdaExecutionRole"
       ],
       "Type": "AWS::IAM::Policy",
       "Properties": {
-        "PolicyName": "MyLambdaToMakeLogsRolePolicy",
+        "PolicyName": "MyLambdaRolePolicy",
         "Roles": [
-            {"Ref": "EbsBackupExecutionRole"}
+            {"Ref": "LambdaExecutionRole"}
         ],
         "PolicyDocument": {
           "Version": "2012-10-17",
@@ -74,25 +60,19 @@
             {
               "Effect": "Allow",
               "Action": [
-                "ec2:Describe*",
-                "ec2:CreateSnapshot",
-                "ec2:DeleteSnapshot",
-                "ec2:CreateTags",
-                "ec2:ModifySnapshotAttribute",
-                "ec2:ResetSnapshotAttribute"
+                "ec2:Describe*"
               ],
               "Resource": ["*"]
             }
           ]
         }
       }
-    }
-    ///////
+    },
     "SecurityGroup" : {
       "Type" : "AWS::EC2::SecurityGroup",
       "Properties" : {
         "GroupDescription" : "Allow HTTP traffic to the host",
-        "VpcId" : {"Ref" : "ExistingVPC"},
+        "VpcId" : {"Ref" : "VPC"},
         "SecurityGroupIngress" : [{
           "IpProtocol" : "tcp",
           "FromPort" : "80",
@@ -107,105 +87,99 @@
         }]
       }
     },
-    "AllSecurityGroups": {
-      "Type": "Custom::Split",
-      "Properties": {
-        "ServiceToken": { "Fn::GetAtt" : ["AppendItemToListFunction", "Arn"] },
-        "List": { "Ref" : "ExistingSecurityGroups" },
-        "AppendedItem": { "Ref" : "SecurityGroup" }
-      }
-    },
-    "AppendItemToListFunction": {
-
-      "LambdaFunction1Test": {
-        "Type": "AWS::Lambda::Function",
-        "DependsOn": [
-          "EbsBackupExecutionRole",
-          "EbsBackupExecutionPolicy"
-        ],
-        "Properties": {
-          "Code": {
-            "S3Bucket": "campaign-manager-lambdas",
-            "S3Key": "lambda-function-1-test.zip"
-          },
-          "Role": {
-            "Fn::GetAtt": ["EbsBackupExecutionRole", "Arn"]
-          },
-          "Timeout": 60,
-          "Handler": "lambda_function.lambda_handler",
-          "Runtime": "python3.6",
-          "MemorySize": 128
-        }
-      },
-
-      "Type" : "AWS::Lambda::Function",
-      "Properties" : {
-        "Code" : Code,
-        "DeadLetterConfig" : DeadLetterConfig,
-        "Description" : String,
-        "Environment" : Environment,
-        "FunctionName" : String,
-        "Handler" : String,
-        "KmsKeyArn" : String,
-        "MemorySize" : Integer,
-        "ReservedConcurrentExecutions" : Integer,
-        "Role" : String,
-        "Runtime" : String,
-        "Timeout" : Integer,
-        "TracingConfig" : TracingConfig,
-        "VpcConfig" : VPCConfig,
-        "Tags" : [ Resource Tag, ... ]
-      },
-
+    "bigdata_CM_QAS_fn1": {
       "Type": "AWS::Lambda::Function",
+      "DependsOn": [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
       "Properties": {
-        "Handler": "index.handler",
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : "QAS",
+        "FunctionName" : "bigdata_CM_QAS_fn1",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ "SecurityGroup" ],
+          "SubnetIds" : [ "Subnet" ]
+        },
         "Code": {
-          "ZipFile":  { "Fn::Join": ["", [
-            "var response = require('cfn-response');",
-            "exports.handler = function(event, context) {",
-            "   var responseData = {Value: event.ResourceProperties.List};",
-            "   responseData.Value.push(event.ResourceProperties.AppendedItem);",
-            "   response.send(event, context, response.SUCCESS, responseData);",
-            "};"
-          ]]}
+          "S3Bucket": "campaign-manager-lambdas",
+          "S3Key": "lambda-function-1.zip"
         },
-        "Runtime": "nodejs4.3"
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "lambda_function.lambda_handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "QAS" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
       }
     },
-    "MyEC2Instance" : {
-      "Type" : "AWS::EC2::Instance",
-      "Properties" : {
-        "ImageId": { "Fn::FindInMap": [ "AWSRegionArch2AMI", { "Ref": "AWS::Region" }, { "Fn::FindInMap": [
-          "AWSInstanceType2Arch", { "Ref": "InstanceType" }, "Arch" ] } ]
-        },
-        "SecurityGroupIds" : { "Fn::GetAtt": [ "AllSecurityGroups", "Value" ] },
-        "InstanceType" : { "Ref" : "InstanceType" }
-      }
-    },
-    "LambdaExecutionRole": {
-      "Type": "AWS::IAM::Role",
+    "bigdata_CM_QAS_fn2": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
       "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [{ "Effect": "Allow", "Principal": {"Service": ["lambda.amazonaws.com"]}, "Action": ["sts:AssumeRole"] }]
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : "QAS",
+        "FunctionName" : "bigdata_CM_QAS_fn2",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ "SecurityGroup" ],
+          "SubnetIds" : [ "Subnet" ]
         },
-        "Path": "/",
-        "Policies": [{
-          "PolicyName": "root",
-          "PolicyDocument": {
-            "Version": "2012-10-17",
-            "Statement": [{ "Effect": "Allow", "Action": ["logs:*"], "Resource": "arn:aws:logs:*:*:*" }]
-          }
-        }]
+        "Code": {
+          "S3Bucket": "campaign-manager-lambdas",
+          "S3Key": "lambda-function-2.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "lambda_function.lambda_handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "QAS" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
       }
-    }
+    },
+    "bigdata_CM_QAS_fn3": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : "QAS",
+        "FunctionName" : "bigdata_CM_QAS_fn3",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ "SecurityGroup" ],
+          "SubnetIds" : [ "Subnet" ]
+        },
+        "Code": {
+          "S3Bucket": "campaign-manager-lambdas",
+          "S3Key": "lambda-function-3.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "lambda_function.lambda_handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "QAS" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
   },
-  "Outputs" : {
-    "AllSecurityGroups" : {
-      "Description" : "Security Groups that are associated with the EC2 instance",
-      "Value" : { "Fn::Join" : [ ", ", { "Fn::GetAtt": [ "AllSecurityGroups", "Value" ] }]}
-    }
-  }
+  "Outputs" : { }
 }
