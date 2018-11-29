@@ -32,6 +32,59 @@
 		}
 	},
 	"Resources": {
+		"BigDataReadWriteForS3Policy": {
+		  "Type" : "AWS::IAM::Policy",
+		  "Properties": {
+		  	"PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+            	"Effect": "Allow",
+              "Action": [
+                "logs:*"
+              ],
+              "Resource": "*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "s3:PutObject",
+                "s3:GetObject"
+              ],
+              "Resource": [
+                "arn:aws:s3:::forecast-events-test/*",
+                "arn:aws:s3:::belc-bigdata-apps-shared-qas/*"
+              ]
+            }
+          ]
+		  	},
+		    "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "sts:AssumeRole"
+              ],
+              "Principal": {
+                "Service": [
+                  "ec2.amazonaws.com"
+                ]
+              },
+            }
+          ]
+        },
+		    "PolicyName" : String,
+		    "Roles" : [ String, ... ],
+		  }
+		},
+		"InstanceProfile": {
+		   "Type": "AWS::IAM::InstanceProfile",
+		   "Properties": {
+		      "Roles": [ "BigDataReadWriteForS3" ],
+		      "InstanceProfileName": "BigDataReadWriteForS3"
+		   }
+		},
 		"SecurityGroup": {
 			"Type": "AWS::EC2::SecurityGroup",
 			"Properties": {
@@ -50,7 +103,22 @@
 				"ImageId": {"Fn::FindInMap": ["RegionAMIMap", {"Ref": "AWS::Region"}, "AmazonLinux"]},
 				"InstanceType": "t2.micro",
 				"SubnetId": {"Ref": "Subnet"},
-				"Tags" : [
+				"UserData" : {"Fn::Base64" : {"Fn::Join" : ["", [ ]]}},
+				"KeyName": {"Ref": "KeyName"},
+				"SecurityGroupIds": [{"Ref": "SecurityGroup"}],
+				"IamInstanceProfile" : {"Ref": "InstanceProfile"},
+				"BlockDeviceMappings" : [
+	        {
+	          "DeviceName" : "/dev/xvda",
+							"Ebs" : {
+							"VolumeType": "io1",
+              "Iops": "700",
+              "DeleteOnTermination": "true",
+              "VolumeSize": "30"
+						}
+	        }
+	      ],
+	      "Tags" : [
           {
             "Key" : "CTLAdmin",
             "Value" : "NO"
@@ -79,21 +147,7 @@
             "Key" : "Tipo",
             "Value" : "Proyecto"
           }
-        ],
-				"UserData" : {"Fn::Base64" : {"Fn::Join" : ["", [ ]]}},
-				"KeyName": {"Ref": "KeyName"},
-				"SecurityGroupIds": [{"Ref": "SecurityGroup"}],
-				"BlockDeviceMappings" : [
-	        {
-	          "DeviceName" : "/dev/xvda",
-							"Ebs" : {
-							"VolumeType": "io1",
-              "Iops": "700",
-              "DeleteOnTermination": "true",
-              "VolumeSize": "30"
-						}
-	        }
-	      ]
+        ]
 			}
 		}
 	},
@@ -101,10 +155,6 @@
 		"InstanceId": {
 			"Value": {"Ref": "EC2Instance"},
 			"Description": "ID of resource"
-		},
-		"PublicIPAddress": {
-			"Value": {"Fn::GetAtt": ["EC2Instance", "PublicIp"]},
-			"Description": "public IP address of the instance"
 		}
 	}
 }

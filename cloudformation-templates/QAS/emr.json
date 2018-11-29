@@ -72,7 +72,7 @@
     "SecurityGroup": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
-        "GroupName" : SG_BIGDATA_CM_WCF_QAS,
+        "GroupName" : "SG_BIGDATA_CM_WCF_QAS",
         "GroupDescription": "allow-ssh",
         "VpcId": {"Ref": "VPC"},
         "SecurityGroupIngress" : [ 
@@ -84,8 +84,8 @@
     "EMRCluster": {
       "DependsOn": [
         "EMRClusterServiceRole",
-        "EMRClusterinstanceProfileRole",
-        "EMRClusterinstanceProfile"
+        "EMRClusterInstanceProfileRole",
+        "EMRClusterInstanceProfile"
       ],
       "Type": "AWS::EMR::Cluster",
       "Properties": {
@@ -119,20 +119,20 @@
           "CoreInstanceGroup": {
             "InstanceCount": { "Ref": "NumberOfCoreInstances" },
             "InstanceType": { "Ref": "CoreInstanceType" },
-             "Market": {
-                "Fn::If": [
-                  "WithSpotPrice",
-                  "SPOT",
-                  "ON_DEMAND"
-                ]
-              },
+            "Market": {
+              "Fn::If": [
+                "WithSpotPrice",
+                "SPOT",
+                "ON_DEMAND"
+              ]
+            },
             "Name": "Core"
           },
           "EmrManagedSlaveSecurityGroup" : { "Ref": "SecurityGroup" },
           "TerminationProtected": false
         },
         "VisibleToAllUsers": true,
-        "JobFlowRole": { "Ref": "EMRClusterinstanceProfile" },
+        "JobFlowRole": { "Ref": "EMRClusterInstanceProfile" },
         "ReleaseLabel": { "Ref": "ReleaseLabel" },
         "LogUri": { "Ref": "LogUri" },
         "Name": { "Ref": "EMRClusterName" },
@@ -170,6 +170,7 @@
         ]
       }
     },
+
     "EMRClusterServiceRole": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -178,29 +179,113 @@
           "Statement": [
             {
               "Effect": "Allow",
-              "Principal": {
-                "Service": [
-                  "elasticmapreduce.amazonaws.com"
-                ]
-              },
+              "Resource": "*",
               "Action": [
-                "sts:AssumeRole"
+                "ec2:AuthorizeSecurityGroupEgress",
+                "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:CancelSpotInstanceRequests",
+                "ec2:CreateNetworkInterface",
+                "ec2:CreateSecurityGroup",
+                "ec2:CreateTags",
+                "ec2:DetachNetworkInterface",
+                "ec2:ModifyImageAttribute",
+                "ec2:ModifyInstanceAttribute",
+                "ec2:RequestSpotInstances",
+                "ec2:RevokeSecurityGroupEgress",
+                "ec2:RunInstances",
+                "ec2:TerminateInstances",
+                "ec2:DeleteVolume",
+                "ec2:DescribeVolumeStatus",
+                "ec2:DescribeVolumes",
+                "ec2:DetachVolume",
+                "s3:CreateBucket",
+                "s3:Get*",
+                "s3:List*",
+                "cloudwatch:PutMetricAlarm",
+                "cloudwatch:DescribeAlarms",
+                "cloudwatch:DeleteAlarms",
+                "application-autoscaling:RegisterScalableTarget",
+                "application-autoscaling:DeregisterScalableTarget",
+                "application-autoscaling:PutScalingPolicy",
+                "application-autoscaling:DeleteScalingPolicy",
+                "application-autoscaling:Describe*"
               ]
             }
           ]
         },
-        "ManagedPolicyArns": [
-          "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceRole"
-        ],
+        "ManagedPolicyArns": [],
         "Path": "/"
       }
     },
-    "EMRClusterinstanceProfileRole": {
+
+    "EMRClusterInstanceProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Path": "/",
+        "Roles": [ { "Ref": "EMRClusterInstanceProfileRole" } ]
+      }
+    },
+    "EMRClusterInstanceProfileRole": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Version": "2012-10-17",
           "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "cloudwatch:*",
+                "ec2:Describe*",
+                "elasticmapreduce:Describe*",
+                "elasticmapreduce:ListBootstrapActions",
+                "elasticmapreduce:ListClusters",
+                "elasticmapreduce:ListInstanceGroups",
+                "elasticmapreduce:ListInstances",
+                "elasticmapreduce:ListSteps",
+                "glue:CreateDatabase",
+                "glue:UpdateDatabase",
+                "glue:DeleteDatabase",
+                "glue:GetDatabase",
+                "glue:GetDatabases",
+                "glue:CreateTable",
+                "glue:UpdateTable",
+                "glue:DeleteTable",
+                "glue:GetTable",
+                "glue:GetTables",
+                "glue:GetTableVersions",
+                "glue:CreatePartition",
+                "glue:BatchCreatePartition",
+                "glue:UpdatePartition",
+                "glue:DeletePartition",
+                "glue:BatchDeletePartition",
+                "glue:GetPartition",
+                "glue:GetPartitions",
+                "glue:BatchGetPartition",
+                "glue:CreateUserDefinedFunction",
+                "glue:UpdateUserDefinedFunction",
+                "glue:DeleteUserDefinedFunction",
+                "glue:GetUserDefinedFunction",
+                "glue:GetUserDefinedFunctions"
+              ],
+              "Resource": "*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "s3:PutObject",
+                "s3:PutObjectAcl",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:DeleteObject",
+                "s3:ListBucket"
+              ],
+              "Resource": [
+                "arn:aws:s3:::forecast-events-test/*",
+                "arn:aws:s3:::belc-bigdata-functional-dlk-qas/*",
+                "arn:aws:s3:::belc-bigdata-cm-data-qas/*",
+                "arn:aws:s3:::belc-bigdata-apps-shared-qas/*"
+              ]
+            },
             {
               "Effect": "Allow",
               "Principal": {
@@ -214,23 +299,11 @@
             }
           ]
         },
-        "ManagedPolicyArns": [
-          "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role"
-        ],
+        "ManagedPolicyArns": [],
         "Path": "/"
       }
-    },
-    "EMRClusterinstanceProfile": {
-      "Type": "AWS::IAM::InstanceProfile",
-      "Properties": {
-        "Path": "/",
-        "Roles": [
-          {
-            "Ref": "EMRClusterinstanceProfileRole"
-          }
-        ]
-      }
     }
+
   },
   "Outputs": {}
 }
