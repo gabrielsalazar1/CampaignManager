@@ -39,28 +39,22 @@
           "Version": "2012-10-17",
           "Statement": [
             {
-            	"Effect": "Allow",
-              "Action": [
-                "logs:*"
-              ],
-              "Resource": "*"
-            },
-            {
               "Effect": "Allow",
               "Action": [
                 "s3:PutObject",
-                "s3:GetObject"
+                "s3:PutObjectAcl",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:DeleteObject",
+                "s3:ListBucket"
               ],
               "Resource": [
                 "arn:aws:s3:::forecast-events-test/*",
+                "arn:aws:s3:::belc-bigdata-functional-dlk-qas/*",
+                "arn:aws:s3:::belc-bigdata-cm-data-qas/*",
                 "arn:aws:s3:::belc-bigdata-apps-shared-qas/*"
               ]
-            }
-          ]
-		  	},
-		    "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
+            },
             {
               "Effect": "Allow",
               "Action": [
@@ -73,8 +67,7 @@
               },
             }
           ]
-        },
-		    "PolicyName" : String,
+		  	},
 		    "Roles" : [ String, ... ],
 		  }
 		},

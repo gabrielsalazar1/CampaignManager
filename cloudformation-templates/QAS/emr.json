@@ -170,7 +170,6 @@
         ]
       }
     },
-
     "EMRClusterServiceRole": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -178,6 +177,20 @@
           "Version": "2012-10-17",
           "Statement": [
             {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [ "elasticmapreduce.amazonaws.com" ]
+              },
+              "Action": [ "sts:AssumeRole" ]
+            }
+          ]
+        },
+        "Path": "/",
+        "Policies": [ {
+          "PolicyName": "EMRClusterServicePolicy",
+          "PolicyDocument": {
+            "Version" : "2012-10-17",
+            "Statement": [ {
               "Effect": "Allow",
               "Resource": "*",
               "Action": [
@@ -210,19 +223,9 @@
                 "application-autoscaling:DeleteScalingPolicy",
                 "application-autoscaling:Describe*"
               ]
-            }
-          ]
-        },
-        "ManagedPolicyArns": [],
-        "Path": "/"
-      }
-    },
-
-    "EMRClusterInstanceProfile": {
-      "Type": "AWS::IAM::InstanceProfile",
-      "Properties": {
-        "Path": "/",
-        "Roles": [ { "Ref": "EMRClusterInstanceProfileRole" } ]
+            } ]
+          }
+        } ]
       }
     },
     "EMRClusterInstanceProfileRole": {
@@ -233,6 +236,25 @@
           "Statement": [
             {
               "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "ec2.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "Path": "/",
+        "Policies": [ {
+          "PolicyName": "EMRClusterInstanceProfilePolicy",
+          "PolicyDocument": {
+            "Version" : "2012-10-17",
+            "Statement": [ {
+              "Effect": "Allow",
+              "Resource": "*",
               "Action": [
                 "cloudwatch:*",
                 "ec2:Describe*",
@@ -266,10 +288,15 @@
                 "glue:DeleteUserDefinedFunction",
                 "glue:GetUserDefinedFunction",
                 "glue:GetUserDefinedFunctions"
-              ],
-              "Resource": "*"
-            },
-            {
+              ]
+            } ]
+          }
+        },
+        {
+          "PolicyName": "EMRClusterInstanceProfilePolicyForS3",
+          "PolicyDocument": {
+            "Version" : "2012-10-17",
+            "Statement": [ {
               "Effect": "Allow",
               "Action": [
                 "s3:PutObject",
@@ -285,22 +312,20 @@
                 "arn:aws:s3:::belc-bigdata-cm-data-qas/*",
                 "arn:aws:s3:::belc-bigdata-apps-shared-qas/*"
               ]
-            },
-            {
-              "Effect": "Allow",
-              "Principal": {
-                "Service": [
-                  "ec2.amazonaws.com"
-                ]
-              },
-              "Action": [
-                "sts:AssumeRole"
-              ]
-            }
-          ]
-        },
-        "ManagedPolicyArns": [],
-        "Path": "/"
+            } ]
+          }
+        } ]
+      }
+    },
+    "EMRClusterInstanceProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Path": "/",
+        "Roles": [
+          {
+            "Ref": "EMRClusterInstanceProfileRole"
+          }
+        ]
       }
     }
 
