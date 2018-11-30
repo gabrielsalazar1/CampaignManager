@@ -14,6 +14,25 @@
     }
   },
   "Resources" : {
+    "SecurityGroup" : {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription" : "Allow HTTP traffic to the host",
+        "VpcId" : {"Ref" : "VPC"},
+        "SecurityGroupIngress" : [{
+          "IpProtocol" : "tcp",
+          "FromPort" : "80",
+          "ToPort" : "80",
+          "CidrIp" : "0.0.0.0/0"
+        }],
+        "SecurityGroupEgress" : [{
+          "IpProtocol" : "tcp",
+          "FromPort" : "80",
+          "ToPort" : "80",
+          "CidrIp" : "0.0.0.0/0"
+        }]
+      }
+    },
     "LambdaExecutionRole": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -40,9 +59,7 @@
       }
     },
     "LambdaExecutionPolicy": {
-      "DependsOn": [
-          "LambdaExecutionRole"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyName": "MyLambdaRolePolicy",
@@ -66,25 +83,6 @@
             }
           ]
         }
-      }
-    },
-    "SecurityGroup" : {
-      "Type" : "AWS::EC2::SecurityGroup",
-      "Properties" : {
-        "GroupDescription" : "Allow HTTP traffic to the host",
-        "VpcId" : {"Ref" : "VPC"},
-        "SecurityGroupIngress" : [{
-          "IpProtocol" : "tcp",
-          "FromPort" : "80",
-          "ToPort" : "80",
-          "CidrIp" : "0.0.0.0/0"
-        }],
-        "SecurityGroupEgress" : [{
-          "IpProtocol" : "tcp",
-          "FromPort" : "80",
-          "ToPort" : "80",
-          "CidrIp" : "0.0.0.0/0"
-        }]
       }
     },
     "bigdata_CM_QAS_fn1": {
