@@ -7,8 +7,8 @@ Parameters:
     Default: emr-bigdata-cm-qas
   KeyName:
     Description: Must be an existing Keyname
-    Default: bigdatakp
     Type: 'AWS::EC2::KeyPair::KeyName'
+    Default: bigdatakp
   MasterInstanceType:
     Description: Instance type to be used for the master instance.
     Type: String
@@ -31,23 +31,23 @@ Parameters:
     Default: vpc-ee8d3285
   LogUri:
     Description: Bucket URI for EMR logs
-    Default: 's3://belc-bigdata-cm-data-qas/EMR/logs/'
     Type: String
+    Default: 's3://belc-bigdata-cm-data-qas/EMR/logs/'
   ReleaseLabel:
     Description: Must be a valid EMR release  version
-    Default: emr-5.17.0
     Type: String
+    Default: emr-5.17.0
   SpotPrice:
-    Default: '0.062'
     Description: Spot price (or use 0 for 'on demand' instance)
     Type: Number
+    Default: '0.062'
   NatSG:
-    Type: String
     Description: SG Id Nat QAS
+    Type: 'AWS::EC2::SecurityGroup::Id'
     Default: sg-7162cb0b
   BastionSG:
-    Type: String
     Description: SG Id Bastion QAS
+    Type: 'AWS::EC2::SecurityGroup::Id'
     Default: sg-0cd93949f3e18e7d0
 Mappings: {}
 Conditions:
@@ -102,6 +102,7 @@ Resources:
         - Name: ZooKeeper
         - Name: Livy
       Configurations: []
+
       Instances:
         Ec2KeyName: !Ref KeyName
         Ec2SubnetId: !Ref Subnet
@@ -119,8 +120,10 @@ Resources:
             - SPOT
             - ON_DEMAND
           Name: Core
+        # DOING:
         EmrManagedSlaveSecurityGroup: !Ref SecurityGroup
         TerminationProtected: false
+
       VisibleToAllUsers: true
       JobFlowRole: !Ref EMRClusterInstanceProfile
       ReleaseLabel: !Ref ReleaseLabel
@@ -220,6 +223,17 @@ Resources:
                   - 'application-autoscaling:PutScalingPolicy'
                   - 'application-autoscaling:DeleteScalingPolicy'
                   - 'application-autoscaling:Describe*'
+        - PolicyName: EMRClusterCreateServiceLinkedRolePolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Resource: 'arn:aws:iam::*:role/aws-service-role/spot.amazonaws.com/AWSServiceRoleForEC2Spot*'
+                Action: "iam:CreateServiceLinkedRole"
+                Condition:
+                  StringLike:
+                    iam:AWSServiceName:
+                      - "spot.amazonaws.com"
   EMRClusterInstanceProfileRole:
     Type: 'AWS::IAM::Role'
     Properties:
