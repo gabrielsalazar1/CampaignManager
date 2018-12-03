@@ -88,6 +88,19 @@ Resources:
           ToPort: '22'
           SourceSecurityGroupId: !Ref BastionSG
           Description: Bastion QAS
+  ServiceAccessSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupName: SASG_BIGDATA_CM_WCF_QAS
+      GroupDescription: CM Cluster
+      VpcId: !Ref VPC
+      SecurityGroupEgress:
+      - 
+        IpProtocol: "tcp"
+        FromPort: 8443
+        ToPort: 8443
+        CidrIp: "0.0.0.0/0"
+
   EMRCluster:
     DependsOn:
       - EMRClusterServiceRole
@@ -121,7 +134,7 @@ Resources:
           Name: Core
         EmrManagedMasterSecurityGroup: !Ref SecurityGroup
         EmrManagedSlaveSecurityGroup: !Ref SecurityGroup
-        ServiceAccessSecurityGroup: !Ref SecurityGroup
+        ServiceAccessSecurityGroup: !Ref ServiceAccessSecurityGroup
         TerminationProtected: false
 
       VisibleToAllUsers: true
