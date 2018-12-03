@@ -111,7 +111,6 @@ Resources:
           InstanceType: !Ref MasterInstanceType
           Market: ON_DEMAND
           Name: Master
-        EmrManagedMasterSecurityGroup: !Ref SecurityGroup
         CoreInstanceGroup:
           InstanceCount: !Ref NumberOfCoreInstances
           InstanceType: !Ref CoreInstanceType
@@ -120,8 +119,9 @@ Resources:
             - SPOT
             - ON_DEMAND
           Name: Core
-        # DOING:
+        EmrManagedMasterSecurityGroup: !Ref SecurityGroup
         EmrManagedSlaveSecurityGroup: !Ref SecurityGroup
+        ServiceAccessSecurityGroup: !Ref SecurityGroup
         TerminationProtected: false
 
       VisibleToAllUsers: true
