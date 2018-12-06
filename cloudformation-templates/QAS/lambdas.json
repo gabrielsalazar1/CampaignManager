@@ -1,22 +1,28 @@
 {
-  "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Lambda Functions Stack",
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  "Description" : "Lambda Functions Stack",
   "Parameters" : {
-    "Subnet": {
-      "Description": "Subnet to launch services in",
-      "Type": "AWS::EC2::Subnet::Id",
-      "Default": "subnet-a69ac8cc"
+    "Subnet" : {
+      "Description" : "Subnet to launch services in",
+      "Type" : "AWS::EC2::Subnet::Id",
+      "Default" : "subnet-a69ac8cc"
     },
-    "VPC": {
-      "Description": "VPC to launch services in",
-      "Type": "AWS::EC2::VPC::Id",
-      "Default": "vpc-ee8d3285"
+    "VPC" : {
+      "Description" : "VPC to launch services in",
+      "Type" : "AWS::EC2::VPC::Id",
+      "Default" : "vpc-ee8d3285"
+    },
+    "S3Bucket" : {
+      "Description" : "S3 Bucket where lambdas code is stored",
+      "Type" : "String",
+      "Default" : "campaign-manager-lambdas"
     }
   },
   "Resources" : {
     "SecurityGroup" : {
       "Type" : "AWS::EC2::SecurityGroup",
       "Properties" : {
+        "GroupName" : "SG_BIGDATA_CM_LMB_QAS",
         "GroupDescription" : "Allow HTTP traffic to the host",
         "VpcId" : {"Ref" : "VPC"},
         "SecurityGroupIngress" : [{
@@ -33,9 +39,10 @@
         }]
       }
     },
-    "LambdaExecutionRole": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
+    "LambdaExecutionRole" : {
+      "Type" : "AWS::IAM::Role",
+      "Properties" : {
+        "RoleName" : "bigdata_cm_qas_lambda_ExecutionRole",
         "AssumeRolePolicyDocument": {
           "Version": "2012-10-17",
           "Statement": [
@@ -48,39 +55,41 @@
             }
           ]
         },
-        "Path": "/",
-        "Policies": [ {
-          "PolicyName": "LogsLambdaRolePolicy",
-          "PolicyDocument": {
-            "Version": "2012-10-17",
-            "Statement": [{ "Effect": "Allow", "Action": ["logs:*"], "Resource": "arn:aws:logs:*:*:*" }]
-          }
-        },
-        {
-          "PolicyName": "NetworkLambdaRolePolicy",
-          "PolicyDocument": {
-            "Version": "2012-10-17",
-            "Statement": [{
-              "Effect": "Allow",
-              "Resource": "*",
-              "Action": [
-                "ec2:DescribeInstances",
-                "ec2:CreateNetworkInterface",
-                "ec2:AttachNetworkInterface",
-                "ec2:DescribeNetworkInterfaces",
-                "ec2:DeleteNetworkInterface",
-                "autoscaling:CompleteLifecycleAction"
-              ]
-            }]
-          }
-        } ]
+        "Path" : "/",
+        "Policies" : [ 
+          {
+            "PolicyName": "bigdata_cm_qas_logs_lambda_RolePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [{ "Effect": "Allow", "Action": ["logs:*"], "Resource": "arn:aws:logs:*:*:*" }]
+            }
+          },
+          {
+            "PolicyName": "bigdata_cm_qas_network_lambda_RolePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [{
+                "Effect": "Allow",
+                "Resource": "*",
+                "Action": [
+                  "ec2:DescribeInstances",
+                  "ec2:CreateNetworkInterface",
+                  "ec2:AttachNetworkInterface",
+                  "ec2:DescribeNetworkInterfaces",
+                  "ec2:DeleteNetworkInterface",
+                  "autoscaling:CompleteLifecycleAction"
+                ]
+              }]
+            }
+          } 
+        ]
       }
     },
-    "LambdaExecutionPolicy": {
+    "LambdaExecutionPolicy" : {
       "DependsOn": [ "LambdaExecutionRole" ],
       "Type": "AWS::IAM::Policy",
       "Properties": {
-        "PolicyName": "MyLambdaRolePolicy",
+        "PolicyName": "bigdata_cm_qas_lambda_ExecutionPolicy",
         "Roles": [
             {"Ref": "LambdaExecutionRole"}
         ],
@@ -103,9 +112,9 @@
         }
       }
     },
-    "LambdaS3DfListenerListen": {
+    "LambdaS3DfListenerListen" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
+      "DependsOn" : [
         "LambdaExecutionRole",
         "LambdaExecutionPolicy"
       ],
@@ -119,7 +128,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__s3_df_listener__listen.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
@@ -150,7 +159,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__s3_forecast_notifier__listener.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
@@ -181,7 +190,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__s3_rc_sp1_trigger__handler.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
@@ -212,7 +221,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__trigger_emr_livy__handler.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
@@ -243,7 +252,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__v1_campaigns__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
@@ -274,7 +283,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__v1_campaigns_scenarios__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
@@ -305,7 +314,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__v1_catalogs__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
@@ -336,7 +345,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__v1_catalogs_countries__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
@@ -367,7 +376,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__v1_catalogs_parameters__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
@@ -398,7 +407,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__v1_configurations_levers__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
@@ -429,7 +438,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__v1_offers__byid.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
@@ -460,7 +469,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__v1_offers__create.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
@@ -491,7 +500,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__v1_offers__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
@@ -522,7 +531,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__v1_products__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
@@ -553,7 +562,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__v1_results_scenarios__byid.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
@@ -584,7 +593,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__v1_results_scenarios__create.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
@@ -615,7 +624,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__v1_results_scenarios__update.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
@@ -646,7 +655,7 @@
           "SubnetIds" : [ { "Ref" : "Subnet" } ]
         },
         "Code": {
-          "S3Bucket": "campaign-manager-lambdas",
+          "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "handlers__version__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
