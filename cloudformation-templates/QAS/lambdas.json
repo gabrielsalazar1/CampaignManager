@@ -1,6 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
-  "Description" : "Lambda Functions Stack",
+  "Description" : "API GW & Lambda Functions Stack",
+
   "Parameters" : {
     "Subnet" : {
       "Description" : "Subnet to launch services in",
@@ -16,8 +17,18 @@
       "Description" : "S3 Bucket where lambdas code is stored",
       "Type" : "String",
       "Default" : "campaign-manager-lambdas"
+    },
+    "ApiId": {
+      "Description": "API Gateway App Id. E.g. 1yc6td9zjj",
+      "Type": "String",
+      "Default": ""
     }
   },
+
+  "Conditions": {
+    "ApiGatewayDeployed": {"Fn::Not": [{"Fn::Equals": ["", {"Ref": "ApiId"}]}]}
+  },
+
   "Resources" : {
     "SecurityGroup" : {
       "Type" : "AWS::EC2::SecurityGroup",
@@ -112,6 +123,7 @@
         }
       }
     },
+
     "LambdaS3DfListenerListen" : {
       "Type": "AWS::Lambda::Function",
       "DependsOn" : [
@@ -671,5 +683,7 @@
       }
     }
   },
-  "Outputs" : { }
+  
+  "Outputs": {}
+
 }
