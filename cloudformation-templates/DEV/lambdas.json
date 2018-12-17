@@ -1,0 +1,661 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  "Description" : "API GW & Lambda Functions Stack",
+
+  "Parameters" : {
+    "Subnet" : {
+      "Type" : "AWS::EC2::Subnet::Id",
+      "Default" : "subnet-a69ac8cc",
+      "Description" : "Subnet to launch services in"
+    },
+    "VPC" : {
+      "Type" : "AWS::EC2::VPC::Id",
+      "Default" : "vpc-ee8d3285",
+      "Description" : "VPC to launch services in"
+    },
+    "S3Bucket" : {
+      "Type" : "String",
+      "Default" : "campaign-manager-lambdas",
+      "AllowedValues" : ["belc-bigdata-cm-data-qas", "campaign-manager-lambdas"],
+      "Description" : "S3 Bucket where lambdas code is stored",
+    },
+    "ApiId": {
+      "Description": "API Gateway App Id. E.g. 1yc6td9zjj",
+      "Type": "String",
+      "Default": ""
+    }
+  },
+
+  "Conditions": {
+    "ApiGatewayDeployed": {"Fn::Not": [{"Fn::Equals": ["", {"Ref": "ApiId"}]}]}
+  },
+
+  "Resources" : {
+    "SecurityGroup" : {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupName" : "SG_BIGDATA_CM_LMB_DEV",
+        "GroupDescription" : "Allow HTTP traffic to the host",
+        "VpcId" : {"Ref" : "VPC"},
+        "SecurityGroupIngress" : [{
+          "IpProtocol" : "tcp",
+          "FromPort" : "80",
+          "ToPort" : "80",
+          "CidrIp" : "0.0.0.0/0"
+        }],
+        "SecurityGroupEgress" : [{
+          "IpProtocol" : "tcp",
+          "FromPort" : "80",
+          "ToPort" : "80",
+          "CidrIp" : "0.0.0.0/0"
+        }]
+      }
+    },
+    "LambdaExecutionRole" : {
+      "Type" : "AWS::IAM::Role",
+      "Properties" : {
+        "RoleName" : "bigdata_cm_dev_lambda_ExecutionRole",
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": ["lambda.amazonaws.com"]
+              },
+              "Action": ["sts:AssumeRole"]
+            }
+          ]
+        },
+        "Path" : "/",
+        "Policies" : [ 
+          {
+            "PolicyName": "bigdata_cm_dev_logs_lambda_RolePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [{ "Effect": "Allow", "Action": ["logs:*"], "Resource": "arn:aws:logs:*:*:*" }]
+            }
+          },
+          {
+            "PolicyName": "bigdata_cm_dev_network_lambda_RolePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [{
+                "Effect": "Allow",
+                "Resource": "*",
+                "Action": [
+                  "ec2:DescribeInstances",
+                  "ec2:CreateNetworkInterface",
+                  "ec2:AttachNetworkInterface",
+                  "ec2:DescribeNetworkInterfaces",
+                  "ec2:DeleteNetworkInterface",
+                  "autoscaling:CompleteLifecycleAction"
+                ]
+              }]
+            }
+          } 
+        ]
+      }
+    },
+    "LambdaExecutionPolicy" : {
+      "DependsOn": [ "LambdaExecutionRole" ],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "bigdata_cm_dev_lambda_ExecutionPolicy",
+        "Roles": [
+            {"Ref": "LambdaExecutionRole"}
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": ["logs:*"],
+              "Resource": ["arn:aws:logs:*:*:*"]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "ec2:Describe*"
+              ],
+              "Resource": ["*"]
+            }
+          ]
+        }
+      }
+    },
+
+    "LambdaEmrExecuterProcess" : {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn" : [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { "Variables" : { "MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET":"$BUCKET_URI" } },
+        "FunctionName" : "BIGDATA_CM_DEV_emr_executer__process",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__emr_executer__process.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 40,
+        "Handler": "listen.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaHookDfListener" : {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn" : [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { "Variables" : { "MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET":"$BUCKET_URI" } },
+        "FunctionName" : "BIGDATA_CM_DEV_hook_df__listener",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__hook_df__listener.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 40,
+        "Handler": "listen.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaS3DfFilesNotifierListener" : {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn" : [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { "Variables" : { "MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET":"$BUCKET_URI" } },
+        "FunctionName" : "BIGDATA_CM_DEV_s3_df_files_notifier__listener",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__s3_df_files_notifier__listener.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 40,
+        "Handler": "listen.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaTriggerIndicatorsTrigger" : {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn" : [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { "Variables" : { "MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET":"$BUCKET_URI" } },
+        "FunctionName" : "BIGDATA_CM_DEV_trigger_indicators__trigger",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__trigger_indicators__trigger.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 40,
+        "Handler": "listen.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+
+
+    "LambdaV1CampaignsRetrieve": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { "Variables" : { "MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET":"$BUCKET_URI" } },
+        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns__retrieve",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__v1_campaigns__retrieve.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "retrieve.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaV1CampaignsScenariosRetrieve": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { "Variables" : { "MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET":"$BUCKET_URI" } },
+        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_scenarios__retrieve",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__v1_campaigns_scenarios__retrieve.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "retrieve.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaV1CatalogsRetrieve": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { "Variables" : { "MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET":"$BUCKET_URI" } },
+        "FunctionName" : "BIGDATA_CM_DEV_v1_catalogs__retrieve",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__v1_catalogs__retrieve.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "retrieve.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaV1CatalogsParametersRetrieve": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { "Variables" : { "MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET":"$BUCKET_URI" } },
+        "FunctionName" : "BIGDATA_CM_DEV_v1_catalogs_parameters__retrieve",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__v1_catalogs_parameters__retrieve.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "retrieve.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaV1ConfigurationsLeversRetrieve": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { "Variables" : { "MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET":"$BUCKET_URI" } },
+        "FunctionName" : "BIGDATA_CM_DEV_v1_configurations_levers__retrieve",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__v1_configurations_levers__retrieve.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "retrieve.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaV1OffersByid": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { "Variables" : { "MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET":"$BUCKET_URI" } },
+        "FunctionName" : "BIGDATA_CM_DEV_v1_offers__byid",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__v1_offers__byid.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "byid.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaV1OffersCreate": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { "Variables" : { "MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET":"$BUCKET_URI" } },
+        "FunctionName" : "BIGDATA_CM_DEV_v1_offers__create",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__v1_offers__create.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "create.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaV1OffersRetrieve": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { "Variables" : { "MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET":"$BUCKET_URI" } },
+        "FunctionName" : "BIGDATA_CM_DEV_v1_offers__retrieve",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__v1_offers__retrieve.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "retrieve.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaV1ProductsRetrieve": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { "Variables" : { "MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET":"$BUCKET_URI" } },
+        "FunctionName" : "BIGDATA_CM_DEV_v1_products__retrieve",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__v1_products__retrieve.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "retrieve.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaV1ResultsScenariosByid": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { "Variables" : { "MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET":"$BUCKET_URI" } },
+        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios__byid",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__v1_results_scenarios__byid.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "byid.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaV1ResultsScenariosCreate": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { "Variables" : { "MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET":"$BUCKET_URI" } },
+        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios__create",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__v1_results_scenarios__create.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "create.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaV1ResultsScenariosUpdate": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { "Variables" : { "MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET":"$BUCKET_URI" } },
+        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios__update",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__v1_results_scenarios__update.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "update.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaVersionRetrieve": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [
+        "LambdaExecutionRole",
+        "LambdaExecutionPolicy"
+      ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { "Variables" : { "MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET":"$BUCKET_URI" } },
+        "FunctionName" : "BIGDATA_CM_DEV_version__retrieve",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__version__retrieve.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "retrieve.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    }
+  },
+  
+  "Outputs": {}
+
+}
