@@ -4,19 +4,20 @@
 
   "Parameters" : {
     "Subnet" : {
-      "Description" : "Subnet to launch services in",
       "Type" : "AWS::EC2::Subnet::Id",
-      "Default" : "subnet-a69ac8cc"
+      "Default" : "subnet-a69ac8cc",
+      "Description" : "Subnet to launch services in"
     },
     "VPC" : {
-      "Description" : "VPC to launch services in",
       "Type" : "AWS::EC2::VPC::Id",
-      "Default" : "vpc-ee8d3285"
+      "Default" : "vpc-ee8d3285",
+      "Description" : "VPC to launch services in"
     },
     "S3Bucket" : {
-      "Description" : "S3 Bucket where lambdas code is stored",
       "Type" : "String",
-      "Default" : "campaign-manager-lambdas"
+      "Default" : "belc-bigdata-cm-data-qas",
+      "AllowedValues" : ["belc-bigdata-cm-data-qas", "campaign-manager-lambdas"],
+      "Description" : "S3 Bucket where lambdas code is stored",
     },
     "ApiId": {
       "Description": "API Gateway App Id. E.g. 1yc6td9zjj",
@@ -141,7 +142,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas__emr_executer__process.zip"
+          "S3Key": "code/lambdas__emr_executer__process.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 40,
@@ -172,7 +173,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas__hook_df__listener.zip"
+          "S3Key": "code/lambdas__hook_df__listener.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 40,
@@ -203,7 +204,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas__s3_df_files_notifier__listener.zip"
+          "S3Key": "code/lambdas__s3_df_files_notifier__listener.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 40,
@@ -234,7 +235,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas__trigger_indicators__trigger.zip"
+          "S3Key": "code/lambdas__trigger_indicators__trigger.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 40,
@@ -267,7 +268,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas__v1_campaigns__retrieve.zip"
+          "S3Key": "code/lambdas__v1_campaigns__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -298,7 +299,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas__v1_campaigns_scenarios__retrieve.zip"
+          "S3Key": "code/lambdas__v1_campaigns_scenarios__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -329,7 +330,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas__v1_catalogs__retrieve.zip"
+          "S3Key": "code/lambdas__v1_catalogs__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -360,7 +361,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas__v1_catalogs_parameters__retrieve.zip"
+          "S3Key": "code/lambdas__v1_catalogs_parameters__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -391,7 +392,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas__v1_configurations_levers__retrieve.zip"
+          "S3Key": "code/lambdas__v1_configurations_levers__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -422,7 +423,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas__v1_offers__byid.zip"
+          "S3Key": "code/lambdas__v1_offers__byid.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -453,7 +454,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas__v1_offers__create.zip"
+          "S3Key": "code/lambdas__v1_offers__create.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -484,7 +485,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas__v1_offers__retrieve.zip"
+          "S3Key": "code/lambdas__v1_offers__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -515,7 +516,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas__v1_products__retrieve.zip"
+          "S3Key": "code/lambdas__v1_products__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -546,7 +547,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas__v1_results_scenarios__byid.zip"
+          "S3Key": "code/lambdas__v1_results_scenarios__byid.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -577,7 +578,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas__v1_results_scenarios__create.zip"
+          "S3Key": "code/lambdas__v1_results_scenarios__create.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -608,7 +609,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas__v1_results_scenarios__update.zip"
+          "S3Key": "code/lambdas__v1_results_scenarios__update.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -639,7 +640,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas__version__retrieve.zip"
+          "S3Key": "code/lambdas__version__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
