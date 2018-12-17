@@ -5,18 +5,19 @@
   "Parameters" : {
     "Subnet" : {
       "Type" : "AWS::EC2::Subnet::Id",
-      "Default" : "subnet-a69ac8cc",
-      "Description" : "Subnet to launch services in"
-    },
+      "Default" : "subnet-e5e7b2af",
+      "AllowedValues" : ["subnet-e5e7b2af", "subnet-a69ac8cc"],
+      "Description" : "Subnet to launch services in"},
     "VPC" : {
       "Type" : "AWS::EC2::VPC::Id",
-      "Default" : "vpc-ee8d3285",
+      "Default" : "vpc-cf02d3b5",
+      "AllowedValues" : ["vpc-cf02d3b5", "vpc-ee8d3285"],
       "Description" : "VPC to launch services in"
     },
     "S3Bucket" : {
       "Type" : "String",
       "Default" : "campaign-manager-lambdas",
-      "AllowedValues" : ["belc-bigdata-cm-data-qas", "campaign-manager-lambdas"],
+      "AllowedValues" : ["campaign-manager-lambdas", "belc-bigdata-cm-data-qas"],
       "Description" : "S3 Bucket where lambdas code is stored",
     },
     "ApiId": {
