@@ -146,7 +146,7 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 40,
-        "Handler": "listen.handler",
+        "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
@@ -177,7 +177,7 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 40,
-        "Handler": "listen.handler",
+        "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
@@ -208,7 +208,7 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 40,
-        "Handler": "listen.handler",
+        "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
@@ -239,7 +239,7 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 40,
-        "Handler": "listen.handler",
+        "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
@@ -272,7 +272,7 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
-        "Handler": "retrieve.handler",
+        "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
@@ -303,7 +303,7 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
-        "Handler": "retrieve.handler",
+        "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
@@ -334,7 +334,7 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
-        "Handler": "retrieve.handler",
+        "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
@@ -365,7 +365,7 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
-        "Handler": "retrieve.handler",
+        "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
@@ -396,7 +396,7 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
-        "Handler": "retrieve.handler",
+        "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
@@ -427,7 +427,7 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
-        "Handler": "byid.handler",
+        "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
@@ -458,7 +458,7 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
-        "Handler": "create.handler",
+        "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
@@ -489,7 +489,7 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
-        "Handler": "retrieve.handler",
+        "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
@@ -520,7 +520,7 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
-        "Handler": "retrieve.handler",
+        "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
@@ -551,7 +551,7 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
-        "Handler": "byid.handler",
+        "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
@@ -582,7 +582,7 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
-        "Handler": "create.handler",
+        "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
@@ -613,7 +613,7 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
-        "Handler": "update.handler",
+        "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
@@ -644,7 +644,7 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
-        "Handler": "retrieve.handler",
+        "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
