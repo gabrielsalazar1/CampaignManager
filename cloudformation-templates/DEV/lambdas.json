@@ -134,7 +134,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_emr_executer_process",
         "ReservedConcurrentExecutions" : 12,
         "VpcConfig" : {
@@ -165,7 +165,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_hook_df_listener",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -192,7 +192,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_s3_df_files_notifier_listener",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -219,7 +219,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_trigger_eplanning_input_process",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -246,7 +246,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_trigger_eplanning_output_process",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -273,7 +273,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_trigger_indicators_trigger",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -300,7 +300,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_sb_sync_process",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -327,7 +327,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -354,7 +354,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_scenarios_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -381,7 +381,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_v1_catalogs_parameters_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -408,7 +408,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_v1_catalogs_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -435,7 +435,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_v1_configurations_levers_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -462,7 +462,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_v1_offers_byid",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -489,7 +489,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_v1_offers_create",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -516,7 +516,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_v1_offers_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -543,7 +543,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_v1_offers_update",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -570,7 +570,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_v1_products_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -597,7 +597,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_byid",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -624,7 +624,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_create",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -651,7 +651,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_update",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
@@ -678,7 +678,7 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "MONGO_URL":"$MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
         "FunctionName" : "BIGDATA_CM_DEV_version_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
