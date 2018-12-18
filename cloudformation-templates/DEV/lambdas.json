@@ -144,7 +144,7 @@
                       "lambda:invokeFunction"
                   ],
                   "Resource": [
-                      "arn:aws:s3:*"
+                      "arn:aws:s3:*",
                       "arn:aws:s3:::forecast-events-test/*",
                       "arn:aws:s3:::belc-bigdata-apps-shared-dev/*"
                   ]
