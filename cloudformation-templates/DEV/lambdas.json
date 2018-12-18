@@ -100,14 +100,12 @@
             "PolicyName": "bigdata_cm_dev_cognito_lambda_RolePolicy",
             "PolicyDocument": {
               "Version": "2012-10-17",
-              "Statement": [ 
+              "Statement": [
                 {
-                  "Action": [
-                      "cognito-idp:DescribeUserPoolClient"
-                  ],
+                  "Action": "cognito-idp:DescribeUserPoolClient",
                   "Resource": "arn:aws:cognito-idp:us-east-2:705522650906:userpool/us-east-2_xWXOjucyE",
                   "Effect": "Allow"
-                }, 
+                }
               ]
             }
           },
@@ -115,14 +113,12 @@
             "PolicyName": "bigdata_cm_dev_api_lambda_RolePolicy",
             "PolicyDocument": {
               "Version": "2012-10-17",
-              "Statement": [ 
+              "Statement": [
                 {
-                  "Action": [
-                      "lambda:invokeFunction"
-                  ],
+                  "Action": "lambda:invokeFunction",
                   "Resource": "arn:aws:apigateway:::*",
                   "Effect": "Allow"
-                }, 
+                },
               ]
             }
           },
