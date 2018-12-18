@@ -7,7 +7,8 @@
       "Type" : "AWS::EC2::Subnet::Id",
       "Default" : "subnet-0c548fcc39366053c",
       "AllowedValues" : ["subnet-0c548fcc39366053c", "subnet-a69ac8cc"],
-      "Description" : "Subnet to launch services in"},
+      "Description" : "Subnet to launch services in"
+    },
     "VPC" : {
       "Type" : "AWS::EC2::VPC::Id",
       "Default" : "vpc-05e755074841c4ea6",
@@ -18,7 +19,7 @@
       "Type" : "String",
       "Default" : "campaign-manager-lambdas",
       "AllowedValues" : ["campaign-manager-lambdas", "belc-bigdata-cm-data-qas"],
-      "Description" : "S3 Bucket where lambdas code is stored",
+      "Description" : "S3 Bucket where lambdas code is stored"
     },
     "ApiId": {
       "Description": "API Gateway App Id. E.g. 1yc6td9zjj",
