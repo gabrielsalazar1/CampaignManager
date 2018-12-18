@@ -74,7 +74,7 @@
             "PolicyName": "bigdata_cm_dev_logs_lambda_RolePolicy",
             "PolicyDocument": {
               "Version": "2012-10-17",
-              "Statement": [{ "Effect": "Allow", "Action": ["logs:*"], "Resource": "arn:aws:logs:*:*:*" }]
+              "Statement": [{ "Effect": "Allow", "Action": ["logs:*"], "Resource": "*" }]
             }
           },
           {
@@ -96,24 +96,25 @@
             }
           },
           {
-            "PolicyName": "bigdata_cm_dev_s3_lambda_RolePolicy",
+            "PolicyName": "bigdata_cm_dev_cognito_lambda_RolePolicy",
             "PolicyDocument": {
-                "Version": "2012-10-17",
-                "Statement": [ 
+              "Version": "2012-10-17",
+              "Statement": [ 
                 {
                   "Action": [
                       "cognito-idp:DescribeUserPoolClient"
                   ],
                   "Resource": "arn:aws:cognito-idp:us-east-2:705522650906:userpool/us-east-2_xWXOjucyE",
                   "Effect": "Allow"
-                },
-                {
-                  "Action": [
-                      "logs:*"
-                  ],
-                  "Effect": "Allow",
-                  "Resource": "*"
-                },
+                }, 
+              ]
+            }
+          },
+          {
+            "PolicyName": "bigdata_cm_dev_s3_lambda_RolePolicy",
+            "PolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [ 
                 {
                   "Effect": "Allow",
                   "Action": [
@@ -121,6 +122,17 @@
                       "s3:GetObject"
                   ],
                   "Resource": [
+                      "arn:aws:s3:::forecast-events-test/*",
+                      "arn:aws:s3:::belc-bigdata-apps-shared-dev/*"
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                      "lambda:invokeFunction"
+                  ],
+                  "Resource": [
+                      "arn:aws:s3:*"
                       "arn:aws:s3:::forecast-events-test/*",
                       "arn:aws:s3:::belc-bigdata-apps-shared-dev/*"
                   ]
