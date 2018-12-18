@@ -111,14 +111,14 @@
           },
           {
             "PolicyName": "bigdata_cm_dev_api_lambda_RolePolicy",
-            "PolicyDocument": {
+            "PolicyDocument" : {
               "Version": "2012-10-17",
               "Statement": [
                 {
                   "Action": "lambda:invokeFunction",
                   "Resource": "arn:aws:apigateway:::*",
                   "Effect": "Allow"
-                },
+                }
               ]
             }
           },
@@ -126,7 +126,7 @@
             "PolicyName": "bigdata_cm_dev_s3_lambda_RolePolicy",
             "PolicyDocument": {
                 "Version": "2012-10-17",
-                "Statement": [ 
+                "Statement": [
                 {
                   "Effect": "Allow",
                   "Action": [
