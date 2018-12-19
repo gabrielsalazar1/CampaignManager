@@ -115,8 +115,8 @@
               "Version": "2012-10-17",
               "Statement": [
                 {
-                  "Action": "lambda:invokeFunction",
-                  "Resource": "arn:aws:apigateway:::*",
+                  "Action": "lambda:InvokeFunction",
+                  "Resource": "*",
                   "Effect": "Allow"
                 }
               ]
