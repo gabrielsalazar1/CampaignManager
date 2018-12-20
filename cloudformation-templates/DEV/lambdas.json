@@ -31,7 +31,8 @@
       "Description": "Belcorp's MongoDB user",
       "Type": "String",
       "Default": ""
-    },
+    }
+  },
 
   "Conditions": {
     "ApiGatewayDeployed": {"Fn::Not": [{"Fn::Equals": ["", {"Ref": "ApiId"}]}]}
