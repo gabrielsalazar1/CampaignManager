@@ -53,6 +53,7 @@
         }]
       }
     },
+
     "LambdaExecutionRole" : {
       "Type" : "AWS::IAM::Role",
       "Properties" : {
@@ -117,12 +118,7 @@
                 {
                   "Effect": "Allow",
                   "Action": "lambda:InvokeFunction",
-                  "Resource": "*"
-                },
-                {
-                  "Effect": "Allow",
-                  "Action": "lambda:InvokeFunction",
-                  "Resource": "arn:aws:apigateway:us-east-1::*"
+                  "Resource": [ "*","arn:aws:apigateway:us-east-1::*" ]
                 },
                 {
                   "Sid": "InvokePermission1",
@@ -132,12 +128,6 @@
                     "sts:AssumeRole"
                   ],
                   "Resource": "arn:aws:apigateway:us-east-1::*"
-                },
-                {
-                  "Sid": "InvokePermission2",
-                  "Effect": "Allow",
-                  "Action": "lambda:InvokeFunction",
-                  "Resource": "*"
                 }
               ]
             }
@@ -174,7 +164,7 @@
                 }
               ]
             }
-          } 
+          }
         ]
       }
     },
@@ -184,22 +174,20 @@
       "Properties": {
         "PolicyName": "bigdata_cm_dev_lambda_ExecutionPolicy",
         "Roles": [
-            {"Ref": "LambdaExecutionRole"}
+            { "Ref": "LambdaExecutionRole" }
         ],
         "PolicyDocument": {
           "Version": "2012-10-17",
           "Statement": [
             {
               "Effect": "Allow",
-              "Action": ["logs:*"],
-              "Resource": ["arn:aws:logs:*:*:*"]
+              "Action": [ "logs:*" ],
+              "Resource": [ "arn:aws:logs:*:*:*" ]
             },
             {
               "Effect": "Allow",
-              "Action": [
-                "ec2:*"
-              ],
-              "Resource": ["*"]
+              "Action": [ "ec2:*" ],
+              "Resource": [ "*" ]
             }
           ]
         }
