@@ -125,7 +125,7 @@
                   "Resource": "arn:aws:apigateway:us-east-1::*"
                 },
                 {
-                  "Sid": "InvokePermission",
+                  "Sid": "InvokePermission1",
                   "Effect": "Allow",
                   "Action": [ 
                     "lambda:InvokeFunction",
@@ -134,7 +134,7 @@
                   "Resource": "arn:aws:apigateway:us-east-1::*"
                 },
                 {
-                  "Sid": "InvokePermission",
+                  "Sid": "InvokePermission2",
                   "Effect": "Allow",
                   "Action": "lambda:InvokeFunction",
                   "Resource": "*"
