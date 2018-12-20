@@ -111,7 +111,7 @@
             }
           },
           {
-            "PolicyName": "bigdata_cm_dev_api_lambda_RolePolicy",
+            "PolicyName": "bigdata_cm_dev_full_lambda_RolePolicy",
             "PolicyDocument" : {
               "Version": "2012-10-17",
               "Statement": [
@@ -174,7 +174,7 @@
                       "Resource": "*"
                   }
               ]
-          }
+            }
           },
           {
             "PolicyName": "bigdata_cm_dev_api_lambda_RolePolicy",
