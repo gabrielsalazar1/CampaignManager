@@ -27,27 +27,11 @@
       "Default": ""
     },
 
-    "MongoDbUser": {
+    "MongoDbEndpoint": {
       "Description": "Belcorp's MongoDB user",
       "Type": "String",
       "Default": ""
     },
-    "MongoDbInstanceUser": {
-      "Description": "Belcorp's MongoDB instance user for SSH",
-      "Type": "String",
-      "Default": ""
-    },
-    "MongoDbInstanceIp": {
-      "Description": "Belcorp's MongoDB instance's IP",
-      "Type": "String",
-      "Default": ""
-    },
-    "DbName": {
-      "Description": "Belcorp's MongoDB DB name",
-      "Type": "String",
-      "Default": ""
-    }
-  },
 
   "Conditions": {
     "ApiGatewayDeployed": {"Fn::Not": [{"Fn::Equals": ["", {"Ref": "ApiId"}]}]}
@@ -673,29 +657,8 @@
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
-            "BELCORP_MONGO_URL": {
-              "Fn::Join": [
-                "", [
-                  "mongodb://",
-                  {
-                    "Ref": "MongoDbUser"
-                  },
-                  ":",
-                  {
-                    "Ref": "MongoDbInstanceUser"
-                  },
-                  "@",
-                  {
-                    "Ref": "MongoDbInstanceIp"
-                  },
-                  "/",
-                  {
-                    "Ref": "DbName"
-                  }
-                ]
-              ]
-            },
-            "BUCKET_URI":"$BUCKET_URI" 
+            "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
+            "BUCKET_URI": "$BUCKET_URI" 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_v1_offers_retrieve",
