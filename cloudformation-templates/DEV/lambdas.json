@@ -115,9 +115,17 @@
               "Version": "2012-10-17",
               "Statement": [
                 {
+                  "Effect": "Allow",
                   "Action": "lambda:InvokeFunction",
-                  "Resource": "*",
-                  "Effect": "Allow"
+                  "Resource": "*"
+                },
+                {
+                  "Sid": "",
+                  "Effect": "Allow",
+                  "Principal": {
+                    "Service": "apigateway.amazonaws.com"
+                  },
+                  "Action": "sts:AssumeRole"
                 }
               ]
             }
@@ -125,8 +133,8 @@
           {
             "PolicyName": "bigdata_cm_dev_s3_lambda_RolePolicy",
             "PolicyDocument": {
-                "Version": "2012-10-17",
-                "Statement": [
+              "Version": "2012-10-17",
+              "Statement": [
                 {
                   "Effect": "Allow",
                   "Action": [
