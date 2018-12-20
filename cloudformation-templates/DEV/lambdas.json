@@ -26,8 +26,24 @@
       "Type": "String",
       "Default": ""
     },
-    "BELCORP_MONGO_URL": {
-      "Description": "Belcorp's MongoDB endpoint",
+    
+    "MONGODB_USER": {
+      "Description": "Belcorp's MongoDB user",
+      "Type": "String",
+      "Default": ""
+    },
+    "MONGODB_INSTANCE_USER": {
+      "Description": "Belcorp's MongoDB instance user for SSH",
+      "Type": "String",
+      "Default": ""
+    },
+    "MONGODB_INSTANCE_IP": {
+      "Description": "Belcorp's MongoDB instance's IP",
+      "Type": "String",
+      "Default": ""
+    },
+    "DB_NAME": {
+      "Description": "Belcorp's MongoDB DB name",
       "Type": "String",
       "Default": ""
     }
@@ -657,7 +673,28 @@
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
-            "BELCORP_MONGO_URL": { "Ref": "BELCORP_MONGO_URL" },
+            "BELCORP_MONGO_URL": {
+              "Fn::Join": [
+                "", [
+                  "mongodb://",
+                  {
+                    "Ref": "MONGODB_USER"
+                  },
+                  ":",
+                  {
+                    "Ref": "MONGODB_INSTANCE_USER"
+                  },
+                  "@",
+                  {
+                    "Ref": "MONGODB_INSTANCE_IP"
+                  },
+                  "/",
+                  {
+                    "Ref": "DB_NAME"
+                  }
+                ]
+              ]
+            },
             "BUCKET_URI":"$BUCKET_URI" 
           } 
         },
