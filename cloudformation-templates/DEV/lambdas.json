@@ -125,12 +125,13 @@
                   "Resource": "arn:aws:apigateway:us-east-1::*"
                 },
                 {
-                  "Sid": "",
+                  "Sid": "InvokePermission",
                   "Effect": "Allow",
-                  "Principal": {
-                    "Service": "apigateway.amazonaws.com"
-                  },
-                  "Action": "sts:AssumeRole"
+                  "Action": [ 
+                    "lambda:InvokeFunction",
+                    "sts:AssumeRole"
+                  ],
+                  "Resource": "arn:aws:apigateway:us-east-1::*"
                 },
                 {
                   "Sid": "InvokePermission",
