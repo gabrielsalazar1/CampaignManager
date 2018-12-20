@@ -26,23 +26,23 @@
       "Type": "String",
       "Default": ""
     },
-    
-    "MONGODB_USER": {
+
+    "MONGODB-USER": {
       "Description": "Belcorp's MongoDB user",
       "Type": "String",
       "Default": ""
     },
-    "MONGODB_INSTANCE_USER": {
+    "MONGODB-INSTANCE-USER": {
       "Description": "Belcorp's MongoDB instance user for SSH",
       "Type": "String",
       "Default": ""
     },
-    "MONGODB_INSTANCE_IP": {
+    "MONGODB-INSTANCE-IP": {
       "Description": "Belcorp's MongoDB instance's IP",
       "Type": "String",
       "Default": ""
     },
-    "DB_NAME": {
+    "DB-NAME": {
       "Description": "Belcorp's MongoDB DB name",
       "Type": "String",
       "Default": ""
@@ -678,19 +678,19 @@
                 "", [
                   "mongodb://",
                   {
-                    "Ref": "MONGODB_USER"
+                    "Ref": "MONGODB-USER"
                   },
                   ":",
                   {
-                    "Ref": "MONGODB_INSTANCE_USER"
+                    "Ref": "MONGODB-INSTANCE-USER"
                   },
                   "@",
                   {
-                    "Ref": "MONGODB_INSTANCE_IP"
+                    "Ref": "MONGODB-INSTANCE-IP"
                   },
                   "/",
                   {
-                    "Ref": "DB_NAME"
+                    "Ref": "DB-NAME"
                   }
                 ]
               ]
