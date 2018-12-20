@@ -25,6 +25,11 @@
       "Description": "API Gateway App Id. E.g. 1yc6td9zjj",
       "Type": "String",
       "Default": ""
+    },
+    "BELCORP_MONGO_URL": {
+      "Description": "Belcorp's MongoDB endpoint",
+      "Type": "String",
+      "Default": ""
     }
   },
 
@@ -650,7 +655,12 @@
       ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { "Variables" : { "BELCORP_MONGO_URL":"$BELCORP_MONGO_URL", "BUCKET_URI":"$BUCKET_URI" } },
+        "Environment" : { 
+          "Variables" : { 
+            "BELCORP_MONGO_URL": { "Ref": "BELCORP_MONGO_URL" },
+            "BUCKET_URI":"$BUCKET_URI" 
+          } 
+        },
         "FunctionName" : "BIGDATA_CM_DEV_v1_offers_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
