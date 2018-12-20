@@ -131,6 +131,12 @@
                     "Service": "apigateway.amazonaws.com"
                   },
                   "Action": "sts:AssumeRole"
+                },
+                {
+                  "Sid": "InvokePermission",
+                  "Effect": "Allow",
+                  "Action": "lambda:InvokeFunction",
+                  "Resource": "*"
                 }
               ]
             }
@@ -153,9 +159,7 @@
                 },
                 {
                   "Effect": "Allow",
-                  "Action": [
-                      "lambda:invokeFunction"
-                  ],
+                  "Action": "lambda:invokeFunction",
                   "Resource": [
                       "arn:aws:s3:::forecast-events-test/*",
                       "arn:aws:s3:::belc-bigdata-apps-shared-dev/*"
@@ -164,9 +168,7 @@
                 {
                   "Sid": "InvokePermission",
                   "Effect": "Allow",
-                  "Action": [
-                      "lambda:InvokeFunction"
-                  ],
+                  "Action": "lambda:InvokeFunction",
                   "Resource": "*"
                 }
               ]
