@@ -120,6 +120,11 @@
                   "Resource": "*"
                 },
                 {
+                  "Effect": "Allow",
+                  "Action": "lambda:InvokeFunction",
+                  "Resource": "arn:aws:apigateway:us-east-1::*"
+                },
+                {
                   "Sid": "",
                   "Effect": "Allow",
                   "Principal": {
