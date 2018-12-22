@@ -31,6 +31,21 @@
       "Description": "Belcorp's MongoDB user",
       "Type": "String",
       "Default": ""
+    },
+    "EnvVarUno": {
+      "Description": "Variable de entorno Uno",
+      "Type": "String",
+      "Default": ""
+    },
+    "EnvVarDos": {
+      "Description": "Variable de entorno Dos",
+      "Type": "String",
+      "Default": ""
+    },
+    "EnvVarTres": {
+      "Description": "Variable de entorno Tres",
+      "Type": "String",
+      "Default": ""
     }
   },
 
@@ -277,7 +292,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_emr_executer_process",
@@ -313,7 +330,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_hook_df_listener",
@@ -345,7 +364,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_s3_df_files_notifier_listener",
@@ -377,7 +398,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_trigger_eplanning_input_process",
@@ -409,7 +432,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_trigger_eplanning_output_process",
@@ -441,7 +466,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_trigger_indicators_trigger",
@@ -473,7 +500,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_trigger_sb_sync_process",
@@ -505,7 +534,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_retrieve",
@@ -537,7 +568,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_scenarios_retrieve",
@@ -569,7 +602,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_v1_catalogs_parameters_retrieve",
@@ -601,7 +636,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_v1_catalogs_retrieve",
@@ -633,7 +670,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_v1_configurations_levers_retrieve",
@@ -665,7 +704,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_v1_offers_byid",
@@ -697,7 +738,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_v1_offers_create",
@@ -729,7 +772,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_v1_offers_retrieve",
@@ -761,7 +806,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_v1_offers_update",
@@ -793,7 +840,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_v1_products_retrieve",
@@ -825,7 +874,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_byid",
@@ -857,7 +908,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_create",
@@ -889,7 +942,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_update",
@@ -921,7 +976,9 @@
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_DEV_version_retrieve",
