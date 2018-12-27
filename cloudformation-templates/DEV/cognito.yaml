@@ -7,23 +7,36 @@ Parameters:
 
 Resources:
   # Creates a user pool in cognito for your app to auth against
-  # This example requires MFA and validates the phone number to use as MFA
+  # This one requires MFA and validates the phone number to use as MFA
   # Other fields can be added to the schema
   UserPool:
-    Type: "AWS::Cognito::UserPool"
+    Type: AWS::Cognito::UserPool
     Properties:
       UserPoolName: !Sub ${AuthName}-user-pool
+
+      AliasAttributes: [ preferred_username ]
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: true
+
       AutoVerifiedAttributes:
         - phone_number
-      MfaConfiguration: "ON"
+        # - email
+      MfaConfiguration: "OFF"
       SmsConfiguration:
         ExternalId: !Sub ${AuthName}-external
         SnsCallerArn: !GetAtt SNSRole.Arn
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireSymbols: true
+          RequireUppercase: true
       Schema:
         - Name: name
           AttributeDataType: String
           Mutable: true
-          Required: true
+          Required: false
         - Name: email
           AttributeDataType: String
           Mutable: false
@@ -31,10 +44,10 @@ Resources:
         - Name: phone_number
           AttributeDataType: String
           Mutable: false
-          Required: true
-        - Name: slackId
-          AttributeDataType: String
-          Mutable: true
+          Required: false
+        # - Name: slack_id
+        #   AttributeDataType: String
+        #   Mutable: true
   
   # Creates a User Pool Client to be used by the identity pool
   UserPoolClient:
@@ -42,6 +55,7 @@ Resources:
     Properties:
       ClientName: !Sub ${AuthName}-client
       GenerateSecret: false
+      RefreshTokenValidity: 7
       UserPoolId: !Ref UserPool
   
   # Creates a federeated Identity pool
@@ -82,7 +96,7 @@ Resources:
                   - "cognito-sync:*"
                 Resource: "*"
 
-  # Create a role for authorized acces to AWS resources. Control what your user can access. This example only allows Lambda invokation
+  # Create a role for authorized acces to AWS resources. Control what your user can access. This file only allows Lambda invocation
   # Only allows users in the previously created Identity Pool
   CognitoAuthorizedRole:
     Type: "AWS::IAM::Role"
