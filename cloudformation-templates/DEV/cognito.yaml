@@ -72,6 +72,7 @@ Resources:
   CognitoUnAuthorizedRole:
     Type: "AWS::IAM::Role"
     Properties:
+      RoleName : bigdata_cm_dev_CognitoUnAuthorizedRole
       AssumeRolePolicyDocument: 
         Version: "2012-10-17"
         Statement:
@@ -86,7 +87,7 @@ Resources:
               "ForAnyValue:StringLike":
                 "cognito-identity.amazonaws.com:amr": unauthenticated
       Policies:
-        - PolicyName: "CognitoUnauthorizedPolicy"
+        - PolicyName: "bigdata_cm_dev_CognitoUnauthorizedPolicy"
           PolicyDocument: 
             Version: "2012-10-17"
             Statement: 
@@ -101,6 +102,7 @@ Resources:
   CognitoAuthorizedRole:
     Type: "AWS::IAM::Role"
     Properties:
+      RoleName : bigdata_cm_dev_CognitoAuthorizedRole
       AssumeRolePolicyDocument: 
         Version: "2012-10-17"
         Statement:
@@ -115,7 +117,7 @@ Resources:
               "ForAnyValue:StringLike":
                 "cognito-identity.amazonaws.com:amr": authenticated
       Policies:
-        - PolicyName: "CognitoAuthorizedPolicy"
+        - PolicyName: "bigdata_cm_dev_CognitoAuthorizedPolicy"
           PolicyDocument: 
             Version: "2012-10-17"
             Statement: 
@@ -143,6 +145,7 @@ Resources:
   SNSRole:
     Type: "AWS::IAM::Role"
     Properties:
+      RoleName : bigdata_cm_dev_SNSRole
       AssumeRolePolicyDocument: 
         Version: "2012-10-17"
         Statement:
@@ -153,7 +156,7 @@ Resources:
             Action: 
               - "sts:AssumeRole"
       Policies:
-        - PolicyName: "CognitoSNSPolicy"
+        - PolicyName: "bigdata_cm_dev_CognitoSNSPolicy"
           PolicyDocument: 
             Version: "2012-10-17"
             Statement: 
