@@ -92,14 +92,7 @@
           ]
         },
         "Path" : "/",
-        "Policies" : [ 
-          {
-            "PolicyName": "bigdata_cm_dev_logs_lambda_RolePolicy",
-            "PolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [{ "Effect": "Allow", "Action": ["logs:*"], "Resource": "*" }]
-            }
-          },
+        "Policies" : [
           {
             "PolicyName": "bigdata_cm_dev_network_lambda_RolePolicy",
             "PolicyDocument": {
@@ -119,6 +112,13 @@
             }
           },
           {
+            "PolicyName": "bigdata_cm_dev_logs_lambda_RolePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [{ "Effect": "Allow", "Action": ["logs:*"], "Resource": "*" }]
+            }
+          },
+          {
             "PolicyName": "bigdata_cm_dev_cognito_lambda_RolePolicy",
             "PolicyDocument": {
               "Version": "2012-10-17",
@@ -127,6 +127,53 @@
                   "Action": "cognito-idp:DescribeUserPoolClient",
                   "Resource": "arn:aws:cognito-idp:us-east-2:705522650906:userpool/us-east-2_xWXOjucyE",
                   "Effect": "Allow"
+                }
+              ]
+            }
+          },
+          {
+            "PolicyName": "bigdata_cm_dev_api_lambda_RolePolicy",
+            "PolicyDocument" : {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": "lambda:InvokeFunction",
+                  "Resource": [ "*","arn:aws:apigateway:us-east-1::*" ]
+                },
+                {
+                  "Sid": "InvokePermission1",
+                  "Effect": "Allow",
+                  "Action": [ 
+                    "lambda:InvokeFunction",
+                    "sts:AssumeRole"
+                  ],
+                  "Resource": "arn:aws:apigateway:us-east-1::*"
+                }
+              ]
+            }
+          },
+          {
+            "PolicyName": "bigdata_cm_dev_s3_lambda_RolePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:PutObject",
+                    "s3:GetObject"
+                  ],
+                  "Resource": [
+                    "arn:aws:s3:::forecast-events-test/*",
+                    "arn:aws:s3:::belc-bigdata-apps-shared-dev/*"
+                  ]
+                },
+                {
+                  "Sid": "InvokePermission",
+                  "Effect": "Allow",
+                  "Action": "lambda:InvokeFunction",
+                  "Resource": "*"
                 }
               ]
             }
@@ -179,7 +226,6 @@
                           "kms:ListAliases",
                           "lambda:*",
                           "logs:*",
-                          "s3:*",
                           "sns:ListSubscriptions",
                           "sns:ListSubscriptionsByTopic",
                           "sns:ListTopics",
@@ -197,61 +243,6 @@
               ]
             }
           },
-          {
-            "PolicyName": "bigdata_cm_dev_api_lambda_RolePolicy",
-            "PolicyDocument" : {
-              "Version": "2012-10-17",
-              "Statement": [
-                {
-                  "Effect": "Allow",
-                  "Action": "lambda:InvokeFunction",
-                  "Resource": [ "*","arn:aws:apigateway:us-east-1::*" ]
-                },
-                {
-                  "Sid": "InvokePermission1",
-                  "Effect": "Allow",
-                  "Action": [ 
-                    "lambda:InvokeFunction",
-                    "sts:AssumeRole"
-                  ],
-                  "Resource": "arn:aws:apigateway:us-east-1::*"
-                }
-              ]
-            }
-          },
-          {
-            "PolicyName": "bigdata_cm_dev_s3_lambda_RolePolicy",
-            "PolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                      "s3:PutObject",
-                      "s3:GetObject"
-                  ],
-                  "Resource": [
-                      "arn:aws:s3:::forecast-events-test/*",
-                      "arn:aws:s3:::belc-bigdata-apps-shared-dev/*"
-                  ]
-                },
-                {
-                  "Effect": "Allow",
-                  "Action": "lambda:invokeFunction",
-                  "Resource": [
-                      "arn:aws:s3:::forecast-events-test/*",
-                      "arn:aws:s3:::belc-bigdata-apps-shared-dev/*"
-                  ]
-                },
-                {
-                  "Sid": "InvokePermission",
-                  "Effect": "Allow",
-                  "Action": "lambda:InvokeFunction",
-                  "Resource": "*"
-                }
-              ]
-            }
-          }
         ]
       }
     },
