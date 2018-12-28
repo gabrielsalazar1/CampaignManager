@@ -223,10 +223,7 @@
 
     "LambdaEmrExecuterProcess" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -261,10 +258,7 @@
     },
     "LambdaHookDfListener" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -295,10 +289,7 @@
     },
     "LambdaS3DfFilesNotifierListener" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -329,10 +320,7 @@
     },
     "LambdaTriggerEplanningInputProcess" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -363,10 +351,7 @@
     },
     "LambdaTriggerEplanningOutputProcess" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -397,10 +382,7 @@
     },
     "LambdaTriggerIndicatorsTrigger" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -431,10 +413,7 @@
     },
     "LambdaTriggerSbSyncProcess" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -465,10 +444,7 @@
     },
     "LambdaV1CampaignsRetrieve": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -499,10 +475,7 @@
     },
     "LambdaV1CampaignsScenariosRetrieve": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -533,10 +506,7 @@
     },
     "LambdaV1CatalogsParametersRetrieve": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -567,10 +537,7 @@
     },
     "LambdaV1CatalogsRetrieve": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -601,10 +568,7 @@
     },
     "LambdaV1ConfigurationsLeversRetrieve": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -635,10 +599,7 @@
     },
     "LambdaV1OffersByid": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -669,10 +630,7 @@
     },
     "LambdaV1OffersCreate": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -703,10 +661,7 @@
     },
     "LambdaV1OffersRetrieve": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -737,10 +692,7 @@
     },
     "LambdaV1OffersUpdate": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -771,10 +723,7 @@
     },
     "LambdaV1ProductsRetrieve": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -805,10 +754,7 @@
     },
     "LambdaV1ResultsScenariosByid": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -839,10 +785,7 @@
     },
     "LambdaV1ResultsScenariosCreate": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -873,10 +816,7 @@
     },
     "LambdaV1ResultsScenariosUpdate": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -907,10 +847,7 @@
     },
     "LambdaVersionRetrieve": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
