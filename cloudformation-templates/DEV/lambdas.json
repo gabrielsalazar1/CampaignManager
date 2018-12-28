@@ -171,15 +171,6 @@
                   "Effect": "Allow",
                   "Action": "lambda:InvokeFunction",
                   "Resource": "*"
-                },
-                {
-                  "Sid": "DenyAllExceptForecastEventsTestBucket",
-                  "Effect": "Deny",
-                  "NotPrincipal": {
-                        "AWS": "arn:aws:s3:::forecast-events-test/*"
-                  },
-                  "Action": "lambda:InvokeFunction",
-                  "Resource": "*"
                 }
               ]
             }
