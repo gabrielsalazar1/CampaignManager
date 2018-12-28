@@ -31,10 +31,25 @@
       "Description": "Belcorp's MongoDB user",
       "Type": "String",
       "Default": ""
+    },
+    "EnvVarUno": {
+      "Description": "Variable de entorno Uno",
+      "Type": "String",
+      "Default": ""
+    },
+    "EnvVarDos": {
+      "Description": "Variable de entorno Dos",
+      "Type": "String",
+      "Default": ""
+    },
+    "EnvVarTres": {
+      "Description": "Variable de entorno Tres",
+      "Type": "String",
+      "Default": ""
     }
   },
 
-  "Conditions": {
+ "Conditions": {
     "ApiGatewayDeployed": {"Fn::Not": [{"Fn::Equals": ["", {"Ref": "ApiId"}]}]}
   },
 
@@ -77,14 +92,7 @@
           ]
         },
         "Path" : "/",
-        "Policies" : [ 
-          {
-            "PolicyName": "bigdata_cm_qas_logs_lambda_RolePolicy",
-            "PolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [{ "Effect": "Allow", "Action": ["logs:*"], "Resource": "*" }]
-            }
-          },
+        "Policies" : [
           {
             "PolicyName": "bigdata_cm_qas_network_lambda_RolePolicy",
             "PolicyDocument": {
@@ -98,6 +106,9 @@
                   "ec2:AttachNetworkInterface",
                   "ec2:DescribeNetworkInterfaces",
                   "ec2:DeleteNetworkInterface",
+                  "ec2:DescribeSecurityGroups",
+                  "ec2:DescribeSubnets",
+                  "ec2:DescribeVpcs",
                   "autoscaling:CompleteLifecycleAction"
                 ]
               }]
@@ -117,69 +128,10 @@
             }
           },
           {
-            "PolicyName": "bigdata_cm_qas_full_lambda_RolePolicy",
-            "PolicyDocument" : {
+            "PolicyName": "bigdata_cm_qas_logs_lambda_RolePolicy",
+            "PolicyDocument": {
               "Version": "2012-10-17",
-              "Statement": [
-                  {
-                      "Effect": "Allow",
-                      "Action": [
-                          "cloudformation:DescribeChangeSet",
-                          "cloudformation:DescribeStackResources",
-                          "cloudformation:DescribeStacks",
-                          "cloudformation:GetTemplate",
-                          "cloudformation:ListStackResources",
-                          "cloudwatch:*",
-                          "cognito-identity:ListIdentityPools",
-                          "cognito-sync:GetCognitoEvents",
-                          "cognito-sync:SetCognitoEvents",
-                          "dynamodb:*",
-                          "ec2:DescribeSecurityGroups",
-                          "ec2:DescribeSubnets",
-                          "ec2:DescribeVpcs",
-                          "events:*",
-                          "iam:GetPolicy",
-                          "iam:GetPolicyVersion",
-                          "iam:GetRole",
-                          "iam:GetRolePolicy",
-                          "iam:ListAttachedRolePolicies",
-                          "iam:ListRolePolicies",
-                          "iam:ListRoles",
-                          "iam:PassRole",
-                          "iot:AttachPrincipalPolicy",
-                          "iot:AttachThingPrincipal",
-                          "iot:CreateKeysAndCertificate",
-                          "iot:CreatePolicy",
-                          "iot:CreateThing",
-                          "iot:CreateTopicRule",
-                          "iot:DescribeEndpoint",
-                          "iot:GetTopicRule",
-                          "iot:ListPolicies",
-                          "iot:ListThings",
-                          "iot:ListTopicRules",
-                          "iot:ReplaceTopicRule",
-                          "kinesis:DescribeStream",
-                          "kinesis:ListStreams",
-                          "kinesis:PutRecord",
-                          "kms:ListAliases",
-                          "lambda:*",
-                          "logs:*",
-                          "s3:*",
-                          "sns:ListSubscriptions",
-                          "sns:ListSubscriptionsByTopic",
-                          "sns:ListTopics",
-                          "sns:Publish",
-                          "sns:Subscribe",
-                          "sns:Unsubscribe",
-                          "sqs:ListQueues",
-                          "sqs:SendMessage",
-                          "tag:GetResources",
-                          "xray:PutTelemetryRecords",
-                          "xray:PutTraceSegments"
-                      ],
-                      "Resource": "*"
-                  }
-              ]
+              "Statement": [{ "Effect": "Allow", "Action": ["logs:*", "cloudwatch:*"], "Resource": "*" }]
             }
           },
           {
@@ -189,17 +141,11 @@
               "Statement": [
                 {
                   "Effect": "Allow",
-                  "Action": "lambda:InvokeFunction",
-                  "Resource": [ "*","arn:aws:apigateway:us-east-1::*" ]
-                },
-                {
-                  "Sid": "InvokePermission1",
-                  "Effect": "Allow",
                   "Action": [ 
                     "lambda:InvokeFunction",
                     "sts:AssumeRole"
                   ],
-                  "Resource": "arn:aws:apigateway:us-east-1::*"
+                  "Resource": [ "*","arn:aws:apigateway:us-east-1::*" ]
                 }
               ]
             }
@@ -212,26 +158,60 @@
                 {
                   "Effect": "Allow",
                   "Action": [
-                      "s3:PutObject",
-                      "s3:GetObject"
+                    "s3:PutObject",
+                    "s3:GetObject"
                   ],
                   "Resource": [
-                      "arn:aws:s3:::forecast-events-test/*",
-                      "arn:aws:s3:::belc-bigdata-apps-shared-dev/*"
+                    "arn:aws:s3:::forecast-events-test/*",
+                    "arn:aws:s3:::belc-bigdata-apps-shared-dev/*"
                   ]
                 },
                 {
-                  "Effect": "Allow",
-                  "Action": "lambda:invokeFunction",
-                  "Resource": [
-                      "arn:aws:s3:::forecast-events-test/*",
-                      "arn:aws:s3:::belc-bigdata-apps-shared-dev/*"
-                  ]
-                },
-                {
-                  "Sid": "InvokePermission",
                   "Effect": "Allow",
                   "Action": "lambda:InvokeFunction",
+                  "Resource": "*"
+                }
+              ]
+            }
+          },
+          {
+            "PolicyName": "bigdata_cm_qas_full_lambda_RolePolicy",
+            "PolicyDocument" : {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "cloudformation:DescribeChangeSet",
+                    "cloudformation:DescribeStackResources",
+                    "cloudformation:DescribeStacks",
+                    "cloudformation:GetTemplate",
+                    "cloudformation:ListStackResources",
+                    "cognito-identity:ListIdentityPools",
+                    "cognito-sync:GetCognitoEvents",
+                    "cognito-sync:SetCognitoEvents",
+                    "events:*",
+                    "iam:GetPolicy",
+                    "iam:GetPolicyVersion",
+                    "iam:GetRole",
+                    "iam:GetRolePolicy",
+                    "iam:ListAttachedRolePolicies",
+                    "iam:ListRolePolicies",
+                    "iam:ListRoles",
+                    "iam:PassRole",
+                    "lambda:*",
+                    "sns:ListSubscriptions",
+                    "sns:ListSubscriptionsByTopic",
+                    "sns:ListTopics",
+                    "sns:Publish",
+                    "sns:Subscribe",
+                    "sns:Unsubscribe",
+                    "sqs:ListQueues",
+                    "sqs:SendMessage",
+                    "tag:GetResources",
+                    "xray:PutTelemetryRecords",
+                    "xray:PutTraceSegments"
+                  ],
                   "Resource": "*"
                 }
               ]
@@ -240,44 +220,18 @@
         ]
       }
     },
-    "LambdaExecutionPolicy" : {
-      "DependsOn": [ "LambdaExecutionRole" ],
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyName": "bigdata_cm_qas_lambda_ExecutionPolicy",
-        "Roles": [
-            { "Ref": "LambdaExecutionRole" }
-        ],
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Action": [ "logs:*" ],
-              "Resource": [ "arn:aws:logs:*:*:*" ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": [ "ec2:*" ],
-              "Resource": [ "*" ]
-            }
-          ]
-        }
-      }
-    },
 
     "LambdaEmrExecuterProcess" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_emr_executer_process",
@@ -304,16 +258,15 @@
     },
     "LambdaHookDfListener" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_hook_df_listener",
@@ -336,16 +289,15 @@
     },
     "LambdaS3DfFilesNotifierListener" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_s3_df_files_notifier_listener",
@@ -368,16 +320,15 @@
     },
     "LambdaTriggerEplanningInputProcess" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_trigger_eplanning_input_process",
@@ -400,16 +351,15 @@
     },
     "LambdaTriggerEplanningOutputProcess" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_trigger_eplanning_output_process",
@@ -432,16 +382,15 @@
     },
     "LambdaTriggerIndicatorsTrigger" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_trigger_indicators_trigger",
@@ -464,16 +413,15 @@
     },
     "LambdaTriggerSbSyncProcess" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_trigger_sb_sync_process",
@@ -496,16 +444,15 @@
     },
     "LambdaV1CampaignsRetrieve": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_v1_campaigns_retrieve",
@@ -528,16 +475,15 @@
     },
     "LambdaV1CampaignsScenariosRetrieve": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_v1_campaigns_scenarios_retrieve",
@@ -560,16 +506,15 @@
     },
     "LambdaV1CatalogsParametersRetrieve": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_v1_catalogs_parameters_retrieve",
@@ -592,16 +537,15 @@
     },
     "LambdaV1CatalogsRetrieve": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_v1_catalogs_retrieve",
@@ -624,16 +568,15 @@
     },
     "LambdaV1ConfigurationsLeversRetrieve": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_v1_configurations_levers_retrieve",
@@ -656,16 +599,15 @@
     },
     "LambdaV1OffersByid": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_v1_offers_byid",
@@ -688,16 +630,15 @@
     },
     "LambdaV1OffersCreate": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_v1_offers_create",
@@ -720,16 +661,15 @@
     },
     "LambdaV1OffersRetrieve": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_v1_offers_retrieve",
@@ -752,16 +692,15 @@
     },
     "LambdaV1OffersUpdate": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_v1_offers_update",
@@ -784,16 +723,15 @@
     },
     "LambdaV1ProductsRetrieve": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_v1_products_retrieve",
@@ -816,16 +754,15 @@
     },
     "LambdaV1ResultsScenariosByid": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_v1_results_scenarios_byid",
@@ -848,16 +785,15 @@
     },
     "LambdaV1ResultsScenariosCreate": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_v1_results_scenarios_create",
@@ -880,16 +816,15 @@
     },
     "LambdaV1ResultsScenariosUpdate": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_v1_results_scenarios_update",
@@ -912,16 +847,15 @@
     },
     "LambdaVersionRetrieve": {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [
-        "LambdaExecutionRole",
-        "LambdaExecutionPolicy"
-      ],
+      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "BUCKET_URI": "$BUCKET_URI" 
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
         "FunctionName" : "BIGDATA_CM_QAS_version_retrieve",
