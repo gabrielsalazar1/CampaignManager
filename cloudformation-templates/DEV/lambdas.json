@@ -106,16 +106,12 @@
                   "ec2:AttachNetworkInterface",
                   "ec2:DescribeNetworkInterfaces",
                   "ec2:DeleteNetworkInterface",
+                  "ec2:DescribeSecurityGroups",
+                  "ec2:DescribeSubnets",
+                  "ec2:DescribeVpcs",
                   "autoscaling:CompleteLifecycleAction"
                 ]
               }]
-            }
-          },
-          {
-            "PolicyName": "bigdata_cm_dev_logs_lambda_RolePolicy",
-            "PolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [{ "Effect": "Allow", "Action": ["logs:*", "cloudwatch:*"], "Resource": "*" }]
             }
           },
           {
@@ -132,23 +128,24 @@
             }
           },
           {
+            "PolicyName": "bigdata_cm_dev_logs_lambda_RolePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [{ "Effect": "Allow", "Action": ["logs:*", "cloudwatch:*"], "Resource": "*" }]
+            }
+          },
+          {
             "PolicyName": "bigdata_cm_dev_api_lambda_RolePolicy",
             "PolicyDocument" : {
               "Version": "2012-10-17",
               "Statement": [
                 {
                   "Effect": "Allow",
-                  "Action": "lambda:InvokeFunction",
-                  "Resource": [ "*","arn:aws:apigateway:us-east-1::*" ]
-                },
-                {
-                  "Sid": "InvokePermission1",
-                  "Effect": "Allow",
                   "Action": [ 
                     "lambda:InvokeFunction",
                     "sts:AssumeRole"
                   ],
-                  "Resource": "arn:aws:apigateway:us-east-1::*"
+                  "Resource": [ "*","arn:aws:apigateway:us-east-1::*" ]
                 }
               ]
             }
@@ -170,7 +167,6 @@
                   ]
                 },
                 {
-                  "Sid": "InvokePermission",
                   "Effect": "Allow",
                   "Action": "lambda:InvokeFunction",
                   "Resource": "*"
@@ -194,10 +190,6 @@
                     "cognito-identity:ListIdentityPools",
                     "cognito-sync:GetCognitoEvents",
                     "cognito-sync:SetCognitoEvents",
-                    "dynamodb:*",
-                    "ec2:DescribeSecurityGroups",
-                    "ec2:DescribeSubnets",
-                    "ec2:DescribeVpcs",
                     "events:*",
                     "iam:GetPolicy",
                     "iam:GetPolicyVersion",
@@ -207,10 +199,6 @@
                     "iam:ListRolePolicies",
                     "iam:ListRoles",
                     "iam:PassRole",
-                    "kinesis:DescribeStream",
-                    "kinesis:ListStreams",
-                    "kinesis:PutRecord",
-                    "kms:ListAliases",
                     "lambda:*",
                     "sns:ListSubscriptions",
                     "sns:ListSubscriptionsByTopic",
@@ -230,31 +218,6 @@
             }
           },
         ]
-      }
-    },
-    "LambdaExecutionPolicy" : {
-      "DependsOn": [ "LambdaExecutionRole" ],
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyName": "bigdata_cm_dev_lambda_ExecutionPolicy",
-        "Roles": [
-            { "Ref": "LambdaExecutionRole" }
-        ],
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Action": [ "logs:*" ],
-              "Resource": [ "arn:aws:logs:*:*:*" ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": [ "ec2:*" ],
-              "Resource": [ "*" ]
-            }
-          ]
-        }
       }
     },
 
