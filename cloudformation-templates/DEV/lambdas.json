@@ -85,9 +85,13 @@
             {
               "Effect": "Allow",
               "Principal": {
-                "Service": ["lambda.amazonaws.com", "apigateway.amazonaws.com"]
+                "Service": [
+                  "lambda.amazonaws.com", 
+                  "apigateway.amazonaws.com",
+                  "s3.amazonaws.com"
+                ]
               },
-              "Action": ["sts:AssumeRole"]
+              "Action": [ "sts:AssumeRole" ]
             }
           ]
         },
@@ -141,11 +145,8 @@
               "Statement": [
                 {
                   "Effect": "Allow",
-                  "Action": [ 
-                    "lambda:InvokeFunction",
-                    "sts:AssumeRole"
-                  ],
-                  "Resource": [ "*","arn:aws:apigateway:us-east-1::*" ]
+                  "Action": "lambda:InvokeFunction",
+                  "Resource": "arn:aws:apigateway:us-east-1::*"
                 }
               ]
             }
