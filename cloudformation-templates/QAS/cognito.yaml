@@ -12,7 +12,7 @@ Resources:
   UserPool:
     Type: AWS::Cognito::UserPool
     Properties:
-      UserPoolName: BIGDATA_USERPOOL_CM_DEV
+      UserPoolName: BIGDATA_USERPOOL_CM_QAS
 
       AliasAttributes: [ preferred_username ]
       AdminCreateUserConfig:
@@ -23,7 +23,7 @@ Resources:
         # - email
       MfaConfiguration: "OFF"
       SmsConfiguration:
-        ExternalId: bigdata_cm_dev_external
+        ExternalId: bigdata_cm_qas_external
         SnsCallerArn: !GetAtt SNSRole.Arn
       Policies:
         PasswordPolicy:
@@ -53,7 +53,7 @@ Resources:
   UserPoolClient:
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: bigdata_cm_dev_client
+      ClientName: bigdata_cm_qas_client
       GenerateSecret: false
       RefreshTokenValidity: 7
       UserPoolId: !Ref UserPool
@@ -62,7 +62,7 @@ Resources:
   IdentityPool:
     Type: "AWS::Cognito::IdentityPool"
     Properties:
-      IdentityPoolName: BIGDATA_IDENTITYPOOL_CM_DEV
+      IdentityPoolName: BIGDATA_IDENTITYPOOL_CM_QAS
       AllowUnauthenticatedIdentities: true
       CognitoIdentityProviders: 
         - ClientId: !Ref UserPoolClient
@@ -72,7 +72,7 @@ Resources:
   CognitoUnAuthorizedRole:
     Type: "AWS::IAM::Role"
     Properties:
-      RoleName : bigdata_cm_dev_CognitoUnAuthorizedRole
+      RoleName : bigdata_cm_qas_CognitoUnAuthorizedRole
       AssumeRolePolicyDocument: 
         Version: "2012-10-17"
         Statement:
@@ -87,7 +87,7 @@ Resources:
               "ForAnyValue:StringLike":
                 "cognito-identity.amazonaws.com:amr": unauthenticated
       Policies:
-        - PolicyName: "bigdata_cm_dev_CognitoUnauthorizedPolicy"
+        - PolicyName: "bigdata_cm_qas_CognitoUnauthorizedPolicy"
           PolicyDocument: 
             Version: "2012-10-17"
             Statement: 
@@ -102,7 +102,7 @@ Resources:
   CognitoAuthorizedRole:
     Type: "AWS::IAM::Role"
     Properties:
-      RoleName : bigdata_cm_dev_CognitoAuthorizedRole
+      RoleName : bigdata_cm_qas_CognitoAuthorizedRole
       AssumeRolePolicyDocument: 
         Version: "2012-10-17"
         Statement:
@@ -117,7 +117,7 @@ Resources:
               "ForAnyValue:StringLike":
                 "cognito-identity.amazonaws.com:amr": authenticated
       Policies:
-        - PolicyName: "bigdata_cm_dev_CognitoAuthorizedPolicy"
+        - PolicyName: "bigdata_cm_qas_CognitoAuthorizedPolicy"
           PolicyDocument: 
             Version: "2012-10-17"
             Statement: 
@@ -145,7 +145,7 @@ Resources:
   SNSRole:
     Type: "AWS::IAM::Role"
     Properties:
-      RoleName : bigdata_cm_dev_SNSRole
+      RoleName : bigdata_cm_qas_SNSRole
       AssumeRolePolicyDocument: 
         Version: "2012-10-17"
         Statement:
@@ -156,7 +156,7 @@ Resources:
             Action: 
               - "sts:AssumeRole"
       Policies:
-        - PolicyName: "bigdata_cm_dev_CognitoSNSPolicy"
+        - PolicyName: "bigdata_cm_qas_CognitoSNSPolicy"
           PolicyDocument: 
             Version: "2012-10-17"
             Statement: 
