@@ -62,8 +62,8 @@
     "SecurityGroup" : {
       "Type" : "AWS::EC2::SecurityGroup",
       "Properties" : {
-        "GroupName" : "SG_BIGDATA_CM_LMB_DEV",
-        "GroupDescription" : "Allow HTTP traffic to the host",
+        "GroupName" : "SG_BIGDATA_CM_DEV_LAMBDAS_SG",
+        "GroupDescription" : "Allow traffic to the host",
         "VpcId" : {"Ref" : "VPC"},
         "SecurityGroupIngress" : [
           {
