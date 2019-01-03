@@ -32,7 +32,6 @@
       "Type": "String",
       "Default": ""
     },
-
     "MongoDbEndpoint": {
       "Description": "Belcorp's MongoDB user",
       "Type": "String",
@@ -66,18 +65,28 @@
         "GroupName" : "SG_BIGDATA_CM_LMB_DEV",
         "GroupDescription" : "Allow HTTP traffic to the host",
         "VpcId" : {"Ref" : "VPC"},
-        "SecurityGroupIngress" : [{
-          "IpProtocol" : "tcp",
-          "FromPort" : "80",
-          "ToPort" : "80",
-          "CidrIp" : "0.0.0.0/0"
-        }],
-        "SecurityGroupEgress" : [{
-          "IpProtocol" : "tcp",
-          "FromPort" : "80",
-          "ToPort" : "80",
-          "CidrIp" : "0.0.0.0/0"
-        }]
+        "SecurityGroupIngress" : [
+          {
+            "IpProtocol" : "tcp",
+            "FromPort" : "22",
+            "ToPort" : "22",
+            "CidrIp" : "0.0.0.0/0"
+          },
+          {
+            "IpProtocol" : "tcp",
+            "FromPort" : "1",
+            "ToPort" : "65535",
+            "CidrIp" : "172.16.0.0/20"
+          }
+        ],
+        "SecurityGroupEgress" : [
+          {
+            "IpProtocol" : "tcp",
+            "FromPort" : "0",
+            "ToPort" : "65535",
+            "CidrIp" : "0.0.0.0/0"
+          }
+        ]
       }
     },
 
