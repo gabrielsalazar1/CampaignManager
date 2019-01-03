@@ -3,10 +3,16 @@
   "Description" : "API GW & Lambda Functions Stack",
 
   "Parameters" : {
-    "Subnet" : {
+    "Subnet1" : {
       "Type" : "AWS::EC2::Subnet::Id",
       "Default" : "subnet-a69ac8cc",
       "AllowedValues" : ["subnet-0c548fcc39366053c", "subnet-a69ac8cc"],
+      "Description" : "Subnet to launch services in"
+    },
+    "Subnet2" : {
+      "Type" : "AWS::EC2::Subnet::Id",
+      "Default" : "subnet-a69ac8cc",
+      "AllowedValues" : ["subnet-0a3758c831b4ae53e", "subnet-a69ac8cc"],
       "Description" : "Subnet to launch services in"
     },
     "VPC" : {
@@ -238,7 +244,7 @@
         "ReservedConcurrentExecutions" : 12,
         "VpcConfig" : {
           "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
-          "SubnetIds" : [ { "Ref" : "Subnet" } ]
+          "SubnetIds" : [ { "Ref" : "Subnet1" }, { "Ref" : "Subnet2" } ]
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
