@@ -1,14 +1,8 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Cognito Stack
-Parameters:
-  AuthName:
-    Type: String
-    Description: Unique Auth Name for Cognito Resources
 
 Resources:
   # Creates a user pool in cognito for your app to auth against
-  # This one requires MFA and validates the phone number to use as MFA
-  # Other fields can be added to the schema
   UserPool:
     Type: AWS::Cognito::UserPool
     Properties:
@@ -125,7 +119,21 @@ Resources:
                 Action:
                   - "mobileanalytics:PutEvents"
                   - "cognito-sync:*"
-                  - "cognito-identity:*"
+                  - "cognito-identity:UnlinkDeveloperIdentity"
+                  - "cognito-identity:MergeDeveloperIdentities"
+                  - "cognito-identity:GetId"
+                  - "cognito-identity:DescribeIdentityPool"
+                  - "cognito-identity:GetId"
+                  - "cognito-identity:LookupDeveloperIdentity"
+                  - "cognito-identity:ListIdentityPools"
+                  - "cognito-identity:ListIdentities"
+                  - "cognito-identity:UpdateIdentityPool"
+                  - "cognito-identity:GetOpenIdTokenForDeveloperIdentity"
+                  - "cognito-identity:UnlinkIdentity"
+                  - "cognito-identity:GetOpenIdToken"
+                  - "cognito-identity:GetIdentityPoolRoles"
+                  - "cognito-identity:DescribeIdentity"
+                  - "cognito-identity:GetCredentialsForIdentity"
                 Resource: "*"
               - Effect: "Allow"
                 Action:
