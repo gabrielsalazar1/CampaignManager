@@ -178,8 +178,7 @@
                     "s3:GetObject"
                   ],
                   "Resource": [
-                    "arn:aws:s3:::forecast-events-test/*",
-                    "arn:aws:s3:::belc-bigdata-apps-shared-dev/*"
+                    "arn:aws:s3:::*/*"
                   ]
                 },
                 {
@@ -261,10 +260,10 @@
           "S3Key": "code/lambdas__emr_executer__process.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
-        "Timeout": 40,
+        "Timeout": 20,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
-        "MemorySize": 128,
+        "MemorySize": 512,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
           { "Key" : "Entorno", "Value" : "DEV" },
