@@ -246,7 +246,6 @@
       "Type": "AWS::Lambda::Permission",
       "DependsOn" : [ "LambdaS3DfFilesNotifierListener" ],
       "Properties" : {
-        "Description": "This assigns calling permission to the lambda function from the source S3 bucket. Both of those must be already created before this can be executed.",
         "Action": "lambda:InvokeFunction",
         "FunctionName": { "Ref": "LambdaS3DfFilesNotifierListener" },
         "Principal": "s3.amazonaws.com",
