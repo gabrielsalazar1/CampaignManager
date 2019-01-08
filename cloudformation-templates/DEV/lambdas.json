@@ -207,6 +207,7 @@
                   "Effect": "Allow",
                   "Action": "lambda:InvokeFunction",
                   "Resource": [
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_offers_retrieve" },
                     "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_emr_executer_process",
                     "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_hook_df_listener",
                     "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_s3_df_files_notifier_listener",
@@ -221,7 +222,6 @@
                     "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_configurations_levers_retrieve",
                     "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_offers_by_id",
                     "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_offers_create",
-                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_offers_retrieve",
                     "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_offers_update",
                     "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_products_retrieve",
                     "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_results_scenarios_by_id",
@@ -249,15 +249,6 @@
             "arn", "aws", "s3", "" , "", "forecast-events-test"
           ] ]
         }
-      }
-    },
-    "LambdaPermissionAPIGW": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "Action": "lambda:invokeFunction",
-        "FunctionName": { "Fn::GetAtt": ["LambdaV1OffersRetrieve", "Arn"] },
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {"Fn::Join": ["", ["arn:aws:execute-api:", {"Ref": "AWS::Region"}, ":", {"Ref": "AWS::AccountId"}, ":", "*"]]}
       }
     },
 

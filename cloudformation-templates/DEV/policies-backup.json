@@ -1,3 +1,5 @@
+{ "Fn::Join": [":", [ "arn", "aws", "lambda", "" , "", "forecast-events-test" ] ] },
+
 {
   "Effect": "Allow",
   "Action": "lambda:InvokeFunction",
