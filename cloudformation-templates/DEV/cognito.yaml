@@ -93,7 +93,7 @@ Resources:
     Type: AWS::Cognito::UserPoolGroup
     Properties:
       Description: "Planners del pais Dominicana"
-      GroupName: "DOMINICANA"
+      GroupName: "DO"
       Precedence: 1
       UserPoolId: !Ref UserPool
   UserPoolGroupEC:
@@ -107,7 +107,7 @@ Resources:
     Type: AWS::Cognito::UserPoolGroup
     Properties:
       Description: "Planners del pais Guatemala"
-      GroupName: "GUATEMALA"
+      GroupName: "GT"
       Precedence: 1
       UserPoolId: !Ref UserPool
   UserPoolGroupMX:
@@ -121,7 +121,7 @@ Resources:
     Type: AWS::Cognito::UserPoolGroup
     Properties:
       Description: "Planners del pais Panamá"
-      GroupName: "PANAMA"
+      GroupName: "PA"
       Precedence: 1
       UserPoolId: !Ref UserPool
   UserPoolGroupPE:
@@ -135,14 +135,14 @@ Resources:
     Type: AWS::Cognito::UserPoolGroup
     Properties:
       Description: "Planners del pais Puerto Rico"
-      GroupName: "PUERTO_RICO"
+      GroupName: "PR"
       Precedence: 1
       UserPoolId: !Ref UserPool
   UserPoolGroupSALVADOR:
     Type: AWS::Cognito::UserPoolGroup
     Properties:
       Description: "Planners del pais El Salvador"
-      GroupName: "SALVADOR"
+      GroupName: "SV"
       Precedence: 1
       UserPoolId: !Ref UserPool
   

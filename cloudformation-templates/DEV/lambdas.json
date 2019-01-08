@@ -55,7 +55,7 @@
   },
 
   "Conditions": {
-    "ApiGatewayDeployed": {"Fn::Not": [{"Fn::Equals": ["", {"Ref": "ApiId"}]}]}
+    "ApiGatewayDeployed": { "Fn::Not": [{"Fn::Equals": ["", {"Ref": "ApiId"}]}] }
   },
 
   "Resources" : {
