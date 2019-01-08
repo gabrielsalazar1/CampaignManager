@@ -7,18 +7,19 @@ Resources:
     Type: AWS::Cognito::UserPool
     Properties:
       UserPoolName: BIGDATA_USERPOOL_CM_DEV
-
       AliasAttributes: [ preferred_username ]
       AdminCreateUserConfig:
         AllowAdminCreateUserOnly: true
-
+        InviteMessageTemplate:
+          EmailMessage: "Tu nombre de usuario es {username} y tu contraseña temporal es {####}"
+          EmailSubject: "Tu contraseña temporal de Campaign Manager"
       AutoVerifiedAttributes:
-        - phone_number
-        # - email
+        # - phone_number
+        - email
       MfaConfiguration: "OFF"
-      SmsConfiguration:
-        ExternalId: bigdata_cm_dev_external
-        SnsCallerArn: !GetAtt SNSRole.Arn
+      # SmsConfiguration:
+      #   ExternalId: bigdata_cm_dev_external
+      #   SnsCallerArn: !GetAtt SNSRole.Arn
       Policies:
         PasswordPolicy:
           MinimumLength: 8
@@ -45,14 +46,107 @@ Resources:
   
   # Creates a User Pool Client to be used by the identity pool
   UserPoolClient:
-    Type: "AWS::Cognito::UserPoolClient"
+    Type: AWS::Cognito::UserPoolClient
     Properties:
       ClientName: bigdata_cm_dev_client
       GenerateSecret: false
       RefreshTokenValidity: 7
       UserPoolId: !Ref UserPool
+
+  # Creates a User Groups in an UserPool
+  UserPoolGroupADMIN:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: "Administradores del sistema"
+      GroupName: "ADMIN"
+      Precedence: 0
+      UserPoolId: !Ref UserPool
+  UserPoolGroupBO:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: "Planners del pais Bolivia"
+      GroupName: "BO"
+      Precedence: 1
+      UserPoolId: !Ref UserPool
+  UserPoolGroupCL:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: "Planners del pais Chile"
+      GroupName: "CL"
+      Precedence: 1
+      UserPoolId: !Ref UserPool
+  UserPoolGroupCO:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: "Planners del pais Colombia"
+      GroupName: "CO"
+      Precedence: 1
+      UserPoolId: !Ref UserPool
+  UserPoolGroupCR:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: "Planners del pais Costa Rica"
+      GroupName: "CR"
+      Precedence: 1
+      UserPoolId: !Ref UserPool
+  UserPoolGroupDOMINICANA:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: "Planners del pais Dominicana"
+      GroupName: "DOMINICANA"
+      Precedence: 1
+      UserPoolId: !Ref UserPool
+  UserPoolGroupEC:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: "Planners del pais Ecuador"
+      GroupName: "EC"
+      Precedence: 1
+      UserPoolId: !Ref UserPool
+  UserPoolGroupGUATEMALA:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: "Planners del pais Guatemala"
+      GroupName: "GUATEMALA"
+      Precedence: 1
+      UserPoolId: !Ref UserPool
+  UserPoolGroupMX:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: "Planners del pais México"
+      GroupName: "MX"
+      Precedence: 1
+      UserPoolId: !Ref UserPool
+  UserPoolGroupPANAMA:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: "Planners del pais Panamá"
+      GroupName: "PANAMA"
+      Precedence: 1
+      UserPoolId: !Ref UserPool
+  UserPoolGroupPE:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: "Planners del pais Perú"
+      GroupName: "PE"
+      Precedence: 1
+      UserPoolId: !Ref UserPool
+  UserPoolGroupPUERTORICO:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: "Planners del pais Puerto Rico"
+      GroupName: "PUERTO_RICO"
+      Precedence: 1
+      UserPoolId: !Ref UserPool
+  UserPoolGroupSALVADOR:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: "Planners del pais El Salvador"
+      GroupName: "SALVADOR"
+      Precedence: 1
+      UserPoolId: !Ref UserPool
   
-  # Creates a federeated Identity pool
+  # Creates a Federeated Identity Pool
   IdentityPool:
     Type: "AWS::Cognito::IdentityPool"
     Properties:
@@ -62,7 +156,8 @@ Resources:
         - ClientId: !Ref UserPoolClient
           ProviderName: !GetAtt UserPool.ProviderName
 
-  # Create a role for unauthorized acces to AWS resources. Very limited access. Only allows users in the previously created Identity Pool
+  # Creates a role for unauthorized acces to AWS resources. Very limited access. 
+  # Only allows users in the previously created Identity Pool
   CognitoUnAuthorizedRole:
     Type: "AWS::IAM::Role"
     Properties:
@@ -91,8 +186,8 @@ Resources:
                   - "cognito-sync:*"
                 Resource: "*"
 
-  # Create a role for authorized acces to AWS resources. Control what your user can access. This file only allows Lambda invocation
-  # Only allows users in the previously created Identity Pool
+  # Creates a role for authorized acces to AWS resources. Control what your user can access. 
+  # This file only allows Lambda invocationm. Only allows users in the previously created Identity Pool
   CognitoAuthorizedRole:
     Type: "AWS::IAM::Role"
     Properties:
@@ -135,10 +230,6 @@ Resources:
                   - "cognito-identity:DescribeIdentity"
                   - "cognito-identity:GetCredentialsForIdentity"
                 Resource: "*"
-              - Effect: "Allow"
-                Action:
-                  - "lambda:InvokeFunction"
-                Resource: "*"
   
   # Assigns the roles to the Identity Pool
   IdentityPoolRoleMapping:
@@ -148,29 +239,6 @@ Resources:
       Roles:
         authenticated: !GetAtt CognitoAuthorizedRole.Arn
         unauthenticated: !GetAtt CognitoUnAuthorizedRole.Arn
-
-  # Creates a role that allows Cognito to send SNS messages
-  SNSRole:
-    Type: "AWS::IAM::Role"
-    Properties:
-      RoleName : bigdata_cm_dev_SNSRole
-      AssumeRolePolicyDocument: 
-        Version: "2012-10-17"
-        Statement:
-          - Effect: "Allow"
-            Principal: 
-              Service: 
-                - "cognito-idp.amazonaws.com"
-            Action: 
-              - "sts:AssumeRole"
-      Policies:
-        - PolicyName: "bigdata_cm_dev_CognitoSNSPolicy"
-          PolicyDocument: 
-            Version: "2012-10-17"
-            Statement: 
-              - Effect: "Allow"
-                Action: "sns:publish"
-                Resource: "*"
 
 Outputs:
   UserPoolId:
