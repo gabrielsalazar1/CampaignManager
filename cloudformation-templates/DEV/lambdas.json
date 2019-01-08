@@ -263,7 +263,7 @@
 
     "LambdaEmrExecuterProcess" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [ "LambdaExecutionRole" ],
+      
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -298,7 +298,7 @@
     },
     "LambdaHookDfListener" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [ "LambdaExecutionRole" ],
+      
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -329,7 +329,7 @@
     },
     "LambdaS3DfFilesNotifierListener" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [ "LambdaExecutionRole" ],
+      
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -360,7 +360,7 @@
     },
     "LambdaTriggerEplanningInputProcess" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [ "LambdaExecutionRole" ],
+      
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -391,7 +391,7 @@
     },
     "LambdaTriggerEplanningOutputProcess" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [ "LambdaExecutionRole" ],
+      
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -422,7 +422,7 @@
     },
     "LambdaTriggerIndicatorsTrigger" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [ "LambdaExecutionRole" ],
+      
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -453,7 +453,7 @@
     },
     "LambdaTriggerSbSyncProcess" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [ "LambdaExecutionRole" ],
+      
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
