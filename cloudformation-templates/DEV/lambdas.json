@@ -210,7 +210,7 @@
       }
     },
 
-    "LambdaPermission": {
+    "LambdaPermissionS3": {
       "Type": "AWS::Lambda::Permission",
       "DependsOn" : [ "LambdaS3DfFilesNotifierListener" ],
       "Properties" : {
@@ -224,6 +224,17 @@
         }
       }
     },
+
+    "LambdaPermissionAPIGW": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:invokeFunction",
+        "FunctionName": { "Fn::GetAtt": ["LambdaV1OffersRetrieve", "Arn"] },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {"Fn::Join": ["", ["arn:aws:execute-api:", {"Ref": "AWS::Region"}, ":", {"Ref": "AWS::AccountId"}, ":", {"Ref": "dev-api-campaignmanager"}, "/*"]]}
+      }
+    },
+
 
     "LambdaEmrExecuterProcess" : {
       "Type": "AWS::Lambda::Function",
