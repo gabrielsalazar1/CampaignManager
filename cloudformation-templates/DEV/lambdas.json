@@ -207,7 +207,27 @@
                   "Effect": "Allow",
                   "Action": "lambda:InvokeFunction",
                   "Resource": [
-                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_offers_retrieve"
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_emr_executer_process",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_hook_df_listener",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_s3_df_files_notifier_listener",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_trigger_eplanning_input_process",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_trigger_eplanning_outputprocess",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_trigger_indicators_trigger",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_trigger_sb_sync_process",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_campaigns_retrieve",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_campaigns_scenarios_retrieve",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_catalogs_parameters_retrieve",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_catalogs_retrieve",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_configurations_levers_retrieve",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_offers_by_id",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_offers_create",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_offers_retrieve",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_offers_update",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_products_retrieve",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_results_scenarios_by_id",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_results_scenarios_create",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_v1_results_scenarios_update",
+                    "arn:aws:lambda:us-east-1:705522650906:function:BIGDATA_CM_DEV_version_retrieve"
                   ]
                 }
               ]
