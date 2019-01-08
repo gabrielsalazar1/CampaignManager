@@ -206,29 +206,7 @@
                 {
                   "Effect": "Allow",
                   "Action": "lambda:InvokeFunction",
-                  "Resource": [
-                    { "Fn::GetAtt": ["LambdaEmrExecuterProcess", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaHookDfListener", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaS3DfFilesNotifierListener", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaTriggerEplanningInputProcess", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaTriggerEplanningOutputProcess", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaTriggerIndicatorsTrigger", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaTriggerSbSyncProcess", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaV1CampaignsRetrieve", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaV1CampaignsScenariosRetrieve", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaV1CatalogsParametersRetrieve", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaV1CatalogsRetrieve", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaV1ConfigurationsLeversRetrieve", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaV1OffersByid", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaV1OffersCreate", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaV1OffersRetrieve", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaV1OffersUpdate", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaV1ProductsRetrieve", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaV1ResultsScenariosByid", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaV1ResultsScenariosCreate", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaV1ResultsScenariosUpdate", "Arn"] },
-                    { "Fn::GetAtt": ["LambdaVersionRetrieve", "Arn"] }
-                  ]
+                  "Resource": "*"
                 }
               ]
             }
@@ -263,7 +241,7 @@
 
     "LambdaEmrExecuterProcess" : {
       "Type": "AWS::Lambda::Function",
-      
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -298,7 +276,7 @@
     },
     "LambdaHookDfListener" : {
       "Type": "AWS::Lambda::Function",
-      
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -329,7 +307,7 @@
     },
     "LambdaS3DfFilesNotifierListener" : {
       "Type": "AWS::Lambda::Function",
-      
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -360,7 +338,7 @@
     },
     "LambdaTriggerEplanningInputProcess" : {
       "Type": "AWS::Lambda::Function",
-      
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -391,7 +369,7 @@
     },
     "LambdaTriggerEplanningOutputProcess" : {
       "Type": "AWS::Lambda::Function",
-      
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -422,7 +400,7 @@
     },
     "LambdaTriggerIndicatorsTrigger" : {
       "Type": "AWS::Lambda::Function",
-      
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -453,7 +431,7 @@
     },
     "LambdaTriggerSbSyncProcess" : {
       "Type": "AWS::Lambda::Function",
-      
+      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
