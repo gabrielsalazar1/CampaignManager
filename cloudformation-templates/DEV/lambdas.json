@@ -231,7 +231,7 @@
         "Action": "lambda:invokeFunction",
         "FunctionName": { "Fn::GetAtt": ["LambdaV1OffersRetrieve", "Arn"] },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {"Fn::Join": ["", ["arn:aws:execute-api:", {"Ref": "AWS::Region"}, ":", {"Ref": "AWS::AccountId"}, ":", {"Ref": "ha5hs9mjk3"}, "/*"]]}
+        "SourceArn": {"Fn::Join": ["", ["arn:aws:execute-api:", {"Ref": "AWS::Region"}, ":", {"Ref": "AWS::AccountId"}, ":", "*", "/*"]]}
       }
     },
 
