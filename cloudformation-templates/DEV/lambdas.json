@@ -170,11 +170,6 @@
                     "arn:aws:s3:::forecast-events-test/*",
                     "arn:aws:s3:::forecast-events-test"
                   ]
-                },
-                {
-                  "Effect": "Allow",
-                  "Action": "lambda:InvokeFunction",
-                  "Resource": "*"
                 }
               ]
             }
@@ -204,18 +199,7 @@
                     "iam:ListRolePolicies",
                     "iam:ListRoles",
                     "iam:PassRole",
-                    "lambda:*",
-                    "sns:ListSubscriptions",
-                    "sns:ListSubscriptionsByTopic",
-                    "sns:ListTopics",
-                    "sns:Publish",
-                    "sns:Subscribe",
-                    "sns:Unsubscribe",
-                    "sqs:ListQueues",
-                    "sqs:SendMessage",
                     "tag:GetResources",
-                    "xray:PutTelemetryRecords",
-                    "xray:PutTraceSegments"
                   ],
                   "Resource": "*"
                 }

@@ -1,0 +1,61 @@
+{
+  "Effect": "Allow",
+  "Action": "lambda:InvokeFunction",
+  "Resource": "*"
+},
+{
+  "PolicyName": "bigdata_cm_dev_api_lambda_RolePolicy",
+  "PolicyDocument" : {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": "lambda:InvokeFunction",
+        "Resource": "arn:aws:apigateway:us-east-1::*"
+      }
+    ]
+  }
+},
+{
+  "PolicyName": "bigdata_cm_dev_full_lambda_RolePolicy",
+  "PolicyDocument" : {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "cloudformation:DescribeChangeSet",
+          "cloudformation:DescribeStackResources",
+          "cloudformation:DescribeStacks",
+          "cloudformation:GetTemplate",
+          "cloudformation:ListStackResources",
+          "cognito-identity:ListIdentityPools",
+          "cognito-sync:GetCognitoEvents",
+          "cognito-sync:SetCognitoEvents",
+          "events:*",
+          "iam:GetPolicy",
+          "iam:GetPolicyVersion",
+          "iam:GetRole",
+          "iam:GetRolePolicy",
+          "iam:ListAttachedRolePolicies",
+          "iam:ListRolePolicies",
+          "iam:ListRoles",
+          "iam:PassRole",
+          "lambda:*",
+          "sns:ListSubscriptions",
+          "sns:ListSubscriptionsByTopic",
+          "sns:ListTopics",
+          "sns:Publish",
+          "sns:Subscribe",
+          "sns:Unsubscribe",
+          "sqs:ListQueues",
+          "sqs:SendMessage",
+          "tag:GetResources",
+          "xray:PutTelemetryRecords",
+          "xray:PutTraceSegments"
+        ],
+        "Resource": "*"
+      }
+    ]
+  }
+}
