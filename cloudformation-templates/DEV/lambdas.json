@@ -202,11 +202,6 @@
                     "tag:GetResources",
                   ],
                   "Resource": "*"
-                },
-                {
-                  "Effect": "Allow",
-                  "Action": "lambda:InvokeFunction",
-                  "Resource": "*"
                 }
               ]
             }
@@ -214,6 +209,65 @@
         ]
       }
     },
+
+
+    "LambdaApiGwRole" : {
+      "Type" : "AWS::IAM::Role",
+      "Properties" : {
+        "RoleName" : "bigdata_cm_dev_lambda_ExecutionRole",
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com",
+                  "s3.amazonaws.com"
+                ]
+              },
+              "Action": [ "sts:AssumeRole" ]
+            }
+          ]
+        },
+        "Path" : "/",
+        "Policies" : [
+          {
+            "PolicyName": "bigdata_cm_dev_network_lambda_RolePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [{
+                "Effect": "Allow",
+                "Action": "lambda:InvokeFunction",
+                "Resource": [
+                  { "Fn::GetAtt": ["LambdaEmrExecuterProcess", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaHookDfListener", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaS3DfFilesNotifierListener", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaTriggerEplanningInputProcess", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaTriggerEplanningOutputProcess", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaTriggerIndicatorsTrigger", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaTriggerSbSyncProcess", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaV1CampaignsRetrieve", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaV1CampaignsScenariosRetrieve", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaV1CatalogsParametersRetrieve", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaV1CatalogsRetrieve", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaV1ConfigurationsLeversRetrieve", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaV1OffersByid", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaV1OffersCreate", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaV1OffersRetrieve", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaV1OffersUpdate", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaV1ProductsRetrieve", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaV1ResultsScenariosByid", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaV1ResultsScenariosCreate", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaV1ResultsScenariosUpdate", "Arn"] },
+                  { "Fn::GetAtt": ["LambdaVersionRetrieve", "Arn"] }
+                ]
+              }]
+            }
+          }
+        ]
+     }
+    }, 
 
     "LambdaPermissionS3": {
       "Type": "AWS::Lambda::Permission",
