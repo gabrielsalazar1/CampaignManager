@@ -1,23 +1,22 @@
-
-  # Creates a role that allows Cognito to send SNS messages, innecesary by the momment as our cognito doesnt sends sms
-  SNSRole:
-    Type: "AWS::IAM::Role"
-    Properties:
-      RoleName : bigdata_cm_dev_SNSRole
-      AssumeRolePolicyDocument: 
-        Version: "2012-10-17"
-        Statement:
-          - Effect: "Allow"
-            Principal: 
-              Service: 
-                - "cognito-idp.amazonaws.com"
-            Action: 
-              - "sts:AssumeRole"
-      Policies:
-        - PolicyName: "bigdata_cm_dev_CognitoSNSPolicy"
-          PolicyDocument: 
-            Version: "2012-10-17"
-            Statement: 
-              - Effect: "Allow"
-                Action: "sns:publish"
-                Resource: "*"
+# Creates a role that allows Cognito to send SNS messages, innecesary by the momment as our cognito doesnt sends sms
+SNSRole:
+  Type: "AWS::IAM::Role"
+  Properties:
+    RoleName : bigdata_cm_dev_SNSRole
+    AssumeRolePolicyDocument: 
+      Version: "2012-10-17"
+      Statement:
+        - Effect: "Allow"
+          Principal: 
+            Service: 
+              - "cognito-idp.amazonaws.com"
+          Action: 
+            - "sts:AssumeRole"
+    Policies:
+      - PolicyName: "bigdata_cm_dev_CognitoSNSPolicy"
+        PolicyDocument: 
+          Version: "2012-10-17"
+          Statement: 
+            - Effect: "Allow"
+              Action: "sns:publish"
+              Resource: "*"

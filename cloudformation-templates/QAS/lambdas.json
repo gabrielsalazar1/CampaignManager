@@ -5,26 +5,26 @@
   "Parameters" : {
     "Subnet1" : {
       "Type" : "AWS::EC2::Subnet::Id",
-      "Default" : "subnet-a69ac8cc",
+      "Default" : "subnet-0c548fcc39366053c",
       "AllowedValues" : ["subnet-0c548fcc39366053c", "subnet-a69ac8cc"],
       "Description" : "Subnet to launch services in"
     },
     "Subnet2" : {
       "Type" : "AWS::EC2::Subnet::Id",
-      "Default" : "subnet-a69ac8cc",
+      "Default" : "subnet-0a3758c831b4ae53e",
       "AllowedValues" : ["subnet-0a3758c831b4ae53e", "subnet-a69ac8cc"],
       "Description" : "Subnet to launch services in"
     },
     "VPC" : {
       "Type" : "AWS::EC2::VPC::Id",
-      "Default" : "vpc-ee8d3285",
+      "Default" : "vpc-05e755074841c4ea6",
       "AllowedValues" : ["vpc-05e755074841c4ea6", "vpc-ee8d3285"],
       "Description" : "VPC to launch services in"
     },
     "S3Bucket" : {
       "Type" : "String",
-      "Default" : "belc-bigdata-apps-shared-qas",
-      "AllowedValues" : ["belc-bigdata-apps-shared-qas"],
+      "Default" : "belc-bigdata-cm-data-qas",
+      "AllowedValues" : ["campaign-manager-lambdas", "belc-bigdata-cm-data-qas"],
       "Description" : "S3 Bucket where lambdas code is stored"
     },
     "ApiId": {
@@ -55,7 +55,7 @@
   },
 
   "Conditions": {
-    "ApiGatewayDeployed": {"Fn::Not": [{"Fn::Equals": ["", {"Ref": "ApiId"}]}]}
+    "ApiGatewayDeployed": { "Fn::Not": [{"Fn::Equals": ["", {"Ref": "ApiId"}]}] }
   },
 
   "Resources" : {
@@ -154,19 +154,6 @@
             }
           },
           {
-            "PolicyName": "bigdata_cm_qas_api_lambda_RolePolicy",
-            "PolicyDocument" : {
-              "Version": "2012-10-17",
-              "Statement": [
-                {
-                  "Effect": "Allow",
-                  "Action": "lambda:InvokeFunction",
-                  "Resource": "arn:aws:apigateway:us-east-1::*"
-                }
-              ]
-            }
-          },
-          {
             "PolicyName": "bigdata_cm_qas_s3_lambda_RolePolicy",
             "PolicyDocument": {
               "Version": "2012-10-17",
@@ -181,11 +168,6 @@
                     "arn:aws:s3:::belc-bigdata-apps-shared-qas/*",
                     "arn:aws:s3:::belc-bigdata-apps-shared-qas"
                   ]
-                },
-                {
-                  "Effect": "Allow",
-                  "Action": "lambda:InvokeFunction",
-                  "Resource": "*"
                 }
               ]
             }
@@ -215,25 +197,57 @@
                     "iam:ListRolePolicies",
                     "iam:ListRoles",
                     "iam:PassRole",
-                    "lambda:*",
-                    "sns:ListSubscriptions",
-                    "sns:ListSubscriptionsByTopic",
-                    "sns:ListTopics",
-                    "sns:Publish",
-                    "sns:Subscribe",
-                    "sns:Unsubscribe",
-                    "sqs:ListQueues",
-                    "sqs:SendMessage",
                     "tag:GetResources",
-                    "xray:PutTelemetryRecords",
-                    "xray:PutTraceSegments"
                   ],
                   "Resource": "*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": "lambda:InvokeFunction",
+                  "Resource": [
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_offers_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_emr_executer_process" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_hook_df_listener" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_s3_df_files_notifier_listener" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_trigger_eplanning_input_process" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_trigger_eplanning_outputprocess" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_trigger_indicators_trigger" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_trigger_sb_sync_process" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_campaigns_kpis_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_campaigns_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_campaigns_scenarios_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_catalogs_parameters_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_catalogs_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_configurations_levers_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_offers_by_id" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_offers_create" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_offers_update" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_products_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_results_scenarios_by_id" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_results_scenarios_create" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_results_scenarios_update" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_version_retrieve" }
+                  ]
                 }
               ]
             }
           }
         ]
+      }
+    },
+
+    "LambdaPermissionS3": {
+      "Type": "AWS::Lambda::Permission",
+      "DependsOn" : [ "LambdaS3DfFilesNotifierListener" ],
+      "Properties" : {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": { "Ref": "LambdaS3DfFilesNotifierListener" },
+        "Principal": "s3.amazonaws.com",
+        "SourceAccount": { "Ref": "AWS::AccountId" },
+        "SourceArn": { "Fn::Join": [":", [
+            "arn", "aws", "s3", "" , "", "belc-bigdata-apps-shared-qas"
+          ] ]
+        }
       }
     },
 
@@ -261,10 +275,10 @@
           "S3Key": "code/lambdas__emr_executer__process.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
-        "Timeout": 40,
+        "Timeout": 20,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
-        "MemorySize": 128,
+        "MemorySize": 512,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
           { "Key" : "Entorno", "Value" : "QAS" },
@@ -448,6 +462,37 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 40,
+        "Handler": "Handler.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "QAS" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaV1CampaignsKpisRetrieve": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [ "LambdaExecutionRole" ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { 
+          "Variables" : { 
+            "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+          } 
+        },
+        "FunctionName" : "BIGDATA_CM_QAS_v1_campaigns_kpis_retrieve",
+        "ReservedConcurrentExecutions" : 12,
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__v1_campaigns_kpis__retrieve.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,

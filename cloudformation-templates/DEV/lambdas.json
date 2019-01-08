@@ -24,7 +24,7 @@
     "S3Bucket" : {
       "Type" : "String",
       "Default" : "campaign-manager-lambdas",
-      "AllowedValues" : ["campaign-manager-lambdas", "belc-bigdata-apps-shared-dev"],
+      "AllowedValues" : ["campaign-manager-lambdas", "belc-bigdata-cm-data-dev"],
       "Description" : "S3 Bucket where lambdas code is stored"
     },
     "ApiId": {
@@ -89,7 +89,6 @@
         ]
       }
     },
-
     "LambdaExecutionRole" : {
       "Type" : "AWS::IAM::Role",
       "Properties" : {
@@ -215,6 +214,7 @@
                     { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_trigger_eplanning_outputprocess" },
                     { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_trigger_indicators_trigger" },
                     { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_trigger_sb_sync_process" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_campaigns_kpis_retrieve" },
                     { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_campaigns_retrieve" },
                     { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_campaigns_scenarios_retrieve" },
                     { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_catalogs_parameters_retrieve" },
@@ -236,7 +236,6 @@
         ]
       }
     },
-
     "LambdaPermissionS3": {
       "Type": "AWS::Lambda::Permission",
       "DependsOn" : [ "LambdaS3DfFilesNotifierListener" ],
@@ -463,6 +462,37 @@
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 40,
+        "Handler": "Handler.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaV1CampaignsKpisRetrieve": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [ "LambdaExecutionRole" ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { 
+          "Variables" : { 
+            "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+          } 
+        },
+        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_kpis_retrieve",
+        "ReservedConcurrentExecutions" : 12,
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__v1_campaigns_kpis__retrieve.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
@@ -906,7 +936,8 @@
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
-    }
+    },
+
   },
   
   "Outputs": {}
