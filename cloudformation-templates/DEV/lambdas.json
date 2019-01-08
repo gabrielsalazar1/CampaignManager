@@ -24,7 +24,7 @@
     "S3Bucket" : {
       "Type" : "String",
       "Default" : "campaign-manager-lambdas",
-      "AllowedValues" : ["campaign-manager-lambdas", "belc-bigdata-cm-data-qas"],
+      "AllowedValues" : ["campaign-manager-lambdas", "belc-bigdata-apps-shared-dev"],
       "Description" : "S3 Bucket where lambdas code is stored"
     },
     "ApiId": {
@@ -154,19 +154,6 @@
             }
           },
           {
-            "PolicyName": "bigdata_cm_dev_api_lambda_RolePolicy",
-            "PolicyDocument" : {
-              "Version": "2012-10-17",
-              "Statement": [
-                {
-                  "Effect": "Allow",
-                  "Action": "lambda:InvokeFunction",
-                  "Resource": "arn:aws:apigateway:us-east-1::*"
-                }
-              ]
-            }
-          },
-          {
             "PolicyName": "bigdata_cm_dev_s3_lambda_RolePolicy",
             "PolicyDocument": {
               "Version": "2012-10-17",
@@ -178,14 +165,11 @@
                     "s3:GetObject"
                   ],
                   "Resource": [
-                    "arn:aws:s3:::*/*",
-                    "arn:aws:s3:::*"
+                    "arn:aws:s3:::belc-bigdata-apps-shared-dev/*",
+                    "arn:aws:s3:::belc-bigdata-apps-shared-dev",
+                    "arn:aws:s3:::forecast-events-test/*",
+                    "arn:aws:s3:::forecast-events-test"
                   ]
-                },
-                {
-                  "Effect": "Allow",
-                  "Action": "s3:*",
-                  "Resource": "*"
                 },
                 {
                   "Effect": "Allow",

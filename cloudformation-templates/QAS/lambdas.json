@@ -23,8 +23,8 @@
     },
     "S3Bucket" : {
       "Type" : "String",
-      "Default" : "belc-bigdata-cm-data-qas",
-      "AllowedValues" : ["campaign-manager-lambdas", "belc-bigdata-cm-data-qas"],
+      "Default" : "belc-bigdata-apps-shared-qas",
+      "AllowedValues" : ["belc-bigdata-apps-shared-qas"],
       "Description" : "S3 Bucket where lambdas code is stored"
     },
     "ApiId": {
@@ -178,8 +178,8 @@
                     "s3:GetObject"
                   ],
                   "Resource": [
-                    "arn:aws:s3:::forecast-events-test/*",
-                    "arn:aws:s3:::belc-bigdata-apps-shared-dev/*"
+                    "arn:aws:s3:::belc-bigdata-apps-shared-qas/*",
+                    "arn:aws:s3:::belc-bigdata-apps-shared-qas"
                   ]
                 },
                 {
