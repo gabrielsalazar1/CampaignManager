@@ -202,14 +202,14 @@
                     "tag:GetResources",
                   ],
                   "Resource": "*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": "lambda:InvokeFunction",
+                  "Resource": "*"
                 }
               ]
             }
-          },
-          {
-            "Effect": "Allow",
-            "Action": "lambda:InvokeFunction",
-            "Resource": "*"
           }
         ]
       }
