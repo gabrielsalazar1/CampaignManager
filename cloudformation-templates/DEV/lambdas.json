@@ -78,6 +78,7 @@
         ]
       }
     },
+    
     "LambdaExecutionRole" : {
       "Type" : "AWS::IAM::Role",
       "Properties" : {
