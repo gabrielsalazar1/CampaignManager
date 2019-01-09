@@ -24,7 +24,7 @@
     "S3Bucket" : {
       "Type" : "String",
       "Default" : "campaign-manager-lambdas",
-      "AllowedValues" : ["campaign-manager-lambdas", "belc-bigdata-cm-data-dev"],
+      "AllowedValues" : ["campaign-manager-lambdas", "belc-bigdata-cm-data-qas"],
       "Description" : "S3 Bucket where lambdas code is stored"
     },
     "ApiId": {
@@ -62,7 +62,7 @@
     "SecurityGroup" : {
       "Type" : "AWS::EC2::SecurityGroup",
       "Properties" : {
-        "GroupName" : "SG_BIGDATA_CM_DEV_LAMBDAS_SG",
+        "GroupName" : "SG_BIGDATA_CM_QAS_LAMBDAS_SG",
         "GroupDescription" : "Allow traffic to the host",
         "VpcId" : {"Ref" : "VPC"},
         "SecurityGroupIngress" : [
@@ -92,7 +92,7 @@
     "LambdaExecutionRole" : {
       "Type" : "AWS::IAM::Role",
       "Properties" : {
-        "RoleName" : "bigdata_cm_dev_lambda_ExecutionRole",
+        "RoleName" : "bigdata_cm_qas_lambda_ExecutionRole",
         "AssumeRolePolicyDocument": {
           "Version": "2012-10-17",
           "Statement": [
@@ -112,7 +112,7 @@
         "Path" : "/",
         "Policies" : [
           {
-            "PolicyName": "bigdata_cm_dev_network_lambda_RolePolicy",
+            "PolicyName": "bigdata_cm_qas_network_lambda_RolePolicy",
             "PolicyDocument": {
               "Version": "2012-10-17",
               "Statement": [{
@@ -133,7 +133,7 @@
             }
           },
           {
-            "PolicyName": "bigdata_cm_dev_cognito_lambda_RolePolicy",
+            "PolicyName": "bigdata_cm_qas_cognito_lambda_RolePolicy",
             "PolicyDocument": {
               "Version": "2012-10-17",
               "Statement": [
@@ -146,14 +146,14 @@
             }
           },
           {
-            "PolicyName": "bigdata_cm_dev_logs_lambda_RolePolicy",
+            "PolicyName": "bigdata_cm_qas_logs_lambda_RolePolicy",
             "PolicyDocument": {
               "Version": "2012-10-17",
               "Statement": [{ "Effect": "Allow", "Action": ["logs:*", "cloudwatch:*"], "Resource": "*" }]
             }
           },
           {
-            "PolicyName": "bigdata_cm_dev_s3_lambda_RolePolicy",
+            "PolicyName": "bigdata_cm_qas_s3_lambda_RolePolicy",
             "PolicyDocument": {
               "Version": "2012-10-17",
               "Statement": [
@@ -164,17 +164,15 @@
                     "s3:GetObject"
                   ],
                   "Resource": [
-                    "arn:aws:s3:::belc-bigdata-apps-shared-dev/*",
-                    "arn:aws:s3:::belc-bigdata-apps-shared-dev",
-                    "arn:aws:s3:::forecast-events-test/*",
-                    "arn:aws:s3:::forecast-events-test"
+                    "arn:aws:s3:::belc-bigdata-apps-shared-qas/*",
+                    "arn:aws:s3:::belc-bigdata-apps-shared-qas"
                   ]
                 }
               ]
             }
           },
           {
-            "PolicyName": "bigdata_cm_dev_full_lambda_RolePolicy",
+            "PolicyName": "bigdata_cm_qas_full_lambda_RolePolicy",
             "PolicyDocument" : {
               "Version": "2012-10-17",
               "Statement": [
@@ -206,28 +204,28 @@
                   "Effect": "Allow",
                   "Action": "lambda:InvokeFunction",
                   "Resource": [
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_offers_retrieve" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_emr_executer_process" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_hook_df_listener" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_s3_df_files_notifier_listener" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_trigger_eplanning_input_process" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_trigger_eplanning_outputprocess" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_trigger_indicators_trigger" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_trigger_sb_sync_process" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_campaigns_kpis_retrieve" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_campaigns_retrieve" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_campaigns_scenarios_retrieve" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_catalogs_parameters_retrieve" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_catalogs_retrieve" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_configurations_levers_retrieve" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_offers_by_id" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_offers_create" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_offers_update" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_products_retrieve" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_results_scenarios_by_id" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_results_scenarios_create" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_v1_results_scenarios_update" },
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_version_retrieve" }
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_offers_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_emr_executer_process" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_hook_df_listener" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_s3_df_files_notifier_listener" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_trigger_eplanning_input_process" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_trigger_eplanning_outputprocess" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_trigger_indicators_trigger" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_trigger_sb_sync_process" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_campaigns_kpis_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_campaigns_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_campaigns_scenarios_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_catalogs_parameters_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_catalogs_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_configurations_levers_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_offers_by_id" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_offers_create" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_offers_update" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_products_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_results_scenarios_by_id" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_results_scenarios_create" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_results_scenarios_update" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_version_retrieve" }
                   ]
                 }
               ]
@@ -264,7 +262,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_emr_executer_process",
+        "FunctionName" : "BIGDATA_CM_QAS_emr_executer_process",
         "ReservedConcurrentExecutions" : 12,
         "VpcConfig" : {
           "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
@@ -274,14 +272,14 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__emr_executer__process.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 20,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 512,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -299,20 +297,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_hook_df_listener",
+        "FunctionName" : "BIGDATA_CM_QAS_hook_df_listener",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__hook_df__listener.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 40,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -330,20 +328,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_s3_df_files_notifier_listener",
+        "FunctionName" : "BIGDATA_CM_QAS_s3_df_files_notifier_listener",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__s3_df_files_notifier__listener.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 40,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -361,20 +359,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_trigger_eplanning_input_process",
+        "FunctionName" : "BIGDATA_CM_QAS_trigger_eplanning_input_process",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__trigger_eplanning_input__process.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 40,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -392,20 +390,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_trigger_eplanning_output_process",
+        "FunctionName" : "BIGDATA_CM_QAS_trigger_eplanning_output_process",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__trigger_eplanning_output__process.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 40,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -423,20 +421,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_trigger_indicators_trigger",
+        "FunctionName" : "BIGDATA_CM_QAS_trigger_indicators_trigger",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__trigger_indicators__trigger.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 40,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -454,20 +452,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_trigger_sb_sync_process",
+        "FunctionName" : "BIGDATA_CM_QAS_trigger_sb_sync_process",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__trigger_sb_sync__process.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 40,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -485,20 +483,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_kpis_retrieve",
+        "FunctionName" : "BIGDATA_CM_QAS_v1_campaigns_kpis_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_campaigns_kpis__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -516,20 +514,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_retrieve",
+        "FunctionName" : "BIGDATA_CM_QAS_v1_campaigns_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_campaigns__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -547,20 +545,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_scenarios_retrieve",
+        "FunctionName" : "BIGDATA_CM_QAS_v1_campaigns_scenarios_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_campaigns_scenarios__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -578,20 +576,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_catalogs_parameters_retrieve",
+        "FunctionName" : "BIGDATA_CM_QAS_v1_catalogs_parameters_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_catalogs_parameters__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -609,20 +607,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_catalogs_retrieve",
+        "FunctionName" : "BIGDATA_CM_QAS_v1_catalogs_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_catalogs__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -640,20 +638,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_configurations_levers_retrieve",
+        "FunctionName" : "BIGDATA_CM_QAS_v1_configurations_levers_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_configurations_levers__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -671,20 +669,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_byid",
+        "FunctionName" : "BIGDATA_CM_QAS_v1_offers_byid",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_offers__byid.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -702,20 +700,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_create",
+        "FunctionName" : "BIGDATA_CM_QAS_v1_offers_create",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_offers__create.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -733,20 +731,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_retrieve",
+        "FunctionName" : "BIGDATA_CM_QAS_v1_offers_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_offers__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -764,20 +762,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_update",
+        "FunctionName" : "BIGDATA_CM_QAS_v1_offers_update",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_offers__update.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -795,20 +793,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_products_retrieve",
+        "FunctionName" : "BIGDATA_CM_QAS_v1_products_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_products__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -826,20 +824,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_byid",
+        "FunctionName" : "BIGDATA_CM_QAS_v1_results_scenarios_byid",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_results_scenarios__byid.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -857,20 +855,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_create",
+        "FunctionName" : "BIGDATA_CM_QAS_v1_results_scenarios_create",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_results_scenarios__create.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -888,20 +886,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_update",
+        "FunctionName" : "BIGDATA_CM_QAS_v1_results_scenarios_update",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_results_scenarios__update.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
@@ -919,20 +917,20 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_version_retrieve",
+        "FunctionName" : "BIGDATA_CM_QAS_version_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__version__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_qas_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
         "MemorySize": 128,
         "Tags" : [
           { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Entorno", "Value" : "QAS" },
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }

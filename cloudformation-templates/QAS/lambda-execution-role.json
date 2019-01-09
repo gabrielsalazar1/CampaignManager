@@ -1,0 +1,155 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  "Description" : "Lambda Executio Role",
+  
+  "Resources" : {
+    "LambdaExecutionRole2" : {
+      "Type" : "AWS::IAM::Role",
+      "Properties" : {
+        "RoleName" : "bigdata_cm_qas_lambda_ExecutionRole",
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com", 
+                  "apigateway.amazonaws.com",
+                  "s3.amazonaws.com"
+                ]
+              },
+              "Action": [ "sts:AssumeRole" ]
+            }
+          ]
+        },
+        "Path" : "/",
+        "Policies" : [
+          {
+            "PolicyName": "bigdata_cm_qas_network_lambda_RolePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [{
+                "Effect": "Allow",
+                "Resource": "*",
+                "Action": [
+                  "ec2:DescribeInstances",
+                  "ec2:CreateNetworkInterface",
+                  "ec2:AttachNetworkInterface",
+                  "ec2:DescribeNetworkInterfaces",
+                  "ec2:DeleteNetworkInterface",
+                  "ec2:DescribeSecurityGroups",
+                  "ec2:DescribeSubnets",
+                  "ec2:DescribeVpcs",
+                  "autoscaling:CompleteLifecycleAction"
+                ]
+              }]
+            }
+          },
+          {
+            "PolicyName": "bigdata_cm_qas_cognito_lambda_RolePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Action": "cognito-idp:DescribeUserPoolClient",
+                  "Resource": "arn:aws:cognito-idp:us-east-2:705522650906:userpool/us-east-2_xWXOjucyE",
+                  "Effect": "Allow"
+                }
+              ]
+            }
+          },
+          {
+            "PolicyName": "bigdata_cm_qas_logs_lambda_RolePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [{ "Effect": "Allow", "Action": ["logs:*", "cloudwatch:*"], "Resource": "*" }]
+            }
+          },
+          {
+            "PolicyName": "bigdata_cm_qas_s3_lambda_RolePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:PutObject",
+                    "s3:GetObject"
+                  ],
+                  "Resource": [
+                    "arn:aws:s3:::belc-bigdata-apps-shared-qas/*",
+                    "arn:aws:s3:::belc-bigdata-apps-shared-qas",
+                    "arn:aws:s3:::forecast-events-test/*",
+                    "arn:aws:s3:::forecast-events-test"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "PolicyName": "bigdata_cm_qas_full_lambda_RolePolicy2",
+            "PolicyDocument" : {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "cloudformation:DescribeChangeSet",
+                    "cloudformation:DescribeStackResources",
+                    "cloudformation:DescribeStacks",
+                    "cloudformation:GetTemplate",
+                    "cloudformation:ListStackResources",
+                    "cognito-identity:ListIdentityPools",
+                    "cognito-sync:GetCognitoEvents",
+                    "cognito-sync:SetCognitoEvents",
+                    "events:*",
+                    "iam:GetPolicy",
+                    "iam:GetPolicyVersion",
+                    "iam:GetRole",
+                    "iam:GetRolePolicy",
+                    "iam:ListAttachedRolePolicies",
+                    "iam:ListRolePolicies",
+                    "iam:ListRoles",
+                    "iam:PassRole",
+                    "tag:GetResources",
+                  ],
+                  "Resource": "*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": "lambda:InvokeFunction",
+                  "Resource": [
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_offers_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_emr_executer_process" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_hook_df_listener" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_s3_df_files_notifier_listener" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_trigger_eplanning_input_process" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_trigger_eplanning_outputprocess" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_trigger_indicators_trigger" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_trigger_sb_sync_process" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_campaigns_kpis_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_campaigns_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_campaigns_scenarios_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_catalogs_parameters_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_catalogs_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_configurations_levers_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_offers_by_id" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_offers_create" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_offers_update" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_products_retrieve" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_results_scenarios_by_id" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_results_scenarios_create" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_v1_results_scenarios_update" },
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_version_retrieve" }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+
+}

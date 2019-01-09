@@ -274,7 +274,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__emr_executer__process.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 20,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -305,7 +305,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__hook_df__listener.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 40,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -336,7 +336,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__s3_df_files_notifier__listener.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 40,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -367,7 +367,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__trigger_eplanning_input__process.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 40,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -398,7 +398,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__trigger_eplanning_output__process.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 40,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -429,7 +429,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__trigger_indicators__trigger.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 40,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -460,7 +460,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__trigger_sb_sync__process.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 40,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -491,7 +491,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_campaigns_kpis__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -522,7 +522,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_campaigns__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -553,7 +553,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_campaigns_scenarios__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -584,7 +584,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_catalogs_parameters__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -615,7 +615,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_catalogs__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -646,7 +646,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_configurations_levers__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -677,7 +677,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_offers__byid.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -708,7 +708,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_offers__create.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -739,7 +739,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_offers__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -770,7 +770,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_offers__update.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -801,7 +801,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_products__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -832,7 +832,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_results_scenarios__byid.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -863,7 +863,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_results_scenarios__create.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -894,7 +894,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_results_scenarios__update.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -925,7 +925,7 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__version__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/bigdata_cm_dev_lambda_ExecutionRole" },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
