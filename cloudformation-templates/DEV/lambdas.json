@@ -222,7 +222,7 @@
       "Type": "AWS::Lambda::Function",
       "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
-        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Description" : "Lambda that executes a jobs inside EMR.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -364,37 +364,6 @@
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__trigger_eplanning_output__process.zip"
-        },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
-        "Timeout": 40,
-        "Handler": "Handler.handler",
-        "Runtime": "python3.6",
-        "MemorySize": 128,
-        "Tags" : [
-          { "Key" : "Direccion", "Value" : "BIGDATA" },
-          { "Key" : "Entorno", "Value" : "DEV" },
-          { "Key" : "Grupo", "Value" : "BIGDATA" }
-        ]
-      }
-    },
-    "LambdaTriggerIndicatorsTrigger" : {
-      "Type": "AWS::Lambda::Function",
-      "DependsOn" : [ "LambdaExecutionRole" ],
-      "Properties": {
-        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
-        "Environment" : { 
-          "Variables" : { 
-            "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
-            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
-            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
-          } 
-        },
-        "FunctionName" : "BIGDATA_CM_DEV_trigger_indicators_trigger",
-        "ReservedConcurrentExecutions" : 12,
-        "Code": {
-          "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__trigger_indicators__trigger.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 40,
@@ -612,6 +581,68 @@
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "code/lambdas__v1_configurations_levers__retrieve.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "Handler.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaV1DipticoByid": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [ "LambdaExecutionRole" ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { 
+          "Variables" : { 
+            "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+          } 
+        },
+        "FunctionName" : "BIGDATA_CM_DEV_v1_diptico_byid",
+        "ReservedConcurrentExecutions" : 12,
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__v1_diptico__byid.zip"
+        },
+        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Timeout": 60,
+        "Handler": "Handler.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 128,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    },
+    "LambdaV1DipticoUpsert": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [ "LambdaExecutionRole" ],
+      "Properties": {
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
+        "Environment" : { 
+          "Variables" : { 
+            "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+          } 
+        },
+        "FunctionName" : "BIGDATA_CM_DEV_v1_diptico_upsert",
+        "ReservedConcurrentExecutions" : 12,
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "code/lambdas__v1_diptico__upsert.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
