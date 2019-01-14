@@ -23,8 +23,7 @@
     },
     "S3Bucket" : {
       "Type" : "String",
-      "Default" : "campaign-manager-lambdas",
-      "AllowedValues" : ["campaign-manager-lambdas", "belc-bigdata-cm-data-dev"],
+      "Default" : "belc-bigdata-cm-data-dev",
       "Description" : "S3 Bucket where lambdas code is stored"
     },
     "ApiId": {
@@ -239,7 +238,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__emr_executer__process.zip"
+          "S3Key": "lambdas-code/lambdas__emr_executer__process.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 20,
@@ -270,7 +269,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__hook_df__listener.zip"
+          "S3Key": "lambdas-code/lambdas__hook_df__listener.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 40,
@@ -301,7 +300,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__s3_df_files_notifier__listener.zip"
+          "S3Key": "lambdas-code/lambdas__s3_df_files_notifier__listener.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 40,
@@ -332,7 +331,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__trigger_eplanning_input__process.zip"
+          "S3Key": "lambdas-code/lambdas__trigger_eplanning_input__process.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 40,
@@ -363,7 +362,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__trigger_eplanning_output__process.zip"
+          "S3Key": "lambdas-code/lambdas__trigger_eplanning_output__process.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 40,
@@ -394,7 +393,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__trigger_sb_sync__process.zip"
+          "S3Key": "lambdas-code/lambdas__trigger_sb_sync__process.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 40,
@@ -425,7 +424,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__v1_campaigns_kpis__retrieve.zip"
+          "S3Key": "lambdas-code/lambdas__v1_campaigns_kpis__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -456,7 +455,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__v1_campaigns__retrieve.zip"
+          "S3Key": "lambdas-code/lambdas__v1_campaigns__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -487,7 +486,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__v1_campaigns_scenarios__retrieve.zip"
+          "S3Key": "lambdas-code/lambdas__v1_campaigns_scenarios__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -518,7 +517,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__v1_catalogs_parameters__retrieve.zip"
+          "S3Key": "lambdas-code/lambdas__v1_catalogs_parameters__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -549,7 +548,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__v1_catalogs__retrieve.zip"
+          "S3Key": "lambdas-code/lambdas__v1_catalogs__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -580,7 +579,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__v1_configurations_levers__retrieve.zip"
+          "S3Key": "lambdas-code/lambdas__v1_configurations_levers__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -611,7 +610,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__v1_diptico__byid.zip"
+          "S3Key": "lambdas-code/lambdas__v1_diptico__byid.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -642,7 +641,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__v1_diptico__upsert.zip"
+          "S3Key": "lambdas-code/lambdas__v1_diptico__upsert.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -673,7 +672,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__v1_offers__byid.zip"
+          "S3Key": "lambdas-code/lambdas__v1_offers__byid.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -704,7 +703,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__v1_offers__create.zip"
+          "S3Key": "lambdas-code/lambdas__v1_offers__create.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -735,7 +734,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__v1_offers__retrieve.zip"
+          "S3Key": "lambdas-code/lambdas__v1_offers__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -766,7 +765,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__v1_offers__update.zip"
+          "S3Key": "lambdas-code/lambdas__v1_offers__update.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -797,7 +796,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__v1_products__retrieve.zip"
+          "S3Key": "lambdas-code/lambdas__v1_products__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -828,7 +827,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__v1_results_scenarios__byid.zip"
+          "S3Key": "lambdas-code/lambdas__v1_results_scenarios__byid.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -859,7 +858,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__v1_results_scenarios__create.zip"
+          "S3Key": "lambdas-code/lambdas__v1_results_scenarios__create.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -890,7 +889,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__v1_results_scenarios__update.zip"
+          "S3Key": "lambdas-code/lambdas__v1_results_scenarios__update.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
@@ -921,7 +920,7 @@
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "code/lambdas__version__retrieve.zip"
+          "S3Key": "lambdas-code/lambdas__version__retrieve.zip"
         },
         "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
         "Timeout": 60,
