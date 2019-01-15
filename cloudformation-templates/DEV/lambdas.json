@@ -24,17 +24,20 @@
     "S3Bucket" : {
       "Type" : "String",
       "Default" : "belc-bigdata-cm-data-dev",
+      "AllowedValues" : ["belc-bigdata-cm-data-dev", "belc-bigdata-cm-data-qas"],
       "Description" : "S3 Bucket where lambdas code is stored"
     },
     "ApiId": {
       "Description": "API Gateway App Id. E.g. 1yc6td9zjj",
       "Type": "String",
-      "Default": "sr4uhfoas7"
+      "Default": "ha5hs9mjk3",
+      "AllowedValues" : ["sr4uhfoas7", "ha5hs9mjk3"],
     },
     "LambdaExecutionRole": {
       "Description": "Lambda execution role. It must have been created beforehand with 'lambda-execution-role.json' file.",
       "Type": "String",
-      "Default": "bigdata_cm_dev_lambda_ExecutionRole"
+      "Default": "bigdata_cm_dev_lambda_ExecutionRole",
+      "AllowedValues" : ["bigdata_cm_dev_lambda_ExecutionRole", "bigdata_cm_qas_lambda_ExecutionRole"],
     },
     "MongoDbEndpoint": {
       "Description": "Belcorp's MongoDB user",
@@ -66,7 +69,7 @@
     "SecurityGroup" : {
       "Type" : "AWS::EC2::SecurityGroup",
       "Properties" : {
-        "GroupName" : "SG_BIGDATA_CM_DEV_LAMBDAS_SG2",
+        "GroupName" : "SG_BIGDATA_CM_DEV_LAMBDAS_SG",
         "GroupDescription" : "Allow traffic to the host",
         "VpcId" : {"Ref" : "VPC"},
         "SecurityGroupIngress" : [
@@ -83,7 +86,7 @@
       }
     },
     
-    "LambdaPermissionS32" : {
+    "LambdaPermissionS3" : {
       "Type": "AWS::Lambda::Permission",
       "DependsOn" : [ "LambdaS3DfFilesNotifierListener" ],
       "Properties" : {
@@ -98,7 +101,7 @@
       }
     },
 
-    "LambdaEmrExecuterProcess2" : {
+    "LambdaEmrExecuterProcess" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda that executes a jobs inside EMR.",
@@ -135,7 +138,7 @@
         ]
       }
     },
-    "LambdaHookDfListener2" : {
+    "LambdaHookDfListener" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -201,7 +204,7 @@
         ]
       }
     },
-    "LambdaTriggerEplanningInputProcess2" : {
+    "LambdaTriggerEplanningInputProcess" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -234,7 +237,7 @@
         ]
       }
     },
-    "LambdaTriggerEplanningOutputProcess2" : {
+    "LambdaTriggerEplanningOutputProcess" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -267,7 +270,7 @@
         ]
       }
     },
-    "LambdaTriggerSbSyncProcess2" : {
+    "LambdaTriggerSbSyncProcess" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -300,7 +303,7 @@
         ]
       }
     },
-    "LambdaV1CampaignsKpisRetrieve2" : {
+    "LambdaV1CampaignsKpisRetrieve" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -333,7 +336,7 @@
         ]
       }
     },
-    "LambdaV1CampaignsRetrieve2" : {
+    "LambdaV1CampaignsRetrieve" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -366,7 +369,7 @@
         ]
       }
     },
-    "LambdaV1CampaignsScenariosRetrieve2" : {
+    "LambdaV1CampaignsScenariosRetrieve" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -399,7 +402,7 @@
         ]
       }
     },
-    "LambdaV1CatalogsParametersRetrieve2" : {
+    "LambdaV1CatalogsParametersRetrieve" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -432,7 +435,7 @@
         ]
       }
     },
-    "LambdaV1CatalogsRetrieve2" : {
+    "LambdaV1CatalogsRetrieve" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -465,7 +468,7 @@
         ]
       }
     },
-    "LambdaV1ConfigurationsLeversRetrieve2" : {
+    "LambdaV1ConfigurationsLeversRetrieve" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -498,7 +501,7 @@
         ]
       }
     },
-    "LambdaV1DipticoByid2" : {
+    "LambdaV1DipticoByid" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -531,7 +534,7 @@
         ]
       }
     },
-    "LambdaV1DipticoUpsert2" : {
+    "LambdaV1DipticoUpsert" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -564,7 +567,7 @@
         ]
       }
     },
-    "LambdaV1OffersByid2" : {
+    "LambdaV1OffersByid" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -597,7 +600,7 @@
         ]
       }
     },
-    "LambdaV1OffersCreate2" : {
+    "LambdaV1OffersCreate" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -630,7 +633,7 @@
         ]
       }
     },
-    "LambdaV1OffersRetrieve2" : {
+    "LambdaV1OffersRetrieve" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -663,7 +666,7 @@
         ]
       }
     },
-    "LambdaV1OffersUpdate2" : {
+    "LambdaV1OffersUpdate" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -696,7 +699,7 @@
         ]
       }
     },
-    "LambdaV1ProductsRetrieve2" : {
+    "LambdaV1ProductsRetrieve" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -729,7 +732,7 @@
         ]
       }
     },
-    "LambdaV1ResultsScenariosByid2" : {
+    "LambdaV1ResultsScenariosByid" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -762,7 +765,7 @@
         ]
       }
     },
-    "LambdaV1ResultsScenariosCreate2" : {
+    "LambdaV1ResultsScenariosCreate" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -795,7 +798,7 @@
         ]
       }
     },
-    "LambdaV1ResultsScenariosUpdate2" : {
+    "LambdaV1ResultsScenariosUpdate" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -828,7 +831,7 @@
         ]
       }
     },
-    "LambdaVersionRetrieve2" : {
+    "LambdaVersionRetrieve" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
