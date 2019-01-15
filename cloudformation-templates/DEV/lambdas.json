@@ -863,7 +863,7 @@
           { "Key" : "Grupo", "Value" : "BIGDATA" }
         ]
       }
-    },
+    }
   },
   
   "Outputs": {}
