@@ -8,7 +8,7 @@
     "LambdaExecutionRole" : {
       "Type" : "AWS::IAM::Role",
       "Properties" : {
-        "RoleName" : "bigdata_cm_dev_lambda_ExecutionRole",
+        "RoleName" : "bigdata_cm_qas_lambda_ExecutionRole",
         "AssumeRolePolicyDocument": {
           "Version": "2012-10-17",
           "Statement": [
@@ -28,7 +28,7 @@
         "Path" : "/",
         "Policies" : [
           {
-            "PolicyName": "bigdata_cm_dev_network_lambda_RolePolicy",
+            "PolicyName": "bigdata_cm_qas_network_lambda_RolePolicy",
             "PolicyDocument": {
               "Version": "2012-10-17",
               "Statement": [{
@@ -49,27 +49,27 @@
             }
           },
           {
-            "PolicyName": "bigdata_cm_dev_cognito_lambda_RolePolicy",
+            "PolicyName": "bigdata_cm_qas_cognito_lambda_RolePolicy",
             "PolicyDocument": {
               "Version": "2012-10-17",
               "Statement": [
                 {
                   "Action": "cognito-idp:DescribeUserPoolClient",
-                  "Resource": "arn:aws:cognito-idp:us-east-2:${AWS::AccountId}:userpool/us-east-2_xWXOjucyE",
+                  "Resource": "arn:aws:cognito-idp:us-east-2:${AWS::AccountId}:userpool/*",
                   "Effect": "Allow"
                 }
               ]
             }
           },
           {
-            "PolicyName": "bigdata_cm_dev_logs_lambda_RolePolicy",
+            "PolicyName": "bigdata_cm_qas_logs_lambda_RolePolicy",
             "PolicyDocument": {
               "Version": "2012-10-17",
               "Statement": [{ "Effect": "Allow", "Action": ["logs:*", "cloudwatch:*"], "Resource": "*" }]
             }
           },
           {
-            "PolicyName": "bigdata_cm_dev_s3_lambda_RolePolicy",
+            "PolicyName": "bigdata_cm_qas_s3_lambda_RolePolicy",
             "PolicyDocument": {
               "Version": "2012-10-17",
               "Statement": [
@@ -80,17 +80,15 @@
                     "s3:GetObject"
                   ],
                   "Resource": [
-                    "arn:aws:s3:::belc-bigdata-apps-shared-dev/*",
-                    "arn:aws:s3:::belc-bigdata-apps-shared-dev",
-                    "arn:aws:s3:::forecast-events-test/*",
-                    "arn:aws:s3:::forecast-events-test"
+                    "arn:aws:s3:::belc-bigdata-apps-shared-qas/*",
+                    "arn:aws:s3:::belc-bigdata-apps-shared-qas"
                   ]
                 }
               ]
             }
           },
           {
-            "PolicyName": "bigdata_cm_dev_full_lambda_RolePolicy",
+            "PolicyName": "bigdata_cm_qas_full_lambda_RolePolicy",
             "PolicyDocument" : {
               "Version": "2012-10-17",
               "Statement": [
@@ -122,7 +120,7 @@
                   "Effect": "Allow",
                   "Action": "lambda:InvokeFunction",
                   "Resource": [
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_DEV_*" }
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_*" }
                   ]
                 }
               ]
