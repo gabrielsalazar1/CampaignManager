@@ -55,7 +55,7 @@
               "Statement": [
                 {
                   "Action": "cognito-idp:DescribeUserPoolClient",
-                  "Resource": "arn:aws:cognito-idp:us-east-2:${AWS::AccountId}:userpool/us-east-2_xWXOjucyE",
+                  "Resource": "arn:aws:cognito-idp:us-east-2:705522650906:userpool/us-east-2_xWXOjucyE",
                   "Effect": "Allow"
                 }
               ]
@@ -114,16 +114,14 @@
                     "iam:ListRolePolicies",
                     "iam:ListRoles",
                     "iam:PassRole",
-                    "tag:GetResources",
+                    "tag:GetResources"
                   ],
                   "Resource": "*"
                 },
                 {
                   "Effect": "Allow",
                   "Action": "lambda:InvokeFunction",
-                  "Resource": [
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:bigdata_cm_dev_*" }
-                  ]
+                  "Resource":"*"
                 }
               ]
             }
