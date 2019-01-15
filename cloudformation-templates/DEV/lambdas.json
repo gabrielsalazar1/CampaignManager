@@ -29,11 +29,16 @@
     "ApiId": {
       "Description": "API Gateway App Id. E.g. 1yc6td9zjj",
       "Type": "String",
-      "Default": ""
+      "Default": "sr4uhfoas7"
+    },
+    "LambdaExecutionRole": {
+      "Description": "Lambda execution role. It must have been created beforehand with 'lambda-execution-role.json' file.",
+      "Type": "String",
+      "Default": "bigdata_cm_dev_lambda_ExecutionRole"
     },
     "MongoDbEndpoint": {
       "Description": "Belcorp's MongoDB user",
-      "Type": "String",
+      "Type": "String", 
       "Default": ""
     },
     "EnvVarUno": {
@@ -61,7 +66,7 @@
     "SecurityGroup" : {
       "Type" : "AWS::EC2::SecurityGroup",
       "Properties" : {
-        "GroupName" : "SG_BIGDATA_CM_DEV_LAMBDAS_SG",
+        "GroupName" : "SG_BIGDATA_CM_DEV_LAMBDAS_SG2",
         "GroupDescription" : "Allow traffic to the host",
         "VpcId" : {"Ref" : "VPC"},
         "SecurityGroupIngress" : [
@@ -78,136 +83,12 @@
       }
     },
     
-    "LambdaExecutionRole" : {
-      "Type" : "AWS::IAM::Role",
-      "Properties" : {
-        "RoleName" : "bigdata_cm_dev_lambda_ExecutionRole",
-        "AssumeRolePolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                "Service": [
-                  "lambda.amazonaws.com", 
-                  "apigateway.amazonaws.com",
-                  "s3.amazonaws.com"
-                ]
-              },
-              "Action": [ "sts:AssumeRole" ]
-            }
-          ]
-        },
-        "Path" : "/",
-        "Policies" : [
-          {
-            "PolicyName": "bigdata_cm_dev_network_lambda_RolePolicy",
-            "PolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [{
-                "Effect": "Allow",
-                "Resource": "*",
-                "Action": [
-                  "ec2:DescribeInstances",
-                  "ec2:CreateNetworkInterface",
-                  "ec2:AttachNetworkInterface",
-                  "ec2:DescribeNetworkInterfaces",
-                  "ec2:DeleteNetworkInterface",
-                  "ec2:DescribeSecurityGroups",
-                  "ec2:DescribeSubnets",
-                  "ec2:DescribeVpcs",
-                  "autoscaling:CompleteLifecycleAction"
-                ]
-              }]
-            }
-          },
-          {
-            "PolicyName": "bigdata_cm_dev_cognito_lambda_RolePolicy",
-            "PolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [
-                {
-                  "Action": "cognito-idp:DescribeUserPoolClient",
-                  "Resource": "arn:aws:cognito-idp:us-east-2:705522650906:userpool/us-east-2_xWXOjucyE",
-                  "Effect": "Allow"
-                }
-              ]
-            }
-          },
-          {
-            "PolicyName": "bigdata_cm_dev_logs_lambda_RolePolicy",
-            "PolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [{ "Effect": "Allow", "Action": ["logs:*", "cloudwatch:*"], "Resource": "*" }]
-            }
-          },
-          {
-            "PolicyName": "bigdata_cm_dev_s3_lambda_RolePolicy",
-            "PolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "s3:PutObject",
-                    "s3:GetObject"
-                  ],
-                  "Resource": [
-                    "arn:aws:s3:::belc-bigdata-apps-shared-dev/*",
-                    "arn:aws:s3:::belc-bigdata-apps-shared-dev",
-                    "arn:aws:s3:::forecast-events-test/*",
-                    "arn:aws:s3:::forecast-events-test"
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "PolicyName": "bigdata_cm_dev_full_lambda_RolePolicy",
-            "PolicyDocument" : {
-              "Version": "2012-10-17",
-              "Statement": [
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "cloudformation:DescribeChangeSet",
-                    "cloudformation:DescribeStackResources",
-                    "cloudformation:DescribeStacks",
-                    "cloudformation:GetTemplate",
-                    "cloudformation:ListStackResources",
-                    "cognito-identity:ListIdentityPools",
-                    "cognito-sync:GetCognitoEvents",
-                    "cognito-sync:SetCognitoEvents",
-                    "events:*",
-                    "iam:GetPolicy",
-                    "iam:GetPolicyVersion",
-                    "iam:GetRole",
-                    "iam:GetRolePolicy",
-                    "iam:ListAttachedRolePolicies",
-                    "iam:ListRolePolicies",
-                    "iam:ListRoles",
-                    "iam:PassRole",
-                    "tag:GetResources",
-                  ],
-                  "Resource": "*"
-                },
-                {
-                  "Effect": "Allow",
-                  "Action": "lambda:InvokeFunction",
-                  "Resource":"*"
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    "LambdaPermissionS3": {
+    "LambdaPermissionS32" : {
       "Type": "AWS::Lambda::Permission",
-      "DependsOn" : [ "LambdaS3DfFilesNotifierListener" ],
+      "DependsOn" : [ "LambdaS3DfFilesNotifierListener2" ],
       "Properties" : {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": { "Ref": "LambdaS3DfFilesNotifierListener" },
+        "FunctionName": { "Ref": "LambdaS3DfFilesNotifierListener2" },
         "Principal": "s3.amazonaws.com",
         "SourceAccount": { "Ref": "AWS::AccountId" },
         "SourceArn": { "Fn::Join": [":", [
@@ -217,9 +98,8 @@
       }
     },
 
-    "LambdaEmrExecuterProcess" : {
+    "LambdaEmrExecuterProcess2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda that executes a jobs inside EMR.",
         "Environment" : { 
@@ -230,7 +110,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_emr_executer_process",
+        "FunctionName" : "BIGDATA_CM_DEV_emr_executer_process_DOS",
         "ReservedConcurrentExecutions" : 12,
         "VpcConfig" : {
           "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
@@ -240,7 +120,10 @@
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__emr_executer__process.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 20,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -252,9 +135,8 @@
         ]
       }
     },
-    "LambdaHookDfListener" : {
+    "LambdaHookDfListener2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -265,13 +147,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_hook_df_listener",
+        "FunctionName" : "BIGDATA_CM_DEV_hook_df_listener_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__hook_df__listener.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 40,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -283,9 +168,8 @@
         ]
       }
     },
-    "LambdaS3DfFilesNotifierListener" : {
+    "LambdaS3DfFilesNotifierListener2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -296,13 +180,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_s3_df_files_notifier_listener",
+        "FunctionName" : "BIGDATA_CM_DEV_s3_df_files_notifier_listener_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__s3_df_files_notifier__listener.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 40,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -314,9 +201,8 @@
         ]
       }
     },
-    "LambdaTriggerEplanningInputProcess" : {
+    "LambdaTriggerEplanningInputProcess2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -327,13 +213,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_trigger_eplanning_input_process",
+        "FunctionName" : "BIGDATA_CM_DEV_trigger_eplanning_input_process_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__trigger_eplanning_input__process.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 40,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -345,9 +234,8 @@
         ]
       }
     },
-    "LambdaTriggerEplanningOutputProcess" : {
+    "LambdaTriggerEplanningOutputProcess2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -358,13 +246,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_trigger_eplanning_output_process",
+        "FunctionName" : "BIGDATA_CM_DEV_trigger_eplanning_output_process_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__trigger_eplanning_output__process.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 40,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -376,9 +267,8 @@
         ]
       }
     },
-    "LambdaTriggerSbSyncProcess" : {
+    "LambdaTriggerSbSyncProcess2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn" : [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -389,13 +279,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_trigger_sb_sync_process",
+        "FunctionName" : "BIGDATA_CM_DEV_trigger_sb_sync_process_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__trigger_sb_sync__process.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 40,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -407,9 +300,8 @@
         ]
       }
     },
-    "LambdaV1CampaignsKpisRetrieve": {
+    "LambdaV1CampaignsKpisRetrieve2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -420,13 +312,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_kpis_retrieve",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_kpis_retrieve_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__v1_campaigns_kpis__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -438,9 +333,8 @@
         ]
       }
     },
-    "LambdaV1CampaignsRetrieve": {
+    "LambdaV1CampaignsRetrieve2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -451,13 +345,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_retrieve",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_retrieve_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__v1_campaigns__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -469,9 +366,8 @@
         ]
       }
     },
-    "LambdaV1CampaignsScenariosRetrieve": {
+    "LambdaV1CampaignsScenariosRetrieve2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -482,13 +378,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_scenarios_retrieve",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_scenarios_retrieve_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__v1_campaigns_scenarios__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -500,9 +399,8 @@
         ]
       }
     },
-    "LambdaV1CatalogsParametersRetrieve": {
+    "LambdaV1CatalogsParametersRetrieve2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -513,13 +411,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_catalogs_parameters_retrieve",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_catalogs_parameters_retrieve_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__v1_catalogs_parameters__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -531,9 +432,8 @@
         ]
       }
     },
-    "LambdaV1CatalogsRetrieve": {
+    "LambdaV1CatalogsRetrieve2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -544,13 +444,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_catalogs_retrieve",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_catalogs_retrieve_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__v1_catalogs__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -562,9 +465,8 @@
         ]
       }
     },
-    "LambdaV1ConfigurationsLeversRetrieve": {
+    "LambdaV1ConfigurationsLeversRetrieve2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -575,13 +477,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_configurations_levers_retrieve",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_configurations_levers_retrieve_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__v1_configurations_levers__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -593,9 +498,8 @@
         ]
       }
     },
-    "LambdaV1DipticoByid": {
+    "LambdaV1DipticoByid2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -606,13 +510,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_diptico_byid",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_diptico_byid_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__v1_diptico__byid.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -624,9 +531,8 @@
         ]
       }
     },
-    "LambdaV1DipticoUpsert": {
+    "LambdaV1DipticoUpsert2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -637,13 +543,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_diptico_upsert",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_diptico_upsert_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__v1_diptico__upsert.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -655,9 +564,8 @@
         ]
       }
     },
-    "LambdaV1OffersByid": {
+    "LambdaV1OffersByid2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -668,13 +576,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_byid",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_byid_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__v1_offers__byid.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -686,9 +597,8 @@
         ]
       }
     },
-    "LambdaV1OffersCreate": {
+    "LambdaV1OffersCreate2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -699,13 +609,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_create",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_create_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__v1_offers__create.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -717,9 +630,8 @@
         ]
       }
     },
-    "LambdaV1OffersRetrieve": {
+    "LambdaV1OffersRetrieve2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -730,13 +642,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_retrieve",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_retrieve_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__v1_offers__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -748,9 +663,8 @@
         ]
       }
     },
-    "LambdaV1OffersUpdate": {
+    "LambdaV1OffersUpdate2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -761,13 +675,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_update",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_update_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__v1_offers__update.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -779,9 +696,8 @@
         ]
       }
     },
-    "LambdaV1ProductsRetrieve": {
+    "LambdaV1ProductsRetrieve2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -792,13 +708,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_products_retrieve",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_products_retrieve_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__v1_products__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -810,9 +729,8 @@
         ]
       }
     },
-    "LambdaV1ResultsScenariosByid": {
+    "LambdaV1ResultsScenariosByid2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -823,13 +741,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_byid",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_byid_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__v1_results_scenarios__byid.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -841,9 +762,8 @@
         ]
       }
     },
-    "LambdaV1ResultsScenariosCreate": {
+    "LambdaV1ResultsScenariosCreate2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -854,13 +774,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_create",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_create_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__v1_results_scenarios__create.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -872,9 +795,8 @@
         ]
       }
     },
-    "LambdaV1ResultsScenariosUpdate": {
+    "LambdaV1ResultsScenariosUpdate2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -885,13 +807,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_update",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_update_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__v1_results_scenarios__update.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",
@@ -903,9 +828,8 @@
         ]
       }
     },
-    "LambdaVersionRetrieve": {
+    "LambdaVersionRetrieve2" : {
       "Type": "AWS::Lambda::Function",
-      "DependsOn": [ "LambdaExecutionRole" ],
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
@@ -916,13 +840,16 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_version_retrieve",
+        "FunctionName" : "BIGDATA_CM_DEV_version_retrieve_DOS",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
           "S3Key": "lambdas-code/api/lambdas__version__retrieve.zip"
         },
-        "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
         "Timeout": 60,
         "Handler": "Handler.handler",
         "Runtime": "python3.6",

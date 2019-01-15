@@ -1,0 +1,134 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  "Description" : "API GW & Lambda Functions Stack",
+
+  "Parameters" : { },
+
+  "Resources": {
+    "LambdaExecutionRole" : {
+      "Type" : "AWS::IAM::Role",
+      "Properties" : {
+        "RoleName" : "bigdata_cm_dev_lambda_ExecutionRole_DOS",
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com", 
+                  "apigateway.amazonaws.com",
+                  "s3.amazonaws.com"
+                ]
+              },
+              "Action": [ "sts:AssumeRole" ]
+            }
+          ]
+        },
+        "Path" : "/",
+        "Policies" : [
+          {
+            "PolicyName": "bigdata_cm_dev_network_lambda_RolePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [{
+                "Effect": "Allow",
+                "Resource": "*",
+                "Action": [
+                  "ec2:DescribeInstances",
+                  "ec2:CreateNetworkInterface",
+                  "ec2:AttachNetworkInterface",
+                  "ec2:DescribeNetworkInterfaces",
+                  "ec2:DeleteNetworkInterface",
+                  "ec2:DescribeSecurityGroups",
+                  "ec2:DescribeSubnets",
+                  "ec2:DescribeVpcs",
+                  "autoscaling:CompleteLifecycleAction"
+                ]
+              }]
+            }
+          },
+          {
+            "PolicyName": "bigdata_cm_dev_cognito_lambda_RolePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Action": "cognito-idp:DescribeUserPoolClient",
+                  "Resource": "arn:aws:cognito-idp:us-east-2:705522650906:userpool/us-east-2_xWXOjucyE",
+                  "Effect": "Allow"
+                }
+              ]
+            }
+          },
+          {
+            "PolicyName": "bigdata_cm_dev_logs_lambda_RolePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [{ "Effect": "Allow", "Action": ["logs:*", "cloudwatch:*"], "Resource": "*" }]
+            }
+          },
+          {
+            "PolicyName": "bigdata_cm_dev_s3_lambda_RolePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:PutObject",
+                    "s3:GetObject"
+                  ],
+                  "Resource": [
+                    "arn:aws:s3:::belc-bigdata-apps-shared-dev/*",
+                    "arn:aws:s3:::belc-bigdata-apps-shared-dev",
+                    "arn:aws:s3:::forecast-events-test/*",
+                    "arn:aws:s3:::forecast-events-test"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "PolicyName": "bigdata_cm_dev_full_lambda_RolePolicy",
+            "PolicyDocument" : {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "cloudformation:DescribeChangeSet",
+                    "cloudformation:DescribeStackResources",
+                    "cloudformation:DescribeStacks",
+                    "cloudformation:GetTemplate",
+                    "cloudformation:ListStackResources",
+                    "cognito-identity:ListIdentityPools",
+                    "cognito-sync:GetCognitoEvents",
+                    "cognito-sync:SetCognitoEvents",
+                    "events:*",
+                    "iam:GetPolicy",
+                    "iam:GetPolicyVersion",
+                    "iam:GetRole",
+                    "iam:GetRolePolicy",
+                    "iam:ListAttachedRolePolicies",
+                    "iam:ListRolePolicies",
+                    "iam:ListRoles",
+                    "iam:PassRole",
+                    "tag:GetResources",
+                  ],
+                  "Resource": "*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": "lambda:InvokeFunction",
+                  "Resource":"*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+
+}
