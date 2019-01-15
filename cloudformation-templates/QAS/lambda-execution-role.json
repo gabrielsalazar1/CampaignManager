@@ -120,7 +120,7 @@
                   "Effect": "Allow",
                   "Action": "lambda:InvokeFunction",
                   "Resource": [
-                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:BIGDATA_CM_QAS_*" }
+                    { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:bigdata_cm_qas_*" }
                   ]
                 }
               ]
