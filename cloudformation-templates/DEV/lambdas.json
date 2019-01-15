@@ -85,10 +85,10 @@
     
     "LambdaPermissionS32" : {
       "Type": "AWS::Lambda::Permission",
-      "DependsOn" : [ "LambdaS3DfFilesNotifierListener2" ],
+      "DependsOn" : [ "LambdaS3DfFilesNotifierListener" ],
       "Properties" : {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": { "Ref": "LambdaS3DfFilesNotifierListener2" },
+        "FunctionName": { "Ref": "LambdaS3DfFilesNotifierListener" },
         "Principal": "s3.amazonaws.com",
         "SourceAccount": { "Ref": "AWS::AccountId" },
         "SourceArn": { "Fn::Join": [":", [
@@ -110,7 +110,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_emr_executer_process_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_emr_executer_process",
         "ReservedConcurrentExecutions" : 12,
         "VpcConfig" : {
           "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
@@ -147,7 +147,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_hook_df_listener_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_hook_df_listener",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -168,7 +168,7 @@
         ]
       }
     },
-    "LambdaS3DfFilesNotifierListener2" : {
+    "LambdaS3DfFilesNotifierListener" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
@@ -180,7 +180,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_s3_df_files_notifier_listener_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_s3_df_files_notifier_listener",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -213,7 +213,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_trigger_eplanning_input_process_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_trigger_eplanning_input_process",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -246,7 +246,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_trigger_eplanning_output_process_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_trigger_eplanning_output_process",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -279,7 +279,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_trigger_sb_sync_process_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_trigger_sb_sync_process",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -312,7 +312,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_kpis_retrieve_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_kpis_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -345,7 +345,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_retrieve_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -378,7 +378,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_scenarios_retrieve_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_campaigns_scenarios_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -411,7 +411,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_catalogs_parameters_retrieve_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_catalogs_parameters_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -444,7 +444,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_catalogs_retrieve_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_catalogs_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -477,7 +477,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_configurations_levers_retrieve_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_configurations_levers_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -510,7 +510,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_diptico_byid_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_diptico_byid",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -543,7 +543,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_diptico_upsert_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_diptico_upsert",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -576,7 +576,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_byid_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_byid",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -609,7 +609,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_create_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_create",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -642,7 +642,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_retrieve_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -675,7 +675,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_update_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_offers_update",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -708,7 +708,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_products_retrieve_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_products_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -741,7 +741,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_byid_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_byid",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -774,7 +774,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_create_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_create",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -807,7 +807,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_update_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_v1_results_scenarios_update",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
@@ -840,7 +840,7 @@
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
           } 
         },
-        "FunctionName" : "BIGDATA_CM_DEV_version_retrieve_DOS",
+        "FunctionName" : "BIGDATA_CM_DEV_version_retrieve",
         "ReservedConcurrentExecutions" : 12,
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
