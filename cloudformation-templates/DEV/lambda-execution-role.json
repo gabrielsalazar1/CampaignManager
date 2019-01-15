@@ -8,7 +8,7 @@
     "LambdaExecutionRole" : {
       "Type" : "AWS::IAM::Role",
       "Properties" : {
-        "RoleName" : "bigdata_cm_dev_lambda_ExecutionRole_DOS",
+        "RoleName" : "bigdata_cm_dev_lambda_ExecutionRole",
         "AssumeRolePolicyDocument": {
           "Version": "2012-10-17",
           "Statement": [
