@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
-  "Description" : "API GW & Lambda Functions Stack",
+  "Description" : "Lambda's Execution Role Stack",
 
   "Parameters" : { },
 

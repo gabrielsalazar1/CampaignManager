@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
-  "Description" : "API GW & Lambda Functions Stack",
+  "Description" : "Lambda Functions Stack",
 
   "Parameters" : {
     "Subnet1" : {
