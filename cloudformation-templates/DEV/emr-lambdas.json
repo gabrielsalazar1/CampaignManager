@@ -106,7 +106,7 @@
         },
         "Code": {
           "S3Bucket": { "Ref": "S3Bucket" },
-          "S3Key": "lambdas-code/emr/lambdas__emr_executer__process.zip"
+          "S3Key": "lambdas-code/emr/shared.zip"
         },
         "Role": { "Fn::Join": ["", [
             "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
