@@ -1,0 +1,130 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  "Description" : "Lambda Functions Stack",
+
+  "Parameters" : {
+    "Subnet1" : {
+      "Type" : "AWS::EC2::Subnet::Id",
+      "Default" : "subnet-0c548fcc39366053c",
+      "AllowedValues" : ["subnet-0c548fcc39366053c", "subnet-a69ac8cc"],
+      "Description" : "Subnet to launch services in"
+    },
+    "Subnet2" : {
+      "Type" : "AWS::EC2::Subnet::Id",
+      "Default" : "subnet-0a3758c831b4ae53e",
+      "AllowedValues" : ["subnet-0a3758c831b4ae53e", "subnet-a69ac8cc"],
+      "Description" : "Subnet to launch services in"
+    },
+    "VPC" : {
+      "Type" : "AWS::EC2::VPC::Id",
+      "Default" : "vpc-05e755074841c4ea6",
+      "AllowedValues" : ["vpc-05e755074841c4ea6", "vpc-ee8d3285"],
+      "Description" : "VPC to launch services in"
+    },
+    "S3Bucket" : {
+      "Type" : "String",
+      "Default" : "belc-bigdata-cm-data-dev",
+      "AllowedValues" : ["belc-bigdata-cm-data-dev", "belc-bigdata-cm-data-qas"],
+      "Description" : "S3 Bucket where lambdas code is stored"
+    },
+    "ApiId": {
+      "Description": "API Gateway App Id. E.g. 1yc6td9zjj",
+      "Type": "String",
+      "Default": "ha5hs9mjk3",
+      "AllowedValues" : ["sr4uhfoas7", "ha5hs9mjk3"],
+    },
+    "LambdaExecutionRole": {
+      "Description": "Lambda execution role. It must have been created beforehand with 'lambda-execution-role.json' file.",
+      "Type": "String",
+      "Default": "bigdata_cm_dev_lambda_ExecutionRole",
+      "AllowedValues" : ["bigdata_cm_dev_lambda_ExecutionRole", "bigdata_cm_qas_lambda_ExecutionRole"],
+    },
+    "MongoDbEndpoint": {
+      "Description": "Belcorp's MongoDB user",
+      "Type": "String", 
+      "Default": ""
+    },
+    "EnvVarUno": {
+      "Description": "Variable de entorno Uno",
+      "Type": "String",
+      "Default": ""
+    },
+    "EnvVarDos": {
+      "Description": "Variable de entorno Dos",
+      "Type": "String",
+      "Default": ""
+    },
+    "EnvVarTres": {
+      "Description": "Variable de entorno Tres",
+      "Type": "String",
+      "Default": ""
+    }
+  },
+
+  "Conditions": {
+    "ApiGatewayDeployed": { "Fn::Not": [{"Fn::Equals": ["", {"Ref": "ApiId"}]}] }
+  },
+
+  "Resources" : {
+    "SecurityGroup" : {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupName" : "SG_BIGDATA_CM_DEV_LAMBDAS_SG",
+        "GroupDescription" : "Allow traffic to the host",
+        "VpcId" : {"Ref" : "VPC"},
+        "SecurityGroupIngress" : [
+          { }
+        ],
+        "SecurityGroupEgress" : [
+          {
+            "IpProtocol" : "tcp",
+            "FromPort" : "0",
+            "ToPort" : "65535",
+            "CidrIp" : "0.0.0.0/0"
+          }
+        ]
+      }
+    },
+
+    "LambdaEmrTest" : {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Description" : "Lambda that executes a job inside EMR.",
+        "Environment" : {
+          "Variables" : {
+            "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
+            "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
+            "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+          } 
+        },
+        "FunctionName" : "bigdata_cm_dev_emr_test",
+        "ReservedConcurrentExecutions" : 12,
+        "VpcConfig" : {
+          "SecurityGroupIds" : [ { "Ref" : "SecurityGroup" } ],
+          "SubnetIds" : [ { "Ref" : "Subnet1" }, { "Ref" : "Subnet2" } ]
+        },
+        "Code": {
+          "S3Bucket": { "Ref": "S3Bucket" },
+          "S3Key": "lambdas-code/emr/lambdas__emr_executer__process.zip"
+        },
+        "Role": { "Fn::Join": ["", [
+            "arn:aws:iam::", {"Ref" : "AWS::AccountId"}, ":role/", { "Ref": "LambdaExecutionRole" }
+          ] ]
+        },
+        "Timeout": 20,
+        "Handler": "Handler.handler",
+        "Runtime": "python3.6",
+        "MemorySize": 512,
+        "Tags" : [
+          { "Key" : "Direccion", "Value" : "BIGDATA" },
+          { "Key" : "Entorno", "Value" : "DEV" },
+          { "Key" : "Grupo", "Value" : "BIGDATA" }
+        ]
+      }
+    }
+  },
+  
+  "Outputs": {}
+
+}
