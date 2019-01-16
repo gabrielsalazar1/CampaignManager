@@ -104,7 +104,7 @@
     "LambdaEmrExecuterProcess" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Manda un request para ejecutar un job del EMR",
+        "Description" : "Lambda that executes a jobs inside EMR.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -141,7 +141,7 @@
     "LambdaHookDfListener" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Interfaz que escucha la notificacion de digital forecast",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -174,7 +174,7 @@
     "LambdaS3DfFilesNotifierListener" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Notifica al digital forecast que se han generado los archivos input",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -207,7 +207,7 @@
     "LambdaTriggerEplanningInputProcess" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Genera el archivo de entrada para ePlanning a partir del escenario óptimo",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -240,7 +240,7 @@
     "LambdaTriggerEplanningOutputProcess" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Lee el archivo de salida de ePlanning para obtener el CUV y el Tipo de Oferta.",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -273,7 +273,7 @@
     "LambdaTriggerSbSyncProcess" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Inicia el proceso de sincronización con SB, borrando previamente las ofertas de una campaña",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -306,7 +306,7 @@
     "LambdaV1CampaignsKpisRetrieve" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Entrega los kpis por campaña e id de escenario",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -339,7 +339,7 @@
     "LambdaV1CampaignsRetrieve" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Listado de las campañas",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -372,7 +372,7 @@
     "LambdaV1CampaignsScenariosRetrieve" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Listado de las escenarios por campaña",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -405,7 +405,7 @@
     "LambdaV1CatalogsParametersRetrieve" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Entrega los catalogos marcados como parametros",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -438,7 +438,7 @@
     "LambdaV1CatalogsRetrieve" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Entrega todos los catalogos",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -471,7 +471,7 @@
     "LambdaV1ConfigurationsLeversRetrieve" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Entrega el catalogo de palancas",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -570,7 +570,7 @@
     "LambdaV1OffersByid" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Encuentra una oferta",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -603,7 +603,7 @@
     "LambdaV1OffersCreate" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Crea una oferta",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -636,7 +636,7 @@
     "LambdaV1OffersRetrieve" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Lista las ofertas por campaña",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -669,7 +669,7 @@
     "LambdaV1OffersUpdate" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Actualiza una oferta",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -702,7 +702,7 @@
     "LambdaV1ProductsRetrieve" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Lista los productos por campaña,. año, sap y cuc",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -735,7 +735,7 @@
     "LambdaV1ResultsScenariosByid" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Encuentra un escenario",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -768,7 +768,7 @@
     "LambdaV1ResultsScenariosCreate" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Crea un escenario",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
@@ -801,7 +801,7 @@
     "LambdaV1ResultsScenariosUpdate" : {
       "Type": "AWS::Lambda::Function",
       "Properties": {
-        "Description" : "Actualiza un escenario",
+        "Description" : "Lambda with SecurityGroup and subnet inside the VPC that includes the resources to which your Lambda function requires access.",
         "Environment" : { 
           "Variables" : { 
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
