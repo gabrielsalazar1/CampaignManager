@@ -58,6 +58,41 @@
       "Description": "Variable de entorno Tres",
       "Type": "String",
       "Default": ""
+    },
+    "BELCORP_MONGO_DATABASE": {
+      "Description": "Variable de entorno Tres",
+      "Type": "String",
+      "Default": ""
+    },
+    "DIGITAL_FORECAST_ENDPOINT": {
+      "Description": "Variable de entorno Tres",
+      "Type": "String",
+      "Default": ""
+    },
+    "DIGITAL_FORECAST_FILES_BUCKET": {
+      "Description": "Variable de entorno Tres",
+      "Type": "String",
+      "Default": ""
+    },
+    "EMR_JOBS_EXECUTER_LAMBDA": {
+      "Description": "Variable de entorno Tres",
+      "Type": "String",
+      "Default": ""
+    },
+    "LIVY_ROOT_ENDPOINT": {
+      "Description": "Variable de entorno Tres",
+      "Type": "String",
+      "Default": ""
+    },
+    "SHARED_ROOT_PATH": {
+      "Description": "Variable de entorno Tres",
+      "Type": "String",
+      "Default": ""
+    },
+    "SOURCE_ROOT_PATH": {
+      "Description": "Variable de entorno Tres",
+      "Type": "String",
+      "Default": ""
     }
   },
 
@@ -110,7 +145,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_emr_executer_process",
@@ -147,7 +189,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" }
           } 
         },
         "FunctionName" : "bigdata_cm_dev_hook_df_listener",
@@ -180,7 +229,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_s3_df_files_notifier_listener",
@@ -213,7 +269,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_trigger_eplanning_input_process",
@@ -246,7 +309,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_trigger_eplanning_output_process",
@@ -279,7 +349,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_trigger_sb_sync_process",
@@ -312,7 +389,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_v1_campaigns_kpis_retrieve",
@@ -345,7 +429,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_v1_campaigns_retrieve",
@@ -378,7 +469,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_v1_campaigns_scenarios_retrieve",
@@ -411,7 +509,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_v1_catalogs_parameters_retrieve",
@@ -444,7 +549,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_v1_catalogs_retrieve",
@@ -477,7 +589,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_v1_configurations_levers_retrieve",
@@ -510,7 +629,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_v1_diptico_byid",
@@ -543,7 +669,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_v1_diptico_upsert",
@@ -576,7 +709,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_v1_offers_byid",
@@ -609,7 +749,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_v1_offers_create",
@@ -642,7 +789,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_v1_offers_retrieve",
@@ -675,7 +829,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_v1_offers_update",
@@ -708,7 +869,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_v1_products_retrieve",
@@ -741,7 +909,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_v1_results_scenarios_byid",
@@ -774,7 +949,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_v1_results_scenarios_create",
@@ -807,7 +989,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_v1_results_scenarios_update",
@@ -840,7 +1029,14 @@
             "BELCORP_MONGO_URL": { "Ref": "MongoDbEndpoint" },
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
-            "ENV_VAR_TRES": { "Ref": "EnvVarTres" } 
+            "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" } 
           } 
         },
         "FunctionName" : "bigdata_cm_dev_version_retrieve",
