@@ -190,13 +190,13 @@
             "ENV_VAR_UNO": { "Ref": "EnvVarUno" },
             "ENV_VAR_DOS": { "Ref": "EnvVarDos" },
             "ENV_VAR_TRES": { "Ref": "EnvVarTres" },
-            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORP_MONGO_DATABASE" },
-            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITAL_FORECAST_ENDPOINT" },
-            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITAL_FORECAST_FILES_BUCKET" },
-            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMR_JOBS_EXECUTER_LAMBDA" },
-            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVY_ROOT_ENDPOINT" },
-            "SHARED_ROOT_PATH": { "Ref": "SHARED_ROOT_PATH" },
-            "SOURCE_ROOT_PATH": { "Ref": "SOURCE_ROOT_PATH" }
+            "BELCORP_MONGO_DATABASE": { "Ref": "BELCORPMONGODATABASE" },
+            "DIGITAL_FORECAST_ENDPOINT": { "Ref": "DIGITALFORECASTENDPOINT" },
+            "DIGITAL_FORECAST_FILES_BUCKET": { "Ref": "DIGITALFORECASTFILESBUCKET" },
+            "EMR_JOBS_EXECUTER_LAMBDA": { "Ref": "EMRJOBSEXECUTERLAMBDA" },
+            "LIVY_ROOT_ENDPOINT": { "Ref": "LIVYROOTENDPOINT" },
+            "SHARED_ROOT_PATH": { "Ref": "SHAREDROOTPATH" },
+            "SOURCE_ROOT_PATH": { "Ref": "SOURCEROOTPATH" }
           } 
         },
         "FunctionName" : "bigdata_cm_dev_hook_df_listener",
