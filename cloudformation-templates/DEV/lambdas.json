@@ -59,37 +59,37 @@
       "Type": "String",
       "Default": ""
     },
-    "BELCORP_MONGO_DATABASE": {
+    "BELCORPMONGODATABASE": {
       "Description": "Variable de entorno Tres",
       "Type": "String",
       "Default": ""
     },
-    "DIGITAL_FORECAST_ENDPOINT": {
+    "DIGITALFORECASTENDPOINT": {
       "Description": "Variable de entorno Tres",
       "Type": "String",
       "Default": ""
     },
-    "DIGITAL_FORECAST_FILES_BUCKET": {
+    "DIGITALFORECASTFILESBUCKET": {
       "Description": "Variable de entorno Tres",
       "Type": "String",
       "Default": ""
     },
-    "EMR_JOBS_EXECUTER_LAMBDA": {
+    "EMRJOBSEXECUTERLAMBDA": {
       "Description": "Variable de entorno Tres",
       "Type": "String",
       "Default": ""
     },
-    "LIVY_ROOT_ENDPOINT": {
+    "LIVYROOTENDPOINT": {
       "Description": "Variable de entorno Tres",
       "Type": "String",
       "Default": ""
     },
-    "SHARED_ROOT_PATH": {
+    "SHAREDROOTPATH": {
       "Description": "Variable de entorno Tres",
       "Type": "String",
       "Default": ""
     },
-    "SOURCE_ROOT_PATH": {
+    "SOURCEROOTPATH": {
       "Description": "Variable de entorno Tres",
       "Type": "String",
       "Default": ""
